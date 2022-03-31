@@ -1,2 +1,2 @@
-# BilMatch
-BilMatch App's main repository.
+# OCM
+On Campus Matcher App's main repository.
