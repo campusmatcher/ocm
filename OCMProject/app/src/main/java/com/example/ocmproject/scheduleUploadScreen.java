@@ -14,6 +14,7 @@ import android.widget.ImageView;
 public class scheduleUploadScreen extends AppCompatActivity {
 
     // Yavuz was here
+    // Also alp was
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
