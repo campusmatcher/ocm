@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OCMProject">
         <activity
+            android:name=".scheduleUploadScreen"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
