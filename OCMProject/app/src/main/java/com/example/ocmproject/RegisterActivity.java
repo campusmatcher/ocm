@@ -39,16 +39,17 @@ public class RegisterActivity extends AppCompatActivity {
                 String txt_email = email.getText().toString();
                 String txt_password = password.getText().toString();
 
-                if(TextUtils.isEmpty(txt_email) || TextUtils.isEmpty(txt_password)){
+                if (TextUtils.isEmpty(txt_email) || TextUtils.isEmpty(txt_password)) {
                     Toast.makeText(RegisterActivity.this, "Empty credentials!", Toast.LENGTH_SHORT).show();
-                } else if (txt_password.length() < 6){
+                } else if (txt_password.length() < 6) {
                     Toast.makeText(RegisterActivity.this, "Password too short", Toast.LENGTH_SHORT).show();
                 } else {
                     registerUser(txt_email, txt_password);
                 }
+            }
         });
-        }
     }
+
 
     private void registerUser(String email, String password) {
         auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -60,7 +61,6 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Registration failed!", Toast.LENGTH_SHORT).show();
                 }
             }
-        })
+        });
     }
-
 }
