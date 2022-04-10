@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OCMProject">
         <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
             android:name=".scheduleUploadScreen"
             android:exported="false" />
         <activity
