@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".StartActivity">
 
-    // Register Button
+    <!-- Register Button-->
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,7 +14,7 @@
         android:id="@+id/register"
         android:layout_marginTop="100dp"/>
 
-    // Login Button
+    <!-- Login-->
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
