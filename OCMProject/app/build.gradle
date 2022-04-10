@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
+    //id "org.jetbrains.kotlin.android.extensions" version "1.4.21"
+
 }
 
 android {
@@ -12,6 +14,7 @@ android {
         targetSdk 32
         versionCode 1
         versionName "1.0"
+        applicationId "opencv.org"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -26,9 +29,17 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    sourceSets {
+        main {
+            jni {
+                srcDirs 'src/main/jni', 'src/main/jniLibs'
+            }
+        }
+    }
 }
 
 dependencies {
+    implementation 'com.quickbirdstudios:opencv:3.4.1'
     implementation 'com.rmtheis:tess-two:9.1.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
