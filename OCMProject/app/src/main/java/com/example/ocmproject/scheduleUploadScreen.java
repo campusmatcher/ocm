@@ -28,6 +28,7 @@ public class scheduleUploadScreen extends AppCompatActivity {
         });
     }
 
+    // The image is showned
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
