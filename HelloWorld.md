@@ -1,1 +1,1 @@
-### Mr. Sencer wa here
+### Mr. Sencer was here
