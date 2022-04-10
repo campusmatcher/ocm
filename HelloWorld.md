@@ -1,1 +1,1 @@
-### Merhaba hocalar
+### Mr. Sencer wa here
