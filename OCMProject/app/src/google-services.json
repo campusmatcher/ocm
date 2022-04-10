@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "730823212197",
+    "firebase_url": "https://ocmdatabase-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "ocmdatabase",
+    "storage_bucket": "ocmdatabase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:730823212197:android:1d57dac58e342e8bdc614c",
+        "android_client_info": {
+          "package_name": "com.example.ocmproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "730823212197-pjt68a5c9mma2e7jv7bmuaq9ved799fv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0O52Fa2xFEutNMybr-C4GV8DG6SmtnDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "730823212197-pjt68a5c9mma2e7jv7bmuaq9ved799fv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
