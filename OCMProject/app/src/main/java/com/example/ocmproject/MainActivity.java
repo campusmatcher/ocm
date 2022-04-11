@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "No Name Entered!", Toast.LENGTH_SHORT).show();
                 } else {
                     FirebaseDatabase.getInstance().getReference().child("OCM VERILERI").push().child("Name").setValue(txt_name);
+                    startActivity(new Intent(MainActivity.this, ScheduleActivity.class));
+
                 }
             }
         });

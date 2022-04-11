@@ -22,7 +22,7 @@ import org.opencv.imgproc.Imgproc;
 
 import java.io.FileNotFoundException;
 
-public class scheduleUploadScreen extends AppCompatActivity {
+public class ScheduleActivity extends AppCompatActivity {
 
     // Yavuz was here
     // Also alp was
