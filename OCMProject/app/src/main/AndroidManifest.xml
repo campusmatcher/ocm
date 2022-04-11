@@ -20,7 +20,7 @@
             android:exported="false" />
         <activity
             android:name=".scheduleUploadScreen"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".StartActivity"
             android:exported="true">
@@ -30,6 +30,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="ocr" />
+        <!-- To use multiple models: android:value="ocr,model2,model3" -->
     </application>
 
 </manifest>
