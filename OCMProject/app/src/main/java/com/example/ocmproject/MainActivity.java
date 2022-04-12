@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
 //        FirebaseDatabase.getInstance().getReference().child("Isimler").child("CokluDeger").updateChildren(map);
 
         // Add button's functions
-        // The button now functioning
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
