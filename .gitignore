@@ -29,7 +29,7 @@ captures/
 # IntelliJ
 *.iml
 .idea/
-# .idea/workspace.xml
+.idea/workspace.xml
 # .idea/tasks.xml
 # .idea/gradle.xml
 # .idea/assetWizardSettings.xml
@@ -72,3 +72,8 @@ lint/tmp/
 # App Specific cases 
 app/release/output.json
 .idea/codeStyles/
+# Eklenenler
+/build
+/.idea
+*.iml
+local.properties
