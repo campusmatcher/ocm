@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import org.opencv.core.Core;
 import org.opencv.android.OpenCVLoader;
@@ -21,6 +23,7 @@ import org.opencv.imgproc.Imgproc;
 
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class ScheduleActivity extends AppCompatActivity {
 
@@ -29,9 +32,12 @@ public class ScheduleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule_upload_screen);
+        setContentView(R.layout.activity_schedule);
         Button scheduleUploadButton = findViewById(R.id.scheduleUploadButton);
+
         OpenCVLoader.initDebug();
+//        for(String course: courses){
+//            System.out.println(course);
 
         scheduleUploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,12 +79,17 @@ public class ScheduleActivity extends AppCompatActivity {
             scheduler.omitSizeBoxes(scheduler.getBoxes());
             scheduler.paintBoxes();
             scheduler.paintBoxes();
-            scheduler.readText();
+            ArrayList<String> courses =  scheduler.readText();
+            System.out.println("a");
+            //String[] courseArray = courses.toArray(new String[0]);
             //scheduler.newThread();
+            }
+
+
         }
 
     }
-}
+
 
 
 
