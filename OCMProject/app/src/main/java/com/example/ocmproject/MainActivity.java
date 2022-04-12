@@ -15,7 +15,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
-
+    
+    // Alp was here
     private Button logout;
     private EditText edit;
     private Button add;
