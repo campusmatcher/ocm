@@ -57,6 +57,9 @@ Push your commit to the Github
 ### 7 Open a pull request
 Open a pull request to v1 branch
 
+### 8 IMPORTANT NOTE 1:
+Use an emulator greater than Android 9 to escape from OCR errors.
+
 ### WELDONE !!!
 
 ## License
