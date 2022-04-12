@@ -144,7 +144,7 @@ public class ScheduleReader {
                 Mat cropped = new Mat(src, r);
                 Bitmap mBitmap = Bitmap.createBitmap(cropped.width(), cropped.height(), Bitmap.Config.ARGB_8888);
                 Utils.matToBitmap(cropped, mBitmap);
-                Imgcodecs.imwrite("/Users/alpsencer/IdeaProjects/ScheduleExtract/src/main/java/temp.png", cropped);
+//                Imgcodecs.imwrite("/Users/alpsencer/IdeaProjects/ScheduleExtract/src/main/java/temp.png", cropped);
                 InputImage image = InputImage.fromBitmap(mBitmap, 0); // degree should be edited later
 
                 Task<Text> result =
@@ -157,13 +157,16 @@ public class ScheduleReader {
                                         String resultText = visionText.getText();
                                         for (Text.TextBlock block : visionText.getTextBlocks()) {
                                             String blockText = block.getText();
-                                            Log.i("Course: ",blockText);
-                                            courses.add(blockText);
+//                                            Log.i("Course: ",blockText.toString());
+
+                                            courses.add(blockText.toString());
                                             //Thread.sleep(1000000);
                                             android.graphics.Point[] blockCornerPoints = block.getCornerPoints(); // prevent name ambiguity
                                             android.graphics.Rect blockFrame = block.getBoundingBox();
                                             for (Text.Line line : block.getLines()) {
                                                 String lineText = line.getText();
+                                                Log.i("Course: ",lineText.toString());
+
                                                 android.graphics.Point[] lineCornerPoints = line.getCornerPoints();
                                                 android.graphics.Rect lineFrame = line.getBoundingBox();
                                                 for (Text.Element element : line.getElements()) {

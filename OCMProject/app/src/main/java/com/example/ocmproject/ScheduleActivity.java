@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import org.opencv.core.Core;
 import org.opencv.android.OpenCVLoader;
@@ -32,7 +34,10 @@ public class ScheduleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
         Button scheduleUploadButton = findViewById(R.id.scheduleUploadButton);
+
         OpenCVLoader.initDebug();
+//        for(String course: courses){
+//            System.out.println(course);
 
         scheduleUploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,12 +80,16 @@ public class ScheduleActivity extends AppCompatActivity {
             scheduler.paintBoxes();
             scheduler.paintBoxes();
             ArrayList<String> courses =  scheduler.readText();
+            System.out.println("a");
+            //String[] courseArray = courses.toArray(new String[0]);
             //scheduler.newThread();
+            }
+
 
         }
 
     }
-}
+
 
 
 
