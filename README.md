@@ -11,12 +11,20 @@ Download the apk file and install
 Click the to view UI presentation: [Presentation](bit.ly/ocmpresentation)
 
 
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-Please make sure to update tests as appropriate.
+## How to Contribute?
+### 1 Enable your Firebase Account
+Enable your Firebase account from the mail you got.
 
-You can clone the app v1 in your local repository and then push your changes.
+### 2 Clone the Github Repo
+Clone the github repo to your local computer
 
+### 3 Open a new Branch
+Open a new branch with using this naming: v1-yourName
+
+### 4 Solve problems
+You will get a SDK error
+
+SOLUTION:
 Open a file named as local.properties and copy and paste the lines below according to your operating system
 
 WINDOWS:
@@ -39,6 +47,17 @@ LINUX (ARCH):
 ```
 really?
 ```
+
+### 5 First commit
+Write a comment into the MainActivity.java and add then commit your changes 
+
+### 6 First push
+Push your commit to the Github
+
+### 7 Open a pull request
+Open a pull request to v1 branch
+
+### WELDONE !!!
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
