@@ -21,6 +21,7 @@ import org.opencv.imgproc.Imgproc;
 
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class ScheduleActivity extends AppCompatActivity {
 
@@ -29,7 +30,7 @@ public class ScheduleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule_upload_screen);
+        setContentView(R.layout.activity_schedule);
         Button scheduleUploadButton = findViewById(R.id.scheduleUploadButton);
         OpenCVLoader.initDebug();
 
@@ -73,8 +74,9 @@ public class ScheduleActivity extends AppCompatActivity {
             scheduler.omitSizeBoxes(scheduler.getBoxes());
             scheduler.paintBoxes();
             scheduler.paintBoxes();
-            scheduler.readText();
+            ArrayList<String> courses =  scheduler.readText();
             //scheduler.newThread();
+
         }
 
     }

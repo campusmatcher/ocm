@@ -46,6 +46,7 @@ public class ScheduleReader {
     Mat hierarchy;
     List<MatOfPoint> contours;
     ArrayList<Rect> boxes;
+    ArrayList<String> courses;
 
     //For further improvements
 //    Mat image1;
@@ -64,6 +65,7 @@ public class ScheduleReader {
         Utils.bitmapToMat(bmp, src);
         //this.path = absolutePath + "/images/test.png";
         this.threshed = new Mat();
+        this.courses = new ArrayList<>();
 
 //        Mat oooo = new Mat();
 //        Imgproc.threshold(src, oooo, 130, 255, Imgproc.THRESH_BINARY);
@@ -128,7 +130,7 @@ public class ScheduleReader {
 
         }).start();
     }
-    public void readText(){
+    public ArrayList<String> readText(){
         //https://developers.google.com/ml-kit/vision/text-recognition/android
         TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
         bSort(boxes);
@@ -155,7 +157,8 @@ public class ScheduleReader {
                                         String resultText = visionText.getText();
                                         for (Text.TextBlock block : visionText.getTextBlocks()) {
                                             String blockText = block.getText();
-                                            System.out.println(blockText);
+                                            Log.i("Course: ",blockText);
+                                            courses.add(blockText);
                                             //Thread.sleep(1000000);
                                             android.graphics.Point[] blockCornerPoints = block.getCornerPoints(); // prevent name ambiguity
                                             android.graphics.Rect blockFrame = block.getBoundingBox();
@@ -186,6 +189,7 @@ public class ScheduleReader {
         catch (Exception e){
             e.printStackTrace();
         }
+        return courses;
     }
 
 
