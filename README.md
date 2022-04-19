@@ -6,7 +6,7 @@ On Campus Matcher App is a mobile app that aims to make university students more
 
 Download the apk file and install
 
-## Usage
+## How to Use?
 
 Click the to view UI presentation: [Presentation](bit.ly/ocmpresentation)
 
