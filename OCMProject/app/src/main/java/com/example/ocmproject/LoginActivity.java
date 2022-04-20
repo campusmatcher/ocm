@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -17,7 +18,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText email;
     private EditText password;
-    private Button login;
+    private ImageButton login;
 
     private FirebaseAuth auth;
 
@@ -27,9 +28,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
 
-        email = findViewById(R.id.email);
-        password = findViewById(R.id.password);
-        login = findViewById(R.id.login);
+        email = findViewById(R.id.editTextTextEmailAddress);
+        password = findViewById(R.id.editTextTextPassword);
+        login = findViewById(R.id.imageButton4);
 
         auth = FirebaseAuth.getInstance();
 
@@ -49,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         auth.signInWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                Toast.makeText(LoginActivity.this, "Login succesful", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 finish();
             }

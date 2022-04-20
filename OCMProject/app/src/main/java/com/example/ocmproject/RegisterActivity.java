@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,18 +20,18 @@ import com.google.firebase.auth.FirebaseAuth;
 public class RegisterActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
-    private Button register;
+    private ImageButton register;
 
     private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_signup);
 
-        email = findViewById(R.id.email);
-        password = findViewById(R.id.password);
-        register = findViewById(R.id.register);
+        email = findViewById(R.id.editTextEmailAddress);
+        password = findViewById(R.id.editTextPassword);
+        register = findViewById(R.id.imageButton4);
 
         auth = FirebaseAuth.getInstance();
 
@@ -57,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(RegisterActivity.this, "Registering user succesfull", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Registering user successful", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                     finish();
                 } else {
