@@ -2,5 +2,3 @@
 ### Mr. Sencer was here
 ### Hello Sencer
 ### Hello Bilal
-### pull request test
-idshbshs
