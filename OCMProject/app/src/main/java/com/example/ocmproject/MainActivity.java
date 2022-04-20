@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     // Yavuz was here
     // Sencer was here
     // bilal was here
+    // Arda was here
     //again
     private Button logout;
     private EditText edit;
