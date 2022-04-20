@@ -141,6 +141,9 @@ public class ScheduleReader {
                     x = r.x;
                     System.out.println("------------------------------");
                 }
+//                Mat threshedbin = new Mat();
+//                Imgproc.threshold(src, threshedbin, 128, 255, Imgproc.THRESH_BINARY);
+
                 Mat cropped = new Mat(src, r);
                 Bitmap mBitmap = Bitmap.createBitmap(cropped.width(), cropped.height(), Bitmap.Config.ARGB_8888);
                 Utils.matToBitmap(cropped, mBitmap);
