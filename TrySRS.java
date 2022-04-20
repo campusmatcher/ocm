@@ -2,6 +2,7 @@
  * @author bilal
  * gives the schedule of given url in boolean and byte format
  */
+import javax.lang.model.element.Element;
 import org.jsoup.*;import org.jsoup.nodes.*;
 
 public class TrySRS {
@@ -29,7 +30,6 @@ public class TrySRS {
                 semester = "1";
             }
             
-
             Document doc = Jsoup.connect("https://stars.bilkent.edu.tr/syllabus/view/" + deptCode + "/" +  numberCode +"/" + year + semester +"?section=" + section).get();
             scheduleMaker( sourceParser(doc.toString()));
             sc.close();
