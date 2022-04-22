@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     // bilal was here
     // Arda was here
     //again
+
     private Button logout;
     private EditText edit;
     private Button add;
