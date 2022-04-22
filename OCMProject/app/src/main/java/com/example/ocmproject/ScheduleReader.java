@@ -39,10 +39,9 @@ import java.util.Random;
 
 
 public class ScheduleReader {
-    String path;
     Mat src;
+    Mat gray;
     Mat threshed;
-    String absolutePath;
     Mat hierarchy;
     List<MatOfPoint> contours;
     ArrayList<Rect> boxes;
@@ -52,11 +51,14 @@ public class ScheduleReader {
 //    Mat image2;
 //    Mat vertical;
 //    Mat horizontal;
-//    Mat rrrr;
     final int KERNEL_SIZE;
 
 
-
+    /**
+     * Constructor
+     * turns image bitmap into mat objects
+     * @param bmp bitmap of target image
+     */
     public ScheduleReader(Bitmap bmp) {
 
         this.KERNEL_SIZE = 3;
@@ -68,36 +70,157 @@ public class ScheduleReader {
 //        Mat oooo = new Mat();
 //        Imgproc.threshold(src, oooo, 130, 255, Imgproc.THRESH_BINARY);
     }
-    public void grayscaleImage(){
-        Imgproc.cvtColor(src, src, Imgproc.COLOR_BGR2GRAY);
+
+    /**
+     * turns image into gray scale
+     * @param src soource
+     * @param dst destination
+     */
+    public void grayscaleImage(Mat src, Mat dst){
+        Imgproc.cvtColor(src, dst, Imgproc.COLOR_BGR2GRAY);
     }
-    public void blurImage(){
-        Imgproc.blur(src, src, new Size(KERNEL_SIZE, KERNEL_SIZE));
-        Imgproc.blur(src, src, new Size(KERNEL_SIZE, KERNEL_SIZE));
+
+    /**
+     * blur images to increase OCR performance
+     * @param src
+     * @param dst
+     */
+    public void blurImage(Mat src, Mat dst){
+        Imgproc.blur(src, dst, new Size(KERNEL_SIZE, KERNEL_SIZE));
+        Imgproc.blur(src, dst, new Size(KERNEL_SIZE, KERNEL_SIZE));
     }
-    public void thresholdImage(){
-        Imgproc.threshold(src, threshed, 128, 255, Imgproc.THRESH_BINARY | Imgproc.THRESH_OTSU);
-        Imgcodecs.imwrite("../resources/results/threshed.png", threshed);
+
+    /**
+     * apply binary and otsu threshold to detect colorful photos
+     * @param src
+     * @param dst
+     */
+    public void thresholdImage(Mat src, Mat dst){
+        Imgproc.threshold(src, dst, 128, 255, Imgproc.THRESH_BINARY | Imgproc.THRESH_OTSU);
+        //Imgcodecs.imwrite("../resources/results/threshed.png", threshed);
     }
-    public void findContours(){
+
+    /**
+     * find contours of not empty course boxes
+     * @param src
+     * @param contours temp mat object to keep current contour
+     * @param hierarchy list of matofpoint objects to store all contours
+     */
+    public void findContours(Mat src, List<MatOfPoint> contours, Mat hierarchy){
         this.contours = new ArrayList<>();
         this.hierarchy = new Mat();
         Imgproc.findContours(threshed, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
     }
-    public void findBoxes(){
-        this.boxes = new ArrayList<>();
+
+    /**
+     * find boxes as rect objects and add them to boxes arraylist
+     * @param contours
+     * @param boxes
+     */
+    public void findBoxes(List<MatOfPoint> contours, ArrayList<Rect> boxes){
         for (MatOfPoint p: contours){
             boxes.add(Imgproc.boundingRect(p));
         }
     }
-    public void paintBoxes(){
+
+    /**
+     * paint founded boxes on an image
+     * @param threshed
+     * @param boxes
+     */
+    public void paintBoxes(Mat threshed, ArrayList<Rect> boxes){
         Random ran = new Random();
         for (Rect r : boxes){
             Imgproc.rectangle(threshed, r.tl(), r.br(), new Scalar(127, 127, 127), -1);
         }
         Imgcodecs.imwrite("/Users/alpsencer/IdeaProjects/ScheduleExtract/src/main/java/boxboxobx.png", this.threshed);
     }
-//    public void readText(){
+    /**
+     * Omit boxes with huge sizes
+     * @param rects Rect arraylist
+     */
+    public void omitBigBoxes (ArrayList<Rect> rects){
+        int deleted = 0;
+        for (int i = 0; i < rects.size() - deleted; i++){
+            Rect r = rects.get(i);
+            for (Rect o: rects){
+                if (r.contains(o.tl()) && !(r.equals(o))) {
+                    rects.remove(r);
+                    deleted ++;
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * omit boxes that are too big or too small
+     * need improvements it contains hard coded number values
+     * @param rects
+     */
+    public void omitSizeBoxes(ArrayList<Rect> rects){
+        int deleted = 0;
+        int sizeLimit = 1000000;
+        int size = rects.size();
+        for (int i = 0; i < size - deleted; i++){
+            Rect r = rects.get(i);
+            if ((r.width > 10000 || r.height > 5000) || (r.width < 150 || r.height < 50)){
+                rects.remove(i);
+                i--;
+                deleted ++;
+
+            }
+        }
+    }
+
+    /**
+     * method to swap to rect item in an arraylist
+     * @param rects
+     * @param a
+     * @param b
+     */
+    public void swap(ArrayList<Rect> rects, int a, int b){
+        Rect temp = rects.get(a);
+        rects.set(a, rects.get(b));
+        rects.set(b, temp);
+    }
+
+    /**
+     * sort rects with respect to their areas
+     * inefficient sorting, needs improvements
+     * @param rects
+     */
+    public void bSort(ArrayList<Rect> rects){
+        int error = 30;
+        for (int i = 0; i < rects.size(); i ++){
+            for (int j = i; j < rects.size(); j++) {
+                Rect r = rects.get(i);
+                Rect o = rects.get(j);
+                if (Math.abs(r.x - o.x) > error && r.x > o.x){
+                    swap(rects, rects.indexOf(r), rects.indexOf(o));
+                }
+            }
+        }
+        for (int i = 0; i < rects.size(); i ++){
+            for (int j = i; j < rects.size(); j++) {
+                Rect r = rects.get(i);
+                Rect o = rects.get(j);
+                if (Math.abs(r.x - o.x) < error && r.y - o.y > error){
+                    swap(rects, rects.indexOf(r), rects.indexOf(o));
+                }
+            }
+        }
+    }
+
+    /**
+     * @return boxes as an rectangle arraylist
+     */
+    public ArrayList<Rect> getBoxes(){
+        return this.boxes;
+    }
+
+
+    //    public void readText(){
 //        Tesseract tes = new Tesseract();
 //        tes.setDatapath("/opt/homebrew/Cellar/tesseract/5.1.0/share/tessdata");//!!!!!!!!!!!!!!! VERY important
 //        bSort(boxes);
@@ -191,64 +314,6 @@ public class ScheduleReader {
         }
     }
 
-
-    public void omitBigBoxes (ArrayList<Rect> rects){
-        int deleted = 0;
-        for (int i = 0; i < rects.size() - deleted; i++){
-            Rect r = rects.get(i);
-            for (Rect o: rects){
-                if (r.contains(o.tl()) && !(r.equals(o))) {
-                    rects.remove(r);
-                    deleted ++;
-                    break;
-                }
-            }
-        }
-    }
-    public void omitSizeBoxes(ArrayList<Rect> rects){
-        int deleted = 0;
-        int sizeLimit = 1000000;
-        int size = rects.size();
-        for (int i = 0; i < size - deleted; i++){
-            Rect r = rects.get(i);
-            if ((r.width > 10000 || r.height > 5000) || (r.width < 150 || r.height < 50)){
-                rects.remove(i);
-                i--;
-                deleted ++;
-
-            }
-        }
-    }
-    public void swap(ArrayList<Rect> rects, int a, int b){
-        Rect temp = rects.get(a);
-        rects.set(a, rects.get(b));
-        rects.set(b, temp);
-    }
-
-    public void bSort(ArrayList<Rect> rects){
-        int error = 30;
-        for (int i = 0; i < rects.size(); i ++){
-            for (int j = i; j < rects.size(); j++) {
-                Rect r = rects.get(i);
-                Rect o = rects.get(j);
-                if (Math.abs(r.x - o.x) > error && r.x > o.x){
-                    swap(rects, rects.indexOf(r), rects.indexOf(o));
-                }
-            }
-        }
-        for (int i = 0; i < rects.size(); i ++){
-            for (int j = i; j < rects.size(); j++) {
-                Rect r = rects.get(i);
-                Rect o = rects.get(j);
-                if (Math.abs(r.x - o.x) < error && r.y - o.y > error){
-                    swap(rects, rects.indexOf(r), rects.indexOf(o));
-                }
-            }
-        }
-    }
-    public ArrayList<Rect> getBoxes(){
-        return this.boxes;
-    }
 
 
 //    public static void main(String[] args) {
