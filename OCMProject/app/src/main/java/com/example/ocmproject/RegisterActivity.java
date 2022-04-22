@@ -25,6 +25,7 @@ import java.util.HashMap;
 public class RegisterActivity extends AppCompatActivity {
     private EditText username;
     private EditText name;
+    private EditText surname;
     private EditText email;
     private EditText password;
     private EditText rePassword;
@@ -40,6 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         username = findViewById(R.id.username);
         name = findViewById(R.id.name);
+        surname = findViewById(R.id.surname);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         rePassword = findViewById(R.id.rePassword);
@@ -53,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String txt_username = username.getText().toString();
                 String txt_name = name.getText().toString();
+                String txt_surname = surname.getText().toString();
                 String txt_email = email.getText().toString();
                 String txt_password = password.getText().toString();
                 String txt_rePassword = rePassword.getText().toString();
@@ -70,7 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
-
+    // Register User Method
     private void registerUser(String username, String name, String email, String password) {
         auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
@@ -78,6 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
                 HashMap<String, Object> hMap = new HashMap<>();
                 hMap.put("username", username);
                 hMap.put("name", name);
+                hMap.put("surname", surname);
                 hMap.put("email", email);
                 hMap.put("username", username);
                 hMap.put("id", auth.getCurrentUser().getUid());
@@ -93,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
                             finish();
                         }
                     }
-                })
+                });
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
