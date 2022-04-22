@@ -32,8 +32,8 @@ public class ScheduleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule);
-        Button scheduleUploadButton = findViewById(R.id.scheduleUploadButton_edited);
+        setContentView(R.layout.activity_schedule_upload_screen);
+        Button scheduleUploadButton = findViewById(R.id.scheduleUploadButton);
 
         OpenCVLoader.initDebug();
 //        for(String course: courses){
@@ -79,7 +79,7 @@ public class ScheduleActivity extends AppCompatActivity {
             scheduler.omitSizeBoxes(scheduler.getBoxes());
             scheduler.paintBoxes();
             scheduler.paintBoxes();
-            ArrayList<String> courses =  scheduler.readText();
+            scheduler.readText();
             System.out.println("a");
             //String[] courseArray = courses.toArray(new String[0]);
             //scheduler.newThread();
