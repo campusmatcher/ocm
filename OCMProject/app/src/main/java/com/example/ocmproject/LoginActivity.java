@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -30,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
 
         email = findViewById(R.id.editTextTextEmailAddress);
         password = findViewById(R.id.editTextTextPassword);
-        login = findViewById(R.id.imageButton4);
+        login = findViewById(R.id.registerToMain);
 
         auth = FirebaseAuth.getInstance();
 
