@@ -93,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
                             finish();
                         }
                     }
-                })
+                });
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
