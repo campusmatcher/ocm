@@ -33,7 +33,7 @@ public class ScheduleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
-        Button scheduleUploadButton = findViewById(R.id.scheduleUploadButton);
+        Button scheduleUploadButton = findViewById(R.id.scheduleUploadButton_edited);
 
         OpenCVLoader.initDebug();
 //        for(String course: courses){
