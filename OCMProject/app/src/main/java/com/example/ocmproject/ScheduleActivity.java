@@ -34,6 +34,7 @@ public class ScheduleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_upload_screen);
         Button scheduleUploadButton = findViewById(R.id.scheduleUploadButton);
+        Button manualScheduleUploadButton = findViewById(R.id.manualScheduleUploadButton);
 
         OpenCVLoader.initDebug();
 //        for(String course: courses){
@@ -44,6 +45,13 @@ public class ScheduleActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, 3);
+            }
+        });
+
+        manualScheduleUploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ScheduleActivity.this, ManualScheduleActivity.class));
             }
         });
     }
