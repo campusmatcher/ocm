@@ -46,7 +46,6 @@ public class ScheduleReader {
     Mat hierarchy;
     List<MatOfPoint> contours;
     ArrayList<Rect> boxes;
-    ArrayList<String> courses;
 
     //For further improvements
 //    Mat image1;
@@ -65,7 +64,6 @@ public class ScheduleReader {
         Utils.bitmapToMat(bmp, src);
         //this.path = absolutePath + "/images/test.png";
         this.threshed = new Mat();
-        this.courses = new ArrayList<>();
 
 //        Mat oooo = new Mat();
 //        Imgproc.threshold(src, oooo, 130, 255, Imgproc.THRESH_BINARY);
@@ -130,7 +128,7 @@ public class ScheduleReader {
 
         }).start();
     }
-    public ArrayList<String> readText(){
+    public void readText(){
         //https://developers.google.com/ml-kit/vision/text-recognition/android
         TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
         bSort(boxes);
@@ -141,10 +139,13 @@ public class ScheduleReader {
                     x = r.x;
                     System.out.println("------------------------------");
                 }
+//                Mat threshedbin = new Mat();
+//                Imgproc.threshold(src, threshedbin, 128, 255, Imgproc.THRESH_BINARY);
+
                 Mat cropped = new Mat(src, r);
                 Bitmap mBitmap = Bitmap.createBitmap(cropped.width(), cropped.height(), Bitmap.Config.ARGB_8888);
                 Utils.matToBitmap(cropped, mBitmap);
-//                Imgcodecs.imwrite("/Users/alpsencer/IdeaProjects/ScheduleExtract/src/main/java/temp.png", cropped);
+                //Imgcodecs.imwrite("/Users/alpsencer/IdeaProjects/ScheduleExtract/src/main/java/temp.png", cropped);
                 InputImage image = InputImage.fromBitmap(mBitmap, 0); // degree should be edited later
 
                 Task<Text> result =
@@ -157,16 +158,12 @@ public class ScheduleReader {
                                         String resultText = visionText.getText();
                                         for (Text.TextBlock block : visionText.getTextBlocks()) {
                                             String blockText = block.getText();
-//                                            Log.i("Course: ",blockText.toString());
-
-                                            courses.add(blockText.toString());
+                                            System.out.println(blockText);
                                             //Thread.sleep(1000000);
                                             android.graphics.Point[] blockCornerPoints = block.getCornerPoints(); // prevent name ambiguity
                                             android.graphics.Rect blockFrame = block.getBoundingBox();
                                             for (Text.Line line : block.getLines()) {
                                                 String lineText = line.getText();
-                                                Log.i("Course: ",lineText.toString());
-
                                                 android.graphics.Point[] lineCornerPoints = line.getCornerPoints();
                                                 android.graphics.Rect lineFrame = line.getBoundingBox();
                                                 for (Text.Element element : line.getElements()) {
@@ -192,7 +189,6 @@ public class ScheduleReader {
         catch (Exception e){
             e.printStackTrace();
         }
-        return courses;
     }
 
 
