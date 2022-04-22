@@ -15,11 +15,11 @@
         android:textColor="#000000"
         android:textColorHint="#000000"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextEmailAddress2"
-        app:layout_constraintStart_toStartOf="@+id/editTextEmailAddress2" />
+        app:layout_constraintBottom_toTopOf="@+id/name"
+        app:layout_constraintStart_toStartOf="@+id/name" />
 
     <EditText
-        android:id="@+id/editTextEmailAddress2"
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:autofillHints=""
@@ -29,7 +29,7 @@
         android:inputType="textPersonName"
         android:paddingStart="10dp"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextPassword2"
+        app:layout_constraintBottom_toTopOf="@+id/surname"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,11 +43,11 @@
         android:textColor="#000000"
         android:textColorHint="#000000"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextPassword2"
-        app:layout_constraintStart_toStartOf="@+id/editTextPassword2" />
+        app:layout_constraintBottom_toTopOf="@+id/surname"
+        app:layout_constraintStart_toStartOf="@+id/surname" />
 
     <EditText
-        android:id="@+id/editTextPassword2"
+        android:id="@+id/surname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:autofillHints=""
@@ -59,24 +59,24 @@
         android:paddingStart="10dp"
         android:textColorHint="#757575"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmailAddress2" />
+        app:layout_constraintTop_toBottomOf="@+id/name" />
 
     <TextView
-        android:id="@+id/signupText1"
+        android:id="@+id/emailLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/titleMail"
         android:textColor="#000000"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextEmailAddress"
-        app:layout_constraintStart_toStartOf="@+id/editTextEmailAddress" />
+        app:layout_constraintBottom_toTopOf="@+id/email"
+        app:layout_constraintStart_toStartOf="@+id/email" />
 
     <EditText
-        android:id="@+id/editTextEmailAddress"
+        android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:autofillHints=""
@@ -86,25 +86,25 @@
         android:inputType="textEmailAddress"
         android:paddingStart="10dp"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextPassword"
+        app:layout_constraintBottom_toTopOf="@+id/password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword2" />
+        app:layout_constraintTop_toBottomOf="@+id/surname" />
 
     <TextView
-        android:id="@+id/signupText2"
+        android:id="@+id/passwordLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/titlePassword"
         android:textColor="#000000"
         android:textColorHint="#000000"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextPassword"
-        app:layout_constraintStart_toStartOf="@+id/editTextPassword" />
+        app:layout_constraintBottom_toTopOf="@+id/password"
+        app:layout_constraintStart_toStartOf="@+id/password" />
 
     <EditText
-        android:id="@+id/editTextPassword"
+        android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:autofillHints=""
@@ -116,12 +116,12 @@
         android:paddingStart="10dp"
         android:textColorHint="#757575"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword3"
+        app:layout_constraintBottom_toTopOf="@+id/rePassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/signupText3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmailAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/email" />
 
     <TextView
         android:id="@+id/signupText3"
@@ -130,11 +130,11 @@
         android:text="Re-enter Password"
         android:textColor="#000000"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword3"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPassword3" />
+        app:layout_constraintBottom_toTopOf="@+id/rePassword"
+        app:layout_constraintStart_toStartOf="@+id/rePassword" />
 
     <EditText
-        android:id="@+id/editTextTextPassword3"
+        android:id="@+id/rePassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="200dp"
@@ -145,15 +145,15 @@
         android:minHeight="35dp"
         android:paddingStart="10dp"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/imageButton4"
+        app:layout_constraintBottom_toTopOf="@+id/registerToMain"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/password" />
 
 
     <ImageButton
-        android:id="@+id/imageButton4"
+        android:id="@+id/registerToMain"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_marginBottom="20dp"

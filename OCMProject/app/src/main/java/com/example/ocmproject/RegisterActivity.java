@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -34,9 +33,9 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         //username = findViewById(R.id.editTextUsername);
-        email = findViewById(R.id.editTextEmailAddress);
-        password = findViewById(R.id.editTextPassword);
-        register = findViewById(R.id.imageButton4);
+        email = findViewById(R.id.email);
+        password = findViewById(R.id.password);
+        register = findViewById(R.id.registerToMain);
 
         auth = FirebaseAuth.getInstance();
 
