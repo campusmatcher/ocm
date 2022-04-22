@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 Toast.makeText(MainActivity.this, "Logged Out!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MainActivity.this, StartActivity.class));
+                finish();
             }
         });
 
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     FirebaseDatabase.getInstance().getReference().child("OCM VERILERI").push().child("Name").setValue(txt_name);
                     startActivity(new Intent(MainActivity.this, ScheduleActivity.class));
+                    finish();
 
                 }
             }

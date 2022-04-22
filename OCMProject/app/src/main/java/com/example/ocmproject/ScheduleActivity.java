@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import org.opencv.core.Core;
 import org.opencv.android.OpenCVLoader;
@@ -21,6 +23,7 @@ import org.opencv.imgproc.Imgproc;
 
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class ScheduleActivity extends AppCompatActivity {
 
@@ -31,13 +34,24 @@ public class ScheduleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_upload_screen);
         Button scheduleUploadButton = findViewById(R.id.scheduleUploadButton);
+        Button manualScheduleUploadButton = findViewById(R.id.manualScheduleUploadButton);
+
         OpenCVLoader.initDebug();
+//        for(String course: courses){
+//            System.out.println(course);
 
         scheduleUploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, 3);
+            }
+        });
+
+        manualScheduleUploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ScheduleActivity.this, ManualScheduleActivity.class));
             }
         });
     }
@@ -63,22 +77,16 @@ public class ScheduleActivity extends AppCompatActivity {
 //            Bitmap photo = (Bitmap) data.getExtras().get("data");
 //            System.loadLibrary(Core.NATIVE_LIBRARY_NAME); // must be in main
             ScheduleReader scheduler = new ScheduleReader(photo);
-            scheduler.grayscaleImage();
-            scheduler.blurImage();
-            scheduler.blurImage();
-            scheduler.thresholdImage();
-            scheduler.findContours();
-            scheduler.findBoxes();
-            scheduler.omitBigBoxes(scheduler.getBoxes());
-            scheduler.omitSizeBoxes(scheduler.getBoxes());
-            scheduler.paintBoxes();
-            scheduler.paintBoxes();
-            scheduler.readText();
+            scheduler.runReader();
+
             //scheduler.newThread();
+            }
+
+
         }
 
     }
-}
+
 
 
 
