@@ -21,13 +21,13 @@
         android:text="Name" />
 
     <Button
+        android:id="@+id/add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="add"
         android:layout_below="@+id/edit"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:id="@+id/add"/>
+        android:text="add" />
 
 </RelativeLayout>

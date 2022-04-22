@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">OCMProject</string>
+    <string name="titleMail">Email</string>
+    <string name="titlePassword">Password</string>
 </resources>
