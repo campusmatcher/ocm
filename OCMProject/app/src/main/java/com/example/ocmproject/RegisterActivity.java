@@ -16,12 +16,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 
 public class RegisterActivity extends AppCompatActivity {
+    private EditText username;
+    private EditText name;
     private EditText email;
     private EditText password;
     private ImageButton register;
 
+    private DatabaseReference mRootRef;
     private FirebaseAuth auth;
 
     @Override
@@ -29,6 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        //username = findViewById(R.id.editTextUsername);
         email = findViewById(R.id.editTextEmailAddress);
         password = findViewById(R.id.editTextPassword);
         register = findViewById(R.id.imageButton4);
