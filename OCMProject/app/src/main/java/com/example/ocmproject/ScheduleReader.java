@@ -41,6 +41,7 @@ import java.util.Random;
 public class ScheduleReader {
     Mat src;
     Mat gray;
+    Mat blurred;
     Mat threshed;
     Mat hierarchy;
     List<MatOfPoint> contours;
@@ -65,7 +66,12 @@ public class ScheduleReader {
         this.src = new Mat(bmp.getWidth(), bmp.getHeight(), CvType.CV_8UC4);
         Utils.bitmapToMat(bmp, src);
         //this.path = absolutePath + "/images/test.png";
+        this.gray = new Mat();
+        this.blurred = new Mat();
         this.threshed = new Mat();
+        this.hierarchy = new Mat();
+        this.contours = new ArrayList<>();
+        this.boxes = new ArrayList<>();
 
 //        Mat oooo = new Mat();
 //        Imgproc.threshold(src, oooo, 130, 255, Imgproc.THRESH_BINARY);
@@ -102,13 +108,11 @@ public class ScheduleReader {
 
     /**
      * find contours of not empty course boxes
-     * @param src
-     * @param contours temp mat object to keep current contour
-     * @param hierarchy list of matofpoint objects to store all contours
+     * @param threshed threshed black-white image
+     * @param contours list of matofpoint objects to store all contours
+     * @param hierarchy temp mat object to keep current contour
      */
-    public void findContours(Mat src, List<MatOfPoint> contours, Mat hierarchy){
-        this.contours = new ArrayList<>();
-        this.hierarchy = new Mat();
+    public void findContours(Mat threshed, List<MatOfPoint> contours, Mat hierarchy){
         Imgproc.findContours(threshed, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
     }
 
@@ -186,12 +190,12 @@ public class ScheduleReader {
     }
 
     /**
-     * sort rects with respect to their areas
+     * sort rects with as columns
      * inefficient sorting, needs improvements
      * @param rects
      */
     public void bSort(ArrayList<Rect> rects){
-        int error = 30;
+        int error = 30; // to tolarate little cooridnate differences between boxes in the same column
         for (int i = 0; i < rects.size(); i ++){
             for (int j = i; j < rects.size(); j++) {
                 Rect r = rects.get(i);
@@ -219,6 +223,19 @@ public class ScheduleReader {
         return this.boxes;
     }
 
+    public void runReader(){
+        this.grayscaleImage(this.src, this.gray);
+        this.blurImage(this.gray, this.blurred);
+        this.blurImage(this.blurred, this.blurred);
+        this.thresholdImage(this.blurred, this.threshed);
+        this.findContours(this.threshed, this.contours, this.hierarchy);
+        this.findBoxes(this.contours, this.boxes);
+        this.omitBigBoxes(this.getBoxes());
+        this.omitSizeBoxes(this.getBoxes());
+        //this.paintBoxes();
+        //this.paintBoxes();
+        this.readText();
+    }
 
     //    public void readText(){
 //        Tesseract tes = new Tesseract();
@@ -260,12 +277,12 @@ public class ScheduleReader {
             for (Rect r : boxes) {
                 if (r.x - x > 50){
                     x = r.x;
-                    System.out.println("------------------------------");
+                    //System.out.println("------------------------------");
                 }
 //                Mat threshedbin = new Mat();
 //                Imgproc.threshold(src, threshedbin, 128, 255, Imgproc.THRESH_BINARY);
 
-                Mat cropped = new Mat(src, r);
+                Mat cropped = new Mat(gray, r);
                 Bitmap mBitmap = Bitmap.createBitmap(cropped.width(), cropped.height(), Bitmap.Config.ARGB_8888);
                 Utils.matToBitmap(cropped, mBitmap);
                 //Imgcodecs.imwrite("/Users/alpsencer/IdeaProjects/ScheduleExtract/src/main/java/temp.png", cropped);
@@ -310,7 +327,7 @@ public class ScheduleReader {
             }
         }
         catch (Exception e){
-            e.printStackTrace();
+            Log.e("Exception in readText", e.getMessage());
         }
     }
 

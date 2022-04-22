@@ -63,17 +63,7 @@ public class ScheduleActivity extends AppCompatActivity {
 //            Bitmap photo = (Bitmap) data.getExtras().get("data");
 //            System.loadLibrary(Core.NATIVE_LIBRARY_NAME); // must be in main
             ScheduleReader scheduler = new ScheduleReader(photo);
-            scheduler.grayscaleImage();
-            scheduler.blurImage();
-            scheduler.blurImage();
-            scheduler.thresholdImage();
-            scheduler.findContours();
-            scheduler.findBoxes();
-            scheduler.omitBigBoxes(scheduler.getBoxes());
-            scheduler.omitSizeBoxes(scheduler.getBoxes());
-            scheduler.paintBoxes();
-            scheduler.paintBoxes();
-            scheduler.readText();
+            scheduler.runReader();
             //scheduler.newThread();
         }
 
