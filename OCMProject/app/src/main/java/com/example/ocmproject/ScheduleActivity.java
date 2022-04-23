@@ -86,13 +86,14 @@ public class ScheduleActivity extends AppCompatActivity {
 //            Bitmap photo = (Bitmap) data.getExtras().get("data");
 //            System.loadLibrary(Core.NATIVE_LIBRARY_NAME); // must be in main
             ScheduleReader scheduler = new ScheduleReader(photo);
-            ArrayList<String> sections = scheduler.runReader();
-            sections.add("Math101-01");
-            sections.add("Eng101-01");
-            sections.add("Cs101-01");
-            sections.add("Turk101-01");
-            sections.add("Math132-01");
-            for (String course: sections){
+            scheduler.runReader();
+//            ArrayList<String> sections = scheduler.runReader();
+//            sections.add("Math101-01");
+//            sections.add("Eng101-01");
+//            sections.add("Cs101-01");
+//            sections.add("Turk101-01");
+//            sections.add("Math132-01");
+            //for (String course: sections){
 
 
             //SOme stuff to adjust arraylist
@@ -113,7 +114,7 @@ public class ScheduleActivity extends AppCompatActivity {
 //                    else if (sect.getHashMap().get(key) == 2){ // for spare hours
 //                        this.hmap.put(key, 2);
 
-            Log.e("lenght", "" + sections.size());
+            //Log.e("lenght", "" + sections.size());
             //scheduler.newThread();
             }
 
