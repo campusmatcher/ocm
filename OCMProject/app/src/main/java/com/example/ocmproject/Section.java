@@ -22,8 +22,6 @@ public class Section {
         for (; i < name.length() && name.charAt(i) != '-'; i++){ courseCode += name.charAt(i);}
         this.sectionCode = name.substring(i); // 01
 
-
-
     }
 
     public String getCourseName(){return this.courseName;}
