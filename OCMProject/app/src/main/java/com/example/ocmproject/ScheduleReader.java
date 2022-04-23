@@ -137,7 +137,7 @@ public class ScheduleReader {
         for (Rect r : boxes){
             Imgproc.rectangle(threshed, r.tl(), r.br(), new Scalar(127, 127, 127), -1);
         }
-        Imgcodecs.imwrite("/Users/alpsencer/IdeaProjects/ScheduleExtract/src/main/java/boxboxobx.png", this.threshed);
+        //Imgcodecs.imwrite("/Users/alpsencer/IdeaProjects/ScheduleExtract/src/main/java/boxboxobx.png", this.threshed);
     }
     /**
      * Omit boxes with huge sizes
@@ -223,7 +223,7 @@ public class ScheduleReader {
         return this.boxes;
     }
 
-    public void runReader(){
+    public ArrayList<String> runReader(){
         this.grayscaleImage(this.src, this.gray);
         this.blurImage(this.gray, this.blurred);
         this.blurImage(this.blurred, this.blurred);
@@ -234,7 +234,9 @@ public class ScheduleReader {
         this.omitSizeBoxes(this.getBoxes());
         //this.paintBoxes();
         //this.paintBoxes();
-        this.readText();
+        ArrayList<String> sections;
+        sections = this.readText();
+        return sections;
     }
 
     //    public void readText(){
@@ -268,14 +270,16 @@ public class ScheduleReader {
 
         }).start();
     }
-    public void readText(){
+    public ArrayList<String> readText(){
+        ArrayList<String> sections = new ArrayList<>();
+
         //https://developers.google.com/ml-kit/vision/text-recognition/android
         TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
         bSort(boxes);
         try {
             int x = 0;
             for (Rect r : boxes) {
-                if (r.x - x > 50){
+                if (r.x - x > 50){ // solve hard coded value
                     x = r.x;
                     //System.out.println("------------------------------");
                 }
@@ -298,8 +302,9 @@ public class ScheduleReader {
                                         String resultText = visionText.getText();
                                         for (Text.TextBlock block : visionText.getTextBlocks()) {
                                             String blockText = block.getText();
-                                            System.out.println(blockText);
+                                            sections.add(blockText);
                                             //Thread.sleep(1000000);
+                                            Log.i("Course", blockText);
                                             android.graphics.Point[] blockCornerPoints = block.getCornerPoints(); // prevent name ambiguity
                                             android.graphics.Rect blockFrame = block.getBoundingBox();
                                             for (Text.Line line : block.getLines()) {
@@ -329,6 +334,7 @@ public class ScheduleReader {
         catch (Exception e){
             Log.e("Exception in readText", e.getMessage());
         }
+        return sections;
     }
 
 
