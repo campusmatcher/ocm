@@ -36,6 +36,7 @@ public class ScheduleActivity extends AppCompatActivity {
         Button scheduleUploadButton = findViewById(R.id.scheduleUploadButton);
         Button manualScheduleUploadButton = findViewById(R.id.manualScheduleUploadButton);
         Button geciciButon = findViewById(R.id.geciciButon);
+        Button geciciButon2 = findViewById(R.id.geciciButon2);
 
         OpenCVLoader.initDebug();
 //        for(String course: courses){
@@ -60,6 +61,12 @@ public class ScheduleActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(ScheduleActivity.this, ProfileActivity.class));
+            }
+        });
+        geciciButon2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ScheduleActivity.this, CollectionsActivity.class));
             }
         });
 
