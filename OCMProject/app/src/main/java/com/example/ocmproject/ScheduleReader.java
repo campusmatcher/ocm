@@ -4,6 +4,7 @@ package com.example.ocmproject;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -11,8 +12,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
@@ -337,10 +341,50 @@ public class ScheduleReader {
                                         }
                                         Log.e("Size", "" + list.size());
                                         //write data to firebase
-                                        if (boxes.get(boxes.size() - 1 ).equals(r)){
+
+                                        if (boxes.get(boxes.size() - 1 ).equals(r)) {
                                             userId = auth.getCurrentUser().getUid();
-                                            mDatabase.child("Users").child(userId).child("LessonList").setValue(list);
-                                        }
+                                            // add lessons to the user
+                                            mDatabase.child("Users").child(userId).child("Lessons").setValue(list);
+
+                                            //Adding eventListener to that reference and add sections to user
+                                            //Create schedule for user
+                                            mDatabase.child("Courses").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                    for (int i = 0; i < 40 ; i ++){
+                                                        mDatabase.child("Users").child(userId).child("Schedule").child(""+i).setValue("0"); // fill the schedule with zeros
+                                                    }
+                                                    for (String s : list) {
+                                                        //ArrayList<String> sections = new ArrayList<>(); // to add course hourses sepereately
+                                                        int k = 0;
+                                                        for (DataSnapshot ing : dataSnapshot.child(s).getChildren()) {
+                                                            //sections.add(ing.getValue(String.class)); // to add course hourses sepereately
+                                                            if (ing.getValue(String.class).equals("1")) {
+                                                                mDatabase.child("Users").child(userId).child("Schedule").child("" + k).setValue("1");
+                                                            }
+                                                            k++;
+                                                        }
+                                                        //System.out.println("Gained data: " + sections.toString());
+                                                        //mDatabase.child("Users").child(userId).child("LessonList").child(s).setValue(sections);
+                                                    }
+
+
+                                                        }
+                                                    @Override
+                                                    public void onCancelled(DatabaseError databaseError) {
+
+                                                    }
+                                                });
+
+                                            }
+
+
+                                                //mDatabase.child("Users").child(userId).child("LessonList").setValue(mDatabase.child("Courses").child(s).get());
+
+
+
+
 
                                     }
                                 })
