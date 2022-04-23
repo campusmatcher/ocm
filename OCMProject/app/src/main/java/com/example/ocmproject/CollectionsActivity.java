@@ -23,17 +23,20 @@ public class CollectionsActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private String userId;
     private ListView listView;
+    private ArrayList<String> list;
+    private ArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collections);
 
+        auth = FirebaseAuth.getInstance();
         listView = findViewById(R.id.listView);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         userId = auth.getCurrentUser().getUid();
-        ArrayList<String> list = new ArrayList<>();
-        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.list_layout, list);
+        list = new ArrayList<>();
+        adapter = new ArrayAdapter<String>(this, R.layout.list_layout, list);
         listView.setAdapter(adapter);
 
 
@@ -44,13 +47,14 @@ public class CollectionsActivity extends AppCompatActivity {
                 list.clear();
                 for (DataSnapshot snap : snapshot.getChildren()) {
                     String friendId = snap.getValue(String.class);
-                    DatabaseReference friendRefs = FirebaseDatabase.getInstance().getReference().child("Users");
-                    friendRefs.child(friendId).addValueEventListener(new ValueEventListener() {
+                    DatabaseReference friendRefs = FirebaseDatabase.getInstance().getReference().child("Users").child(friendId);
+                    friendRefs.addValueEventListener(new ValueEventListener() {
                         @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            User friendUserObj = snapshot.getValue(User.class);
+                        public void onDataChange(@NonNull DataSnapshot snapsho) {
+                            User friendUserObj = snapsho.getValue(User.class);
                             String friendNameSurname = friendUserObj.getName() + " " + friendUserObj.getSurname();
                             list.add(friendNameSurname);
+                            Log.e("Girdim", "Burdayım");
                         }
 
                         @Override
@@ -60,13 +64,18 @@ public class CollectionsActivity extends AppCompatActivity {
                     });
                 }
                 adapter.notifyDataSetChanged();
+                Log.e("Girdim", ""+list.size());
             }
+
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+        Log.e("Girdim", ""+list.size());
+
 
     }
 }
