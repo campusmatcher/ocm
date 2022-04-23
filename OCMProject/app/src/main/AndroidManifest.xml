@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OCMProject">
         <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".ManualScheduleActivity"
             android:exported="false" />
         <activity
