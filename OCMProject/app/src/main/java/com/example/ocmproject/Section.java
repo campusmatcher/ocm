@@ -15,8 +15,8 @@ public class Section {
         this.hmap = hmap;
         this.courseName = "";
         this.courseCode = "";
-        int i;
-        for (i = 0; i < name.length() && Character.isLetter(name.charAt(i)); i++){ courseName += name.charAt(i);}
+        int i = 0;
+        for (; i < name.length() && Character.isLetter(name.charAt(i)); i++){ courseName += name.charAt(i);}
         for (; i < name.length() && name.charAt(i) != '-'; i++){ courseCode += name.charAt(i);}
         this.sectionCode = name.substring(i);
     }
@@ -24,4 +24,7 @@ public class Section {
     public String getCourseName(){return this.courseName;}
     public String getCourseCode() {return courseCode;}
     public String getSectionCode(){return this.sectionCode;}
+    public HashMap<String, Integer> getHashMap(){
+        return this.hmap;
+    }
 }
