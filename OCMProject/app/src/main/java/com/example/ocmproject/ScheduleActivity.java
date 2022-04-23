@@ -94,7 +94,34 @@ public class ScheduleActivity extends AppCompatActivity {
 //            System.loadLibrary(Core.NATIVE_LIBRARY_NAME); // must be in main
             ScheduleReader scheduler = new ScheduleReader(photo);
             scheduler.runReader();
+//            ArrayList<String> sections = scheduler.runReader();
+//            sections.add("Math101-01");
+//            sections.add("Eng101-01");
+//            sections.add("Cs101-01");
+//            sections.add("Turk101-01");
+//            sections.add("Math132-01");
+            //for (String course: sections){
 
+
+            //SOme stuff to adjust arraylist
+//            for (String course: sections){
+//                int i = 0;
+//                String courseName = "";
+//                String courseCode = "";
+//                String sectionCode = "";
+//                for (; i < course.length() && Character.isLetter(course.charAt(i)); i++){ courseName += course.charAt(i);}
+//                for (; i < course.length() && course.charAt(i) != '-'; i++){ courseCode += course.charAt(i);}
+//                sectionCode = course.substring(i);
+//
+//            }
+//                for (Section sect: sections){
+//                    if (sect.getHashMap().get(key) == 1){
+//                        this.hmap.put(key, 1);
+//                    }
+//                    else if (sect.getHashMap().get(key) == 2){ // for spare hours
+//                        this.hmap.put(key, 2);
+
+            //Log.e("lenght", "" + sections.size());
             //scheduler.newThread();
             }
 

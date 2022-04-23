@@ -2,6 +2,7 @@ package com.example.ocmproject;
 
 import java.util.HashMap;
 
+
 public class Section {
     String name; // Format = Course000-00
     String courseName;
@@ -10,15 +11,19 @@ public class Section {
     HashMap<String, Integer> hmap;
 
 
-    public Section(String name, HashMap<String, Integer> hmap){
+
+    public Section(String name){
         this.name = name;
-        this.hmap = hmap;
-        this.courseName = "";
-        this.courseCode = "";
+        //this.hmap = hmap;
+        this.courseName = ""; //Math
+        this.courseCode = ""; //102
         int i = 0;
         for (; i < name.length() && Character.isLetter(name.charAt(i)); i++){ courseName += name.charAt(i);}
         for (; i < name.length() && name.charAt(i) != '-'; i++){ courseCode += name.charAt(i);}
-        this.sectionCode = name.substring(i);
+        this.sectionCode = name.substring(i); // 01
+
+
+
     }
 
     public String getCourseName(){return this.courseName;}
