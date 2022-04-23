@@ -60,15 +60,7 @@ public class ScheduleReader {
     private DatabaseReference mDatabase;
     private String userId;
 
-
-
-    //For further improvements
-//    Mat image1;
-//    Mat image2;
-//    Mat vertical;
-//    Mat horizontal;
     final int KERNEL_SIZE;
-
 
     /**
      * Constructor
@@ -92,7 +84,6 @@ public class ScheduleReader {
         auth = FirebaseAuth.getInstance();
         mRootRef = FirebaseDatabase.getInstance().getReference();
         userId = auth.getCurrentUser().getUid();
-
 
 //        Mat oooo = new Mat();
 //        Imgproc.threshold(src, oooo, 130, 255, Imgproc.THRESH_BINARY);
@@ -257,7 +248,6 @@ public class ScheduleReader {
         //this.paintBoxes();
         this.readText();
     }
-
     //    public void readText(){
 //        Tesseract tes = new Tesseract();
 //        tes.setDatapath("/opt/homebrew/Cellar/tesseract/5.1.0/share/tessdata");//!!!!!!!!!!!!!!! VERY important
@@ -285,8 +275,6 @@ public class ScheduleReader {
             public void run() {
                 readText();
                         }
-
-
         }).start();
     }
     public void readText(){
@@ -311,14 +299,12 @@ public class ScheduleReader {
                 //Imgcodecs.imwrite("/Users/alpsencer/IdeaProjects/ScheduleExtract/src/main/java/temp.png", cropped);
                 InputImage image = InputImage.fromBitmap(mBitmap, 0); // degree should be edited later
 
-                Task<Text> result =
-                        recognizer.process(image)
+                Task<Text> result = recognizer.process(image)
                                 .addOnSuccessListener(new OnSuccessListener<Text>() {
                                     @Override
                                     public void onSuccess(Text visionText) {
                                         // Task completed successfully
                                         // ...
-                                        String resultText = visionText.getText();
                                         for (Text.TextBlock block : visionText.getTextBlocks()) {
                                             String blockText = block.getText();
                                             blockText = blockText.replaceAll("\\s", "");
@@ -326,82 +312,78 @@ public class ScheduleReader {
                                                 list.add(blockText);
                                             }
                                             //Thread.sleep(1000000);
-                                            Point[] blockCornerPoints = block.getCornerPoints(); // prevent name ambiguity
-                                            android.graphics.Rect blockFrame = block.getBoundingBox();
-                                            for (Text.Line line : block.getLines()) {
-                                                String lineText = line.getText();
-                                                Point[] lineCornerPoints = line.getCornerPoints();
-                                                android.graphics.Rect lineFrame = line.getBoundingBox();
-                                                for (Text.Element element : line.getElements()) {
-                                                    String elementText = element.getText();
-                                                    Point[] elementCornerPoints = element.getCornerPoints();
-                                                    android.graphics.Rect elementFrame = element.getBoundingBox();
-                                                }
-                                            }
+//                                            Point[] blockCornerPoints = block.getCornerPoints(); // prevent name ambiguity
+//                                            android.graphics.Rect blockFrame = block.getBoundingBox();
+//                                            for (Text.Line line : block.getLines()) {
+//                                                String lineText = line.getText();
+//                                                Point[] lineCornerPoints = line.getCornerPoints();
+//                                                android.graphics.Rect lineFrame = line.getBoundingBox();
+//                                                for (Text.Element element : line.getElements()) {
+//                                                    String elementText = element.getText();
+//                                                    Point[] elementCornerPoints = element.getCornerPoints();
+//                                                    android.graphics.Rect elementFrame = element.getBoundingBox();
+//                                                }
+//                                            }
                                         }
                                         Log.e("Size", "" + list.size());
-                                        //write data to firebase
 
-                                        if (boxes.get(boxes.size() - 1 ).equals(r)) {
-                                            userId = auth.getCurrentUser().getUid();
-                                            // add lessons to the user
-                                            mDatabase.child("Users").child(userId).child("Lessons").setValue(list);
-
-                                            //Adding eventListener to that reference and add sections to user
-                                            //Create schedule for user
-                                            mDatabase.child("Courses").addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                                    for (int i = 0; i < 40 ; i ++){
-                                                        mDatabase.child("Users").child(userId).child("Schedule").child(""+i).setValue("0"); // fill the schedule with zeros
-                                                    }
-                                                    for (String s : list) {
-                                                        //ArrayList<String> sections = new ArrayList<>(); // to add course hourses sepereately
-                                                        int k = 0;
-                                                        for (DataSnapshot ing : dataSnapshot.child(s).getChildren()) {
-                                                            //sections.add(ing.getValue(String.class)); // to add course hourses sepereately
-                                                            if (ing.getValue(String.class).equals("1")) {
-                                                                mDatabase.child("Users").child(userId).child("Schedule").child("" + k).setValue("1");
-                                                            }
-                                                            k++;
-                                                        }
-                                                        //System.out.println("Gained data: " + sections.toString());
-                                                        //mDatabase.child("Users").child(userId).child("LessonList").child(s).setValue(sections);
-                                                    }
-
-
-                                                        }
-                                                    @Override
-                                                    public void onCancelled(DatabaseError databaseError) {
-
-                                                    }
-                                                });
-
-                                            }
-
-
-                                                //mDatabase.child("Users").child(userId).child("LessonList").setValue(mDatabase.child("Courses").child(s).get());
-
-
-
-
-
+                                        //write data to firebase if it is en of the for loop
+                                        if (boxes.get(boxes.size() - 1 ).equals(r)) { uploadUserSchedule(list, mDatabase); }
+                                        //mDatabase.child("Users").child(userId).child("LessonList").setValue(mDatabase.child("Courses").child(s).get());
                                     }
                                 })
-                                .addOnFailureListener(
-                                        new OnFailureListener() {
+                                .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                // Task failed with an exception
-                                                // ...
+                                                Log.e("OCR Failure", e.getMessage());
                                             }
                                         });
-
             }
         }
         catch (Exception e){
             Log.e("Exception in readText", e.getMessage());
         }
+    }
+
+    /**
+     * This method creates a Schedule child for user which contains 0s for free hours and 1s for occupied ones
+     * @param sections String names of user sections
+     * @param referenceToTable reference to the main firebase talbe
+     */
+    private void uploadUserSchedule(ArrayList<String> sections, DatabaseReference referenceToTable){
+        userId = auth.getCurrentUser().getUid();
+        // add lessons child to the user
+        referenceToTable.child("Users").child(userId).child("Lessons").setValue(list);
+        //Adding eventListener to that reference and add sections to user
+        //Create schedule for user
+        referenceToTable.child("Courses").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (int i = 0; i < 40 ; i ++){
+                    referenceToTable.child("Users").child(userId).child("Schedule").child(""+i).setValue("0"); // fill the schedule with zeros
+                }
+                for (String courseName : list) {
+                    //ArrayList<String> sections = new ArrayList<>(); // to add course hourses sepereately
+                    int k = 0;
+                    for (DataSnapshot ing : dataSnapshot.child(courseName).getChildren()) {
+                        //sections.add(ing.getValue(String.class)); // to add course hourses sepereately
+                        if (ing.getValue(String.class).equals("1")) { // make an hours vlaue one if one of the sections has a lesson here
+                            referenceToTable.child("Users").child(userId).child("Schedule").child("" + k).setValue("1");
+                        }
+                        k++;
+                    }
+                    //System.out.println("Gained data: " + sections.toString());
+                    //mDatabase.child("Users").child(userId).child("LessonList").child(s).setValue(sections);
+                }
+
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("Firebase error", databaseError.getMessage());
+            }
+        });
+
     }
 
 
