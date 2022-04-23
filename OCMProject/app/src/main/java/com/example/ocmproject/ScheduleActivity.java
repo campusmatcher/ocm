@@ -35,6 +35,7 @@ public class ScheduleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_schedule_upload_screen);
         Button scheduleUploadButton = findViewById(R.id.scheduleUploadButton);
         Button manualScheduleUploadButton = findViewById(R.id.manualScheduleUploadButton);
+        Button geciciButon = findViewById(R.id.geciciButon);
 
         OpenCVLoader.initDebug();
 //        for(String course: courses){
@@ -54,6 +55,14 @@ public class ScheduleActivity extends AppCompatActivity {
                 startActivity(new Intent(ScheduleActivity.this, ManualScheduleActivity.class));
             }
         });
+
+        geciciButon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ScheduleActivity.this, ProfileActivity.class));
+            }
+        });
+
     }
 
     // The image is shown
