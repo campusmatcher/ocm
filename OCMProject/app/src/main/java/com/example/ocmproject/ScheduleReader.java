@@ -2,6 +2,7 @@ package com.example.ocmproject;
 
 //import net.sourceforge.tess4j.Tesseract;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,9 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
@@ -32,6 +36,8 @@ import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +52,13 @@ public class ScheduleReader {
     Mat hierarchy;
     List<MatOfPoint> contours;
     ArrayList<Rect> boxes;
+    ArrayList<String> list;
+    private FirebaseAuth auth;
+    private DatabaseReference mRootRef;
+    private DatabaseReference mDatabase;
+    private String userId;
+
+
 
     //For further improvements
 //    Mat image1;
@@ -58,6 +71,7 @@ public class ScheduleReader {
     /**
      * Constructor
      * turns image bitmap into mat objects
+     *
      * @param bmp bitmap of target image
      */
     public ScheduleReader(Bitmap bmp) {
@@ -72,6 +86,12 @@ public class ScheduleReader {
         this.hierarchy = new Mat();
         this.contours = new ArrayList<>();
         this.boxes = new ArrayList<>();
+        this.list = new ArrayList<>();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        auth = FirebaseAuth.getInstance();
+        mRootRef = FirebaseDatabase.getInstance().getReference();
+        userId = auth.getCurrentUser().getUid();
+
 
 //        Mat oooo = new Mat();
 //        Imgproc.threshold(src, oooo, 130, 255, Imgproc.THRESH_BINARY);
@@ -79,78 +99,86 @@ public class ScheduleReader {
 
     /**
      * turns image into gray scale
+     *
      * @param src soource
      * @param dst destination
      */
-    public void grayscaleImage(Mat src, Mat dst){
+    public void grayscaleImage(Mat src, Mat dst) {
         Imgproc.cvtColor(src, dst, Imgproc.COLOR_BGR2GRAY);
     }
 
     /**
      * blur images to increase OCR performance
+     *
      * @param src
      * @param dst
      */
-    public void blurImage(Mat src, Mat dst){
+    public void blurImage(Mat src, Mat dst) {
         Imgproc.blur(src, dst, new Size(KERNEL_SIZE, KERNEL_SIZE));
         Imgproc.blur(src, dst, new Size(KERNEL_SIZE, KERNEL_SIZE));
     }
 
     /**
      * apply binary and otsu threshold to detect colorful photos
+     *
      * @param src
      * @param dst
      */
-    public void thresholdImage(Mat src, Mat dst){
+    public void thresholdImage(Mat src, Mat dst) {
         Imgproc.threshold(src, dst, 128, 255, Imgproc.THRESH_BINARY | Imgproc.THRESH_OTSU);
         //Imgcodecs.imwrite("../resources/results/threshed.png", threshed);
     }
 
     /**
      * find contours of not empty course boxes
-     * @param threshed threshed black-white image
-     * @param contours list of matofpoint objects to store all contours
+     *
+     * @param threshed  threshed black-white image
+     * @param contours  list of matofpoint objects to store all contours
      * @param hierarchy temp mat object to keep current contour
      */
-    public void findContours(Mat threshed, List<MatOfPoint> contours, Mat hierarchy){
+    public void findContours(Mat threshed, List<MatOfPoint> contours, Mat hierarchy) {
         Imgproc.findContours(threshed, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
     }
 
     /**
      * find boxes as rect objects and add them to boxes arraylist
+     *
      * @param contours
      * @param boxes
      */
-    public void findBoxes(List<MatOfPoint> contours, ArrayList<Rect> boxes){
-        for (MatOfPoint p: contours){
+    public void findBoxes(List<MatOfPoint> contours, ArrayList<Rect> boxes) {
+        for (MatOfPoint p : contours) {
             boxes.add(Imgproc.boundingRect(p));
         }
     }
 
     /**
      * paint founded boxes on an image
+     *
      * @param threshed
      * @param boxes
      */
-    public void paintBoxes(Mat threshed, ArrayList<Rect> boxes){
+    public void paintBoxes(Mat threshed, ArrayList<Rect> boxes) {
         Random ran = new Random();
-        for (Rect r : boxes){
+        for (Rect r : boxes) {
             Imgproc.rectangle(threshed, r.tl(), r.br(), new Scalar(127, 127, 127), -1);
         }
         Imgcodecs.imwrite("/Users/alpsencer/IdeaProjects/ScheduleExtract/src/main/java/boxboxobx.png", this.threshed);
     }
+
     /**
      * Omit boxes with huge sizes
+     *
      * @param rects Rect arraylist
      */
-    public void omitBigBoxes (ArrayList<Rect> rects){
+    public void omitBigBoxes(ArrayList<Rect> rects) {
         int deleted = 0;
-        for (int i = 0; i < rects.size() - deleted; i++){
+        for (int i = 0; i < rects.size() - deleted; i++) {
             Rect r = rects.get(i);
-            for (Rect o: rects){
+            for (Rect o : rects) {
                 if (r.contains(o.tl()) && !(r.equals(o))) {
                     rects.remove(r);
-                    deleted ++;
+                    deleted++;
                     break;
                 }
             }
@@ -160,18 +188,19 @@ public class ScheduleReader {
     /**
      * omit boxes that are too big or too small
      * need improvements it contains hard coded number values
+     *
      * @param rects
      */
-    public void omitSizeBoxes(ArrayList<Rect> rects){
+    public void omitSizeBoxes(ArrayList<Rect> rects) {
         int deleted = 0;
         int sizeLimit = 1000000;
         int size = rects.size();
-        for (int i = 0; i < size - deleted; i++){
+        for (int i = 0; i < size - deleted; i++) {
             Rect r = rects.get(i);
-            if ((r.width > 10000 || r.height > 5000) || (r.width < 150 || r.height < 50)){
+            if ((r.width > 10000 || r.height > 5000) || (r.width < 150 || r.height < 50)) {
                 rects.remove(i);
                 i--;
-                deleted ++;
+                deleted++;
 
             }
         }
@@ -179,11 +208,12 @@ public class ScheduleReader {
 
     /**
      * method to swap to rect item in an arraylist
+     *
      * @param rects
      * @param a
      * @param b
      */
-    public void swap(ArrayList<Rect> rects, int a, int b){
+    public void swap(ArrayList<Rect> rects, int a, int b) {
         Rect temp = rects.get(a);
         rects.set(a, rects.get(b));
         rects.set(b, temp);
@@ -192,24 +222,25 @@ public class ScheduleReader {
     /**
      * sort rects with as columns
      * inefficient sorting, needs improvements
+     *
      * @param rects
      */
-    public void bSort(ArrayList<Rect> rects){
+    public void bSort(ArrayList<Rect> rects) {
         int error = 30; // to tolarate little cooridnate differences between boxes in the same column
-        for (int i = 0; i < rects.size(); i ++){
+        for (int i = 0; i < rects.size(); i++) {
             for (int j = i; j < rects.size(); j++) {
                 Rect r = rects.get(i);
                 Rect o = rects.get(j);
-                if (Math.abs(r.x - o.x) > error && r.x > o.x){
+                if (Math.abs(r.x - o.x) > error && r.x > o.x) {
                     swap(rects, rects.indexOf(r), rects.indexOf(o));
                 }
             }
         }
-        for (int i = 0; i < rects.size(); i ++){
+        for (int i = 0; i < rects.size(); i++) {
             for (int j = i; j < rects.size(); j++) {
                 Rect r = rects.get(i);
                 Rect o = rects.get(j);
-                if (Math.abs(r.x - o.x) < error && r.y - o.y > error){
+                if (Math.abs(r.x - o.x) < error && r.y - o.y > error) {
                     swap(rects, rects.indexOf(r), rects.indexOf(o));
                 }
             }
@@ -219,11 +250,11 @@ public class ScheduleReader {
     /**
      * @return boxes as an rectangle arraylist
      */
-    public ArrayList<Rect> getBoxes(){
+    public ArrayList<Rect> getBoxes() {
         return this.boxes;
     }
 
-    public void runReader(){
+    public void runReader() {
         this.grayscaleImage(this.src, this.gray);
         this.blurImage(this.gray, this.blurred);
         this.blurImage(this.blurred, this.blurred);
@@ -236,6 +267,8 @@ public class ScheduleReader {
         //this.paintBoxes();
         this.readText();
     }
+
+
 
     //    public void readText(){
 //        Tesseract tes = new Tesseract();
@@ -274,7 +307,10 @@ public class ScheduleReader {
         bSort(boxes);
         try {
             int x = 0;
+            list.clear();
+
             for (Rect r : boxes) {
+
                 if (r.x - x > 50){
                     x = r.x;
                     //System.out.println("------------------------------");
@@ -295,24 +331,35 @@ public class ScheduleReader {
                                     public void onSuccess(Text visionText) {
                                         // Task completed successfully
                                         // ...
+
                                         String resultText = visionText.getText();
                                         for (Text.TextBlock block : visionText.getTextBlocks()) {
                                             String blockText = block.getText();
-                                            System.out.println(blockText);
+                                            blockText = blockText.replaceAll("\\s", "");
+                                            if (blockText.matches("\\s{0,2}\\w{2,4}\\s{0,2}\\d{3}\\s{0,2}-\\s{0,2}\\d{2,3}\\s{0,2}") && !list.contains(blockText)) {
+                                                list.add(blockText);
+                                            }
                                             //Thread.sleep(1000000);
-                                            android.graphics.Point[] blockCornerPoints = block.getCornerPoints(); // prevent name ambiguity
+                                            Point[] blockCornerPoints = block.getCornerPoints(); // prevent name ambiguity
                                             android.graphics.Rect blockFrame = block.getBoundingBox();
                                             for (Text.Line line : block.getLines()) {
                                                 String lineText = line.getText();
-                                                android.graphics.Point[] lineCornerPoints = line.getCornerPoints();
+                                                Point[] lineCornerPoints = line.getCornerPoints();
                                                 android.graphics.Rect lineFrame = line.getBoundingBox();
                                                 for (Text.Element element : line.getElements()) {
                                                     String elementText = element.getText();
-                                                    android.graphics.Point[] elementCornerPoints = element.getCornerPoints();
+                                                    Point[] elementCornerPoints = element.getCornerPoints();
                                                     android.graphics.Rect elementFrame = element.getBoundingBox();
                                                 }
                                             }
                                         }
+                                        Log.e("Size", "" + list.size());
+                                        //write data to firebase
+                                        if (boxes.get(boxes.size() - 1 ).equals(r)){
+                                            userId = auth.getCurrentUser().getUid();
+                                            mDatabase.child("Users").child(userId).child("LessonList").setValue(list);
+                                        }
+
                                     }
                                 })
                                 .addOnFailureListener(
@@ -325,6 +372,8 @@ public class ScheduleReader {
                                         });
 
             }
+
+
         }
         catch (Exception e){
             Log.e("Exception in readText", e.getMessage());
