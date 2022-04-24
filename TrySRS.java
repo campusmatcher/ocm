@@ -19,16 +19,19 @@ public class TrySRS {
             System.out.println("enter the section number:");
             String section = sc.nextLine();
 
-            System.out.println("enter the year:");
-            String year = sc.nextLine();
+            /*System.out.println("enter the year:");
+            String year = sc.nextLine();*/
+            String year = 2021; //by default, which we will use for 2021-2022 spring
 
-            System.out.println("spring or fall?:");
+            /*System.out.println("spring or fall?:");
             String semester = sc.nextLine().toLowerCase();
             if (semester.equals("spring"))
             {semester = "2";}
             else {
                 semester = "1";
-            }
+            }*/
+            String semester = 2; //by default, which we will use for 2021-2022 spring 
+
             
             Document doc = Jsoup.connect("https://stars.bilkent.edu.tr/syllabus/view/" + deptCode + "/" +  numberCode +"/" + year + semester +"?section=" + section).get();
             scheduleMaker( sourceParser(doc.toString()));
@@ -41,469 +44,10 @@ public class TrySRS {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     Looking at the source requires punishment. Do not look at it. Besides, you will regret it.
-     * @param source
-     * @return
+     * @param source is the html to parse
+     * @return the code in wanted String format
      */
     public static String sourceParser(String source) {
         String toReturn = "";
@@ -511,10 +55,10 @@ public class TrySRS {
         int end = 0;
 
         for (int i = 0; i < source.length() - 35; i++) {
-            if (source.substring(i,i+24).equals("<th width=\"13%\">Sun</th>"))
+            if (source.substring(i,i+24).equals("<th width=\"13%\">Sun</th>")) //find the place to parse
             start = i;
 
-            if (source.substring(i, 31+i).equals("<table style=\"font-size: 10px\">"))
+            if (source.substring(i, 31+i).equals("<table style=\"font-size: 10px\">")) //find the place to parse
             end = i;
         }
         toReturn = source.substring(start, end);
@@ -523,11 +67,11 @@ public class TrySRS {
         return toReturn;
     }
     public static void scheduleMaker(String html) {
-        int saatSlotu = 0;
-        int xCoordinate = 0; 
+        int saatSlotu = 0; //to track the hours
+        int xCoordinate = 0; //to track the days
 
         int[][] schedule = new int[14][7];
-        //System.out.println(divTag);
+        //System.out.println(divTag); //was to check
 
         System.out.println("\t    monday\ttuesday\t  wednesday   thursday  friday  saturday   sunday");
         for (int i = 0; i < html.length() - 16; i++) {
