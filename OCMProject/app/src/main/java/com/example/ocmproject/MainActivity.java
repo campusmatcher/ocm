@@ -17,7 +17,10 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
     // Yavuz was here
     // Sencer was here
-    // Ews ews
+    // bilal was here
+    // Arda was here
+    //again
+
     private Button logout;
     private EditText edit;
     private Button add;
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 Toast.makeText(MainActivity.this, "Logged Out!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MainActivity.this, StartActivity.class));
+                finish();
             }
         });
 
@@ -59,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     FirebaseDatabase.getInstance().getReference().child("OCM VERILERI").push().child("Name").setValue(txt_name);
                     startActivity(new Intent(MainActivity.this, ScheduleActivity.class));
+                    finish();
 
                 }
             }

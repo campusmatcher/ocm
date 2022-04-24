@@ -2,13 +2,21 @@ package com.example.ocmproject;
 
 //import net.sourceforge.tess4j.Tesseract;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
@@ -39,67 +47,208 @@ import java.util.Random;
 
 
 public class ScheduleReader {
-    String path;
     Mat src;
+    Mat gray;
+    Mat blurred;
     Mat threshed;
-    String absolutePath;
     Mat hierarchy;
     List<MatOfPoint> contours;
     ArrayList<Rect> boxes;
-    ArrayList<String> courses;
+    ArrayList<String> list;
+    private FirebaseAuth auth;
+    private DatabaseReference mRootRef;
+    private DatabaseReference mDatabase;
+    private String userId;
 
-    //For further improvements
-//    Mat image1;
-//    Mat image2;
-//    Mat vertical;
-//    Mat horizontal;
-//    Mat rrrr;
     final int KERNEL_SIZE;
 
-
-
+    /**
+     * Constructor
+     * turns image bitmap into mat objects
+     * @param bmp bitmap of target image
+     */
     public ScheduleReader(Bitmap bmp) {
 
         this.KERNEL_SIZE = 3;
         this.src = new Mat(bmp.getWidth(), bmp.getHeight(), CvType.CV_8UC4);
         Utils.bitmapToMat(bmp, src);
         //this.path = absolutePath + "/images/test.png";
+        this.gray = new Mat();
+        this.blurred = new Mat();
         this.threshed = new Mat();
-        this.courses = new ArrayList<>();
+        this.hierarchy = new Mat();
+        this.contours = new ArrayList<>();
+        this.boxes = new ArrayList<>();
+        this.list = new ArrayList<>();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        auth = FirebaseAuth.getInstance();
+        mRootRef = FirebaseDatabase.getInstance().getReference();
+        userId = auth.getCurrentUser().getUid();
 
 //        Mat oooo = new Mat();
 //        Imgproc.threshold(src, oooo, 130, 255, Imgproc.THRESH_BINARY);
     }
-    public void grayscaleImage(){
-        Imgproc.cvtColor(src, src, Imgproc.COLOR_BGR2GRAY);
+
+    /**
+     * turns image into gray scale
+     * @param src soource
+     * @param dst destination
+     */
+    public void grayscaleImage(Mat src, Mat dst) {
+        Imgproc.cvtColor(src, dst, Imgproc.COLOR_BGR2GRAY);
     }
-    public void blurImage(){
-        Imgproc.blur(src, src, new Size(KERNEL_SIZE, KERNEL_SIZE));
-        Imgproc.blur(src, src, new Size(KERNEL_SIZE, KERNEL_SIZE));
+
+    /**
+     * blur images to increase OCR performance
+     * @param src
+     * @param dst
+     */
+    public void blurImage(Mat src, Mat dst) {
+        Imgproc.blur(src, dst, new Size(KERNEL_SIZE, KERNEL_SIZE));
+        Imgproc.blur(src, dst, new Size(KERNEL_SIZE, KERNEL_SIZE));
     }
-    public void thresholdImage(){
-        Imgproc.threshold(src, threshed, 128, 255, Imgproc.THRESH_BINARY | Imgproc.THRESH_OTSU);
-        Imgcodecs.imwrite("../resources/results/threshed.png", threshed);
+
+    /**
+     * apply binary and otsu threshold to detect colorful photos
+     * @param src
+     * @param dst
+     */
+    public void thresholdImage(Mat src, Mat dst) {
+        Imgproc.threshold(src, dst, 128, 255, Imgproc.THRESH_BINARY | Imgproc.THRESH_OTSU);
+        //Imgcodecs.imwrite("../resources/results/threshed.png", threshed);
     }
-    public void findContours(){
-        this.contours = new ArrayList<>();
-        this.hierarchy = new Mat();
+
+    /**
+     * find contours of not empty course boxes
+     * @param threshed threshed black-white image
+     * @param contours list of matofpoint objects to store all contours
+     * @param hierarchy temp mat object to keep current contour
+     */
+    public void findContours(Mat threshed, List<MatOfPoint> contours, Mat hierarchy) {
         Imgproc.findContours(threshed, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
     }
-    public void findBoxes(){
-        this.boxes = new ArrayList<>();
-        for (MatOfPoint p: contours){
+
+    /**
+     * find boxes as rect objects and add them to boxes arraylist
+     * @param contours
+     * @param boxes
+     */
+    public void findBoxes(List<MatOfPoint> contours, ArrayList<Rect> boxes) {
+        for (MatOfPoint p : contours) {
             boxes.add(Imgproc.boundingRect(p));
         }
     }
-    public void paintBoxes(){
+
+    /**
+     * paint founded boxes on an image
+     * @param threshed
+     * @param boxes
+     */
+    public void paintBoxes(Mat threshed, ArrayList<Rect> boxes){
         Random ran = new Random();
         for (Rect r : boxes){
             Imgproc.rectangle(threshed, r.tl(), r.br(), new Scalar(127, 127, 127), -1);
         }
-        Imgcodecs.imwrite("/Users/alpsencer/IdeaProjects/ScheduleExtract/src/main/java/boxboxobx.png", this.threshed);
+        //Imgcodecs.imwrite("/Users/alpsencer/IdeaProjects/ScheduleExtract/src/main/java/boxboxobx.png", this.threshed);
     }
-//    public void readText(){
+    /**
+     * Omit boxes with huge sizes
+     * @param rects Rect arraylist
+     */
+    public void omitBigBoxes (ArrayList<Rect> rects){
+        int deleted = 0;
+        for (int i = 0; i < rects.size() - deleted; i++){
+            Rect r = rects.get(i);
+            for (Rect o: rects){
+                if (r.contains(o.tl()) && !(r.equals(o))) {
+                    rects.remove(r);
+                    deleted ++;
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * omit boxes that are too big or too small
+     * need improvements it contains hard coded number values
+     * @param rects
+     */
+    public void omitSizeBoxes(ArrayList<Rect> rects){
+        int deleted = 0;
+        int sizeLimit = 1000000;
+        int size = rects.size();
+        for (int i = 0; i < size - deleted; i++){
+            Rect r = rects.get(i);
+            if ((r.width > 10000 || r.height > 5000) || (r.width < 150 || r.height < 50)){
+                rects.remove(i);
+                i--;
+                deleted ++;
+
+            }
+        }
+    }
+
+    /**
+     * method to swap to rect item in an arraylist
+     * @param rects
+     * @param a
+     * @param b
+     */
+    public void swap(ArrayList<Rect> rects, int a, int b){
+        Rect temp = rects.get(a);
+        rects.set(a, rects.get(b));
+        rects.set(b, temp);
+    }
+
+    /**
+     * sort rects with as columns
+     * inefficient sorting, needs improvements
+     * @param rects
+     */
+    public void bSort(ArrayList<Rect> rects){
+        int error = 30; // to tolarate little cooridnate differences between boxes in the same column
+        for (int i = 0; i < rects.size(); i ++){
+            for (int j = i; j < rects.size(); j++) {
+                Rect r = rects.get(i);
+                Rect o = rects.get(j);
+                if (Math.abs(r.x - o.x) > error && r.x > o.x){
+                    swap(rects, rects.indexOf(r), rects.indexOf(o));
+                }
+            }
+        }
+        for (int i = 0; i < rects.size(); i ++){
+            for (int j = i; j < rects.size(); j++) {
+                Rect r = rects.get(i);
+                Rect o = rects.get(j);
+                if (Math.abs(r.x - o.x) < error && r.y - o.y > error){
+                    swap(rects, rects.indexOf(r), rects.indexOf(o));
+                }
+            }
+        }
+    }
+
+    /**
+     * @return boxes as an rectangle arraylist
+     */
+    public ArrayList<Rect> getBoxes(){
+        return this.boxes;
+    }
+
+    public void runReader(){
+        this.grayscaleImage(this.src, this.gray);
+        this.blurImage(this.gray, this.blurred);
+        this.blurImage(this.blurred, this.blurred);
+        this.thresholdImage(this.blurred, this.threshed);
+        this.findContours(this.threshed, this.contours, this.hierarchy);
+        this.findBoxes(this.contours, this.boxes);
+        this.omitBigBoxes(this.getBoxes());
+        this.omitSizeBoxes(this.getBoxes());
+        //this.paintBoxes();
+        //this.paintBoxes();
+        this.readText();
+    }
+    //    public void readText(){
 //        Tesseract tes = new Tesseract();
 //        tes.setDatapath("/opt/homebrew/Cellar/tesseract/5.1.0/share/tessdata");//!!!!!!!!!!!!!!! VERY important
 //        bSort(boxes);
@@ -126,133 +275,117 @@ public class ScheduleReader {
             public void run() {
                 readText();
                         }
-
-
         }).start();
     }
-    public ArrayList<String> readText(){
+    public void readText(){
         //https://developers.google.com/ml-kit/vision/text-recognition/android
         TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
         bSort(boxes);
         try {
             int x = 0;
+            list.clear();
+
             for (Rect r : boxes) {
-                if (r.x - x > 50){
+                if (r.x - x > 50){ // solve hard coded value
                     x = r.x;
-                    System.out.println("------------------------------");
+                    //System.out.println("------------------------------");
                 }
-                Mat cropped = new Mat(src, r);
+//                Mat threshedbin = new Mat();
+//                Imgproc.threshold(src, threshedbin, 128, 255, Imgproc.THRESH_BINARY);
+
+                Mat cropped = new Mat(gray, r);
                 Bitmap mBitmap = Bitmap.createBitmap(cropped.width(), cropped.height(), Bitmap.Config.ARGB_8888);
                 Utils.matToBitmap(cropped, mBitmap);
-//                Imgcodecs.imwrite("/Users/alpsencer/IdeaProjects/ScheduleExtract/src/main/java/temp.png", cropped);
+                //Imgcodecs.imwrite("/Users/alpsencer/IdeaProjects/ScheduleExtract/src/main/java/temp.png", cropped);
                 InputImage image = InputImage.fromBitmap(mBitmap, 0); // degree should be edited later
 
-                Task<Text> result =
-                        recognizer.process(image)
+                Task<Text> result = recognizer.process(image)
                                 .addOnSuccessListener(new OnSuccessListener<Text>() {
                                     @Override
                                     public void onSuccess(Text visionText) {
                                         // Task completed successfully
                                         // ...
-                                        String resultText = visionText.getText();
                                         for (Text.TextBlock block : visionText.getTextBlocks()) {
                                             String blockText = block.getText();
-//                                            Log.i("Course: ",blockText.toString());
-
-                                            courses.add(blockText.toString());
-                                            //Thread.sleep(1000000);
-                                            android.graphics.Point[] blockCornerPoints = block.getCornerPoints(); // prevent name ambiguity
-                                            android.graphics.Rect blockFrame = block.getBoundingBox();
-                                            for (Text.Line line : block.getLines()) {
-                                                String lineText = line.getText();
-                                                Log.i("Course: ",lineText.toString());
-
-                                                android.graphics.Point[] lineCornerPoints = line.getCornerPoints();
-                                                android.graphics.Rect lineFrame = line.getBoundingBox();
-                                                for (Text.Element element : line.getElements()) {
-                                                    String elementText = element.getText();
-                                                    android.graphics.Point[] elementCornerPoints = element.getCornerPoints();
-                                                    android.graphics.Rect elementFrame = element.getBoundingBox();
-                                                }
+                                            blockText = blockText.replaceAll("\\s", "");
+                                            if (blockText.matches("\\s{0,2}\\w{2,4}\\s{0,2}\\d{3}\\s{0,2}-\\s{0,2}\\d{2,3}\\s{0,2}") && !list.contains(blockText)) {
+                                                list.add(blockText);
                                             }
+                                            //Thread.sleep(1000000);
+//                                            Point[] blockCornerPoints = block.getCornerPoints(); // prevent name ambiguity
+//                                            android.graphics.Rect blockFrame = block.getBoundingBox();
+//                                            for (Text.Line line : block.getLines()) {
+//                                                String lineText = line.getText();
+//                                                Point[] lineCornerPoints = line.getCornerPoints();
+//                                                android.graphics.Rect lineFrame = line.getBoundingBox();
+//                                                for (Text.Element element : line.getElements()) {
+//                                                    String elementText = element.getText();
+//                                                    Point[] elementCornerPoints = element.getCornerPoints();
+//                                                    android.graphics.Rect elementFrame = element.getBoundingBox();
+//                                                }
+//                                            }
                                         }
+                                        Log.e("Size", "" + list.size());
+
+                                        //write data to firebase if it is en of the for loop
+                                        if (boxes.get(boxes.size() - 1 ).equals(r)) { uploadUserSchedule(list, mDatabase); }
+                                        //mDatabase.child("Users").child(userId).child("LessonList").setValue(mDatabase.child("Courses").child(s).get());
                                     }
                                 })
-                                .addOnFailureListener(
-                                        new OnFailureListener() {
+                                .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                // Task failed with an exception
-                                                // ...
+                                                Log.e("OCR Failure", e.getMessage());
                                             }
                                         });
-
             }
         }
         catch (Exception e){
-            e.printStackTrace();
+            Log.e("Exception in readText", e.getMessage());
         }
-        return courses;
     }
 
-
-    public void omitBigBoxes (ArrayList<Rect> rects){
-        int deleted = 0;
-        for (int i = 0; i < rects.size() - deleted; i++){
-            Rect r = rects.get(i);
-            for (Rect o: rects){
-                if (r.contains(o.tl()) && !(r.equals(o))) {
-                    rects.remove(r);
-                    deleted ++;
-                    break;
+    /**
+     * This method creates a Schedule child for user which contains 0s for free hours and 1s for occupied ones
+     * @param sections String names of user sections
+     * @param referenceToTable reference to the main firebase talbe
+     */
+    private void uploadUserSchedule(ArrayList<String> sections, DatabaseReference referenceToTable){
+        userId = auth.getCurrentUser().getUid();
+        // add lessons child to the user
+        referenceToTable.child("Users").child(userId).child("Lessons").setValue(list);
+        //Adding eventListener to that reference and add sections to user
+        //Create schedule for user
+        referenceToTable.child("Courses").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (int i = 0; i < 40 ; i ++){
+                    referenceToTable.child("Users").child(userId).child("Schedule").child(""+i).setValue("0"); // fill the schedule with zeros
                 }
-            }
-        }
-    }
-    public void omitSizeBoxes(ArrayList<Rect> rects){
-        int deleted = 0;
-        int sizeLimit = 1000000;
-        int size = rects.size();
-        for (int i = 0; i < size - deleted; i++){
-            Rect r = rects.get(i);
-            if ((r.width > 10000 || r.height > 5000) || (r.width < 150 || r.height < 50)){
-                rects.remove(i);
-                i--;
-                deleted ++;
+                for (String courseName : list) {
+                    //ArrayList<String> sections = new ArrayList<>(); // to add course hourses sepereately
+                    int k = 0;
+                    for (DataSnapshot ing : dataSnapshot.child(courseName).getChildren()) {
+                        //sections.add(ing.getValue(String.class)); // to add course hourses sepereately
+                        if (ing.getValue(String.class).equals("1")) { // make an hours vlaue one if one of the sections has a lesson here
+                            referenceToTable.child("Users").child(userId).child("Schedule").child("" + k).setValue("1");
+                        }
+                        k++;
+                    }
+                    //System.out.println("Gained data: " + sections.toString());
+                    //mDatabase.child("Users").child(userId).child("LessonList").child(s).setValue(sections);
+                }
+
 
             }
-        }
-    }
-    public void swap(ArrayList<Rect> rects, int a, int b){
-        Rect temp = rects.get(a);
-        rects.set(a, rects.get(b));
-        rects.set(b, temp);
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("Firebase error", databaseError.getMessage());
+            }
+        });
+
     }
 
-    public void bSort(ArrayList<Rect> rects){
-        int error = 30;
-        for (int i = 0; i < rects.size(); i ++){
-            for (int j = i; j < rects.size(); j++) {
-                Rect r = rects.get(i);
-                Rect o = rects.get(j);
-                if (Math.abs(r.x - o.x) > error && r.x > o.x){
-                    swap(rects, rects.indexOf(r), rects.indexOf(o));
-                }
-            }
-        }
-        for (int i = 0; i < rects.size(); i ++){
-            for (int j = i; j < rects.size(); j++) {
-                Rect r = rects.get(i);
-                Rect o = rects.get(j);
-                if (Math.abs(r.x - o.x) < error && r.y - o.y > error){
-                    swap(rects, rects.indexOf(r), rects.indexOf(o));
-                }
-            }
-        }
-    }
-    public ArrayList<Rect> getBoxes(){
-        return this.boxes;
-    }
 
 
 //    public static void main(String[] args) {

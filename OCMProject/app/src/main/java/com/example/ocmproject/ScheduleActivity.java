@@ -32,8 +32,11 @@ public class ScheduleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule);
+        setContentView(R.layout.activity_schedule_upload_screen);
         Button scheduleUploadButton = findViewById(R.id.scheduleUploadButton);
+        Button manualScheduleUploadButton = findViewById(R.id.manualScheduleUploadButton);
+        Button geciciButon = findViewById(R.id.geciciButon);
+        Button geciciButon2 = findViewById(R.id.geciciButon2);
 
         OpenCVLoader.initDebug();
 //        for(String course: courses){
@@ -46,6 +49,27 @@ public class ScheduleActivity extends AppCompatActivity {
                 startActivityForResult(intent, 3);
             }
         });
+
+        manualScheduleUploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ScheduleActivity.this, ManualScheduleActivity.class));
+            }
+        });
+
+        geciciButon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ScheduleActivity.this, ProfileActivity.class));
+            }
+        });
+        geciciButon2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ScheduleActivity.this, CollectionsActivity.class));
+            }
+        });
+
     }
 
     // The image is shown
@@ -69,19 +93,35 @@ public class ScheduleActivity extends AppCompatActivity {
 //            Bitmap photo = (Bitmap) data.getExtras().get("data");
 //            System.loadLibrary(Core.NATIVE_LIBRARY_NAME); // must be in main
             ScheduleReader scheduler = new ScheduleReader(photo);
-            scheduler.grayscaleImage();
-            scheduler.blurImage();
-            scheduler.blurImage();
-            scheduler.thresholdImage();
-            scheduler.findContours();
-            scheduler.findBoxes();
-            scheduler.omitBigBoxes(scheduler.getBoxes());
-            scheduler.omitSizeBoxes(scheduler.getBoxes());
-            scheduler.paintBoxes();
-            scheduler.paintBoxes();
-            ArrayList<String> courses =  scheduler.readText();
-            System.out.println("a");
-            //String[] courseArray = courses.toArray(new String[0]);
+            scheduler.runReader();
+//            ArrayList<String> sections = scheduler.runReader();
+//            sections.add("Math101-01");
+//            sections.add("Eng101-01");
+//            sections.add("Cs101-01");
+//            sections.add("Turk101-01");
+//            sections.add("Math132-01");
+            //for (String course: sections){
+
+
+            //SOme stuff to adjust arraylist
+//            for (String course: sections){
+//                int i = 0;
+//                String courseName = "";
+//                String courseCode = "";
+//                String sectionCode = "";
+//                for (; i < course.length() && Character.isLetter(course.charAt(i)); i++){ courseName += course.charAt(i);}
+//                for (; i < course.length() && course.charAt(i) != '-'; i++){ courseCode += course.charAt(i);}
+//                sectionCode = course.substring(i);
+//
+//            }
+//                for (Section sect: sections){
+//                    if (sect.getHashMap().get(key) == 1){
+//                        this.hmap.put(key, 1);
+//                    }
+//                    else if (sect.getHashMap().get(key) == 2){ // for spare hours
+//                        this.hmap.put(key, 2);
+
+            //Log.e("lenght", "" + sections.size());
             //scheduler.newThread();
             }
 

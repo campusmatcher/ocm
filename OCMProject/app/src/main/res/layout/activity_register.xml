@@ -8,26 +8,26 @@
     android:padding="10dp"
     android:orientation="vertical">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        android:id="@+id/email"
-        android:layout_marginTop="100dp"/>
+<!--    <EditText-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Email"-->
+<!--        android:id="@+id/email"-->
+<!--        android:layout_marginTop="100dp"/>-->
 
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Password"
-        android:id="@+id/password"
-        android:layout_marginTop="100dp"/>
+<!--    <EditText-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Password"-->
+<!--        android:id="@+id/password"-->
+<!--        android:layout_marginTop="100dp"/>-->
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/register"
-        android:layout_marginTop="100dp"
-        android:text="REGISTER" />
+<!--    <Button-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/register"-->
+<!--        android:layout_marginTop="100dp"-->
+<!--        android:text="REGISTER" />-->
 
 </LinearLayout>
