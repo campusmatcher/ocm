@@ -54,7 +54,7 @@ public class CollectionsActivity extends AppCompatActivity {
                             User friendUserObj = snapsho.getValue(User.class);
                             String friendNameSurname = friendUserObj.getName() + " " + friendUserObj.getSurname();
                             list.add(friendNameSurname);
-                            Log.e("Girdim", "Burdayım");
+                            adapter.notifyDataSetChanged();
                         }
 
                         @Override
@@ -63,8 +63,6 @@ public class CollectionsActivity extends AppCompatActivity {
                         }
                     });
                 }
-                adapter.notifyDataSetChanged();
-                Log.e("Girdim", ""+list.size());
             }
 
 
@@ -74,8 +72,6 @@ public class CollectionsActivity extends AppCompatActivity {
 
             }
         });
-        Log.e("Girdim", ""+list.size());
-
 
     }
 }
