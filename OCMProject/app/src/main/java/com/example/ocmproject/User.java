@@ -1,6 +1,7 @@
 package com.example.ocmproject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class User {
 
@@ -8,18 +9,19 @@ public class User {
     private String surname;
     private String email;
     private String username;
-    private ArrayList<User> contacts;
+    private ArrayList<String> contacts;
     private ArrayList<Section> sections;
+    private HashMap<String, Object> connections;
 
     public User() {
     }
 
-    public User(String name, String surname, String email, String username, ArrayList<User> contacts, ArrayList<Section> sections) {
+    public User(String name, String surname, String email, String username, HashMap<String, Object> connections, ArrayList<Section> sections) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.username = username;
-        this.contacts = contacts;
+        this.connections = connections;
         this.sections = sections;
     }
 
@@ -62,11 +64,11 @@ public class User {
         this.username = username;
     }
 
-    public ArrayList<User> getContacts() {
+    public ArrayList<String> getContacts() {
         return contacts;
     }
 
-    public void setContacts(ArrayList<User> contacts) {
+    public void setContacts(ArrayList<String> contacts) {
         this.contacts = contacts;
     }
 
@@ -76,5 +78,9 @@ public class User {
 
     public void setSections(ArrayList<Section> sections) {
         this.sections = sections;
+    }
+
+    public void addConnection(String newConnectionID){
+        contacts.add(newConnectionID);
     }
 }
