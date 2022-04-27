@@ -61,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String txt_password = password.getText().toString();
                 String txt_rePassword = rePassword.getText().toString();
 
-                if (TextUtils.isEmpty(txt_username) || TextUtils.isEmpty(txt_name) || TextUtils.isEmpty(txt_email) || TextUtils.isEmpty(txt_password) || TextUtils.isEmpty(txt_rePassword)) {
+                if (TextUtils.isEmpty(txt_username) || TextUtils.isEmpty(txt_name) || TextUtils.isEmpty(txt_surname) ||  TextUtils.isEmpty(txt_email) || TextUtils.isEmpty(txt_password) || TextUtils.isEmpty(txt_rePassword)) {
                     Toast.makeText(RegisterActivity.this, "Empty credentials!", Toast.LENGTH_SHORT).show();
                 } else if (txt_password.length() < 6) {
                     Toast.makeText(RegisterActivity.this, "Password too short", Toast.LENGTH_SHORT).show();
