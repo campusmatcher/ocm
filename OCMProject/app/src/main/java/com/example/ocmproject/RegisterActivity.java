@@ -68,25 +68,31 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    registerUser(txt_username, txt_name, txt_email, txt_password);
+                    registerUser(txt_username, txt_name, txt_surname, txt_email, txt_password);
                 }
             }
         });
     }
     // Register User Method
-    private void registerUser(String username, String name, String email, String password) {
+    private void registerUser(String username, String name, String surname, String email, String password) {
         auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                HashMap<String, Object> hMap = new HashMap<>();
-                hMap.put("username", username);
-                hMap.put("name", name);
-                hMap.put("surname", surname);
-                hMap.put("email", email);
-                hMap.put("username", username);
-                hMap.put("id", auth.getCurrentUser().getUid());
-
-                mRootRef.child("Users").child(auth.getCurrentUser().getUid()).setValue(hMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                // New implementation of registrating user
+                HashMap<String, Object> users = new HashMap<>();
+                users.put("id1","FY98LBLADbeVgVQjdEEBLYY28q12");
+                ArrayList<Section> sections = new ArrayList<>();
+                User user = new User(name, surname,email,username,users,sections);
+                mRootRef.child("Users").child(auth.getCurrentUser().getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                // Old Implementation of Registraion of user
+//                HashMap<String, Object> hMap = new HashMap<>();
+//                hMap.put("username", username);
+//                hMap.put("name", name);
+//                hMap.put("surname", surname);
+//                hMap.put("email", email);
+//                hMap.put("username", username);
+//                hMap.put("id", auth.getCurrentUser().getUid());
+                //mRootRef.child("Users").child(auth.getCurrentUser().getUid()).setValue(hMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
