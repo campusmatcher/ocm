@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     // Sencer was here
     // bilal was here
     // Arda was here
-    // last addition
+    // l1
     //again
 
     private Button logout;
