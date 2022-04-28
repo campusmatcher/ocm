@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onSuccess(AuthResult authResult) {
                 pd.dismiss();
                 Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(LoginActivity.this, InterestsActivity.class));
+                startActivity(new Intent(LoginActivity.this, ScheduleActivity.class));
                 finish();
             }
         }).addOnFailureListener(new OnFailureListener() {
