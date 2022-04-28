@@ -3,12 +3,14 @@ package com.example.ocmproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,6 +37,8 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference mRootRef;
     private FirebaseAuth auth;
 
+    ProgressDialog pd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +54,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         mRootRef = FirebaseDatabase.getInstance().getReference();
+
+        pd = new ProgressDialog(this);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +82,10 @@ public class RegisterActivity extends AppCompatActivity {
     }
     // Register User Method
     private void registerUser(String username, String name, String surname, String email, String password) {
+
+        pd.setMessage("Registering...");
+        pd.show();
+
         auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
@@ -97,6 +107,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
+                            pd.dismiss();
                             Toast.makeText(RegisterActivity.this, "Registration is succesfull",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(RegisterActivity.this, ScheduleActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -109,6 +120,7 @@ public class RegisterActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                pd.dismiss();
                 Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
