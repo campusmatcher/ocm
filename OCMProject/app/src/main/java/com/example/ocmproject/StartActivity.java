@@ -39,6 +39,7 @@ public class StartActivity extends AppCompatActivity {
         });
     }
 
+    // Always sign in part
     @Override
     protected void onStart() {
         super.onStart();
