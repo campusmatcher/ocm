@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OCMProject">
         <activity
+            android:name=".RegisterInterestActivity"
+            android:exported="false" />
+        <activity
             android:name=".InterestsActivity"
             android:exported="false" />
         <activity

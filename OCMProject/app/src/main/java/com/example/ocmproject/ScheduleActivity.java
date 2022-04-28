@@ -10,20 +10,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 
-import org.opencv.core.Core;
 import org.opencv.android.OpenCVLoader;
-import org.opencv.android.Utils;
-import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
-
-
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 public class ScheduleActivity extends AppCompatActivity {
 
@@ -35,8 +25,11 @@ public class ScheduleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_schedule_upload_screen);
         Button scheduleUploadButton = findViewById(R.id.scheduleUploadButton);
         Button manualScheduleUploadButton = findViewById(R.id.manualScheduleUploadButton);
-        Button geciciButon = findViewById(R.id.geciciButon);
-        Button geciciButon2 = findViewById(R.id.geciciButon2);
+        Button geciciButon = findViewById(R.id.profileButton);
+        Button geciciButon2 = findViewById(R.id.connectionsButton);
+        Button mainButton = findViewById(R.id.mainButton);
+        Button interestsButton = findViewById(R.id.interestsButton);
+
 
         OpenCVLoader.initDebug();
 //        for(String course: courses){
@@ -70,6 +63,19 @@ public class ScheduleActivity extends AppCompatActivity {
             }
         });
 
+        mainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ScheduleActivity.this, MainActivity.class));
+            }
+        });
+
+        interestsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ScheduleActivity.this, InterestsActivity.class));
+            }
+        });
     }
 
     // The image is shown
