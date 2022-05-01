@@ -47,7 +47,7 @@ public class CollectionsActivity extends AppCompatActivity {
                 list.clear();
                 for (DataSnapshot snap : snapshot.getChildren()) {
                     String friendId = snap.getValue(String.class);
-                    DatabaseReference friendRefs = FirebaseDatabase.getInstance().getReference().child("Users").child(friendId);
+                    DatabaseReference friendRefs = FirebaseDatabase.getInstance().getReference().child("NewUser").child("iPr86iuE1wfE8oCIor5Pehj2Kr12");
                     friendRefs.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapsho) {

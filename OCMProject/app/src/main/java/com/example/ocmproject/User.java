@@ -2,6 +2,7 @@ package com.example.ocmproject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class User {
 
@@ -9,10 +10,61 @@ public class User {
     private String surname;
     private String email;
     private String username;
-    private ArrayList<String> contacts;
+    //private ArrayList<String> contacts;
     private ArrayList<Section> sections;
     private HashMap<String, Object> connections;
     private String id;
+    private List<String> Schedule;
+    private HashMap<String, String> Contacts;
+    private List<String> Lessons;
+    private List<String> Interest;
+    private List<String> MatchList;
+    private HashMap<String, String> Pending;
+    private HashMap<String, String> Sent;
+
+    public HashMap<String, String> getPending() {
+        return Pending;
+    }
+
+    public void setPending(HashMap<String, String> pending) {
+        Pending = pending;
+    }
+
+    public HashMap<String, String> getSent() {
+        return Sent;
+    }
+
+    public void setSent(HashMap<String, String> sent) {
+        Sent = sent;
+    }
+
+
+
+
+
+    public List<String> getMatchList() {
+        return MatchList;
+    }
+
+    public void setMatchList(List<String> matchList) {
+        MatchList = matchList;
+    }
+
+    public List<String> getInterest() {
+        return Interest;
+    }
+
+    public void setInterest(List<String> interest) {
+        Interest = interest;
+    }
+
+    public List<String> getLessons() {
+        return Lessons;
+    }
+
+    public void setLessons(List<String> lessons) {
+        Lessons = lessons;
+    }
 
     public User() {
     }
@@ -24,6 +76,7 @@ public class User {
         this.username = username;
         this.connections = connections;
         this.sections = sections;
+        //this.Schedule = new List<>();
     }
 
     public User(String name, String surname, String email, String username) {
@@ -73,17 +126,23 @@ public class User {
     public String getId() {
         return id;
     }
+    public List<String> getSchedule(){
+        return Schedule;
+    }
+    public void setSchedule(List<String> map){
+        Schedule = map;
+    }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public ArrayList<String> getContacts() {
-        return contacts;
+    public HashMap<String, String> getContacts() {
+        return Contacts;
     }
 
-    public void setContacts(ArrayList<String> contacts) {
-        this.contacts = contacts;
+    public void setContacts(HashMap<String, String> contacts) {
+        this.Contacts = contacts;
     }
 
     public ArrayList<Section> getSections() {
@@ -94,7 +153,8 @@ public class User {
         this.sections = sections;
     }
 
-    public void addConnection(String newConnectionID){
-        contacts.add(newConnectionID);
-    }
+
+//    public void addConnection(String newConnectionID){
+//        Contacts.add(newConnectionID);
+//    }
 }

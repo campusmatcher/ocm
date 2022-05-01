@@ -39,7 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
         profileEmail = findViewById(R.id.profileEmail);
 
         userId = auth.getCurrentUser().getUid();
-        mDatabase.child("Users").child(userId).child("name").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        mDatabase.child("NewUser").child(userId).child("name").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
@@ -52,7 +52,7 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
-        mDatabase.child("Users").child(userId).child("surname").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        mDatabase.child("NewUser").child(userId).child("surname").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
@@ -65,7 +65,7 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
-        mDatabase.child("Users").child(userId).child("email").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        mDatabase.child("NewUser").child(userId).child("email").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
