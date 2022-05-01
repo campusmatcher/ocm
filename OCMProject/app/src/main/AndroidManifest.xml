@@ -10,21 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OCMProject">
         <activity
-            android:name=".EverythingActivity"
-            android:exported="false" />
-        <activity
-            android:name=".RealMainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PostActivity"
-            android:exported="false" />
-        <activity
-            android:name=".RegisterInterestActivity"
-            android:exported="false" />
-        <activity
-            android:name=".InterestsActivity"
-            android:exported="false" />
-        <activity
             android:name=".CollectionsActivity"
             android:exported="false" />
         <activity
