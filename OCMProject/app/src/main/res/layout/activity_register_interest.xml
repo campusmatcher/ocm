@@ -37,5 +37,12 @@
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="18dp" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="NEXT"
+        android:id="@+id/nextButton"
+        android:layout_alignBottom="@+id/recyclerView"/>
+
 
 </RelativeLayout>
