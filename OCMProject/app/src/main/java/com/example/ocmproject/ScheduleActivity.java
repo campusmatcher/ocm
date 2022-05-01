@@ -22,58 +22,19 @@ public class ScheduleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule_upload_screen);
-        Button scheduleUploadButton = findViewById(R.id.scheduleUploadButton);
-        Button manualScheduleUploadButton = findViewById(R.id.manualScheduleUploadButton);
-        Button geciciButon = findViewById(R.id.profileButton);
-        Button geciciButon2 = findViewById(R.id.connectionsButton);
-        Button mainButton = findViewById(R.id.mainButton);
-        Button interestsButton = findViewById(R.id.interestsButton);
+        setContentView(R.layout.activity_schedule);
+        Button nextButton = findViewById(R.id.nextButton);
 
 
         OpenCVLoader.initDebug();
 //        for(String course: courses){
 //            System.out.println(course);
 
-        scheduleUploadButton.setOnClickListener(new View.OnClickListener() {
+        nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, 3);
-            }
-        });
-
-        manualScheduleUploadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ScheduleActivity.this, ManualScheduleActivity.class));
-            }
-        });
-
-        geciciButon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ScheduleActivity.this, ProfileActivity.class));
-            }
-        });
-        geciciButon2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ScheduleActivity.this, CollectionsActivity.class));
-            }
-        });
-
-        mainButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ScheduleActivity.this, RealMainActivity.class));
-            }
-        });
-
-        interestsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ScheduleActivity.this, InterestsActivity.class));
+                startActivity(new Intent(ScheduleActivity.this, EverythingActivity.class));
+                finish();
             }
         });
     }
