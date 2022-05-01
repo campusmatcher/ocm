@@ -4,8 +4,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ public class RegisterInterestActivity extends AppCompatActivity {
 
     TextView interests;
     boolean[] selectedInterest;
+    Button nextButton;
     ArrayList<Integer> interestList = new ArrayList<>();
     String[] interestArray = {"Football", "Arch Linux", "Science Fiction", "Anime","Vim","Taekwondo","Star Wars"};
 
@@ -28,11 +31,18 @@ public class RegisterInterestActivity extends AppCompatActivity {
 
         selectedInterest = new boolean[interestArray.length];
 
+        Button nextButton = findViewById(R.id.nextButton);
 
-
-
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(RegisterInterestActivity.this, ScheduleActivity.class));
+                finish();
+            }
+        });
 
         interests.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 // Initializes dialog box
