@@ -157,7 +157,8 @@ public class ScheduleReader {
      */
     public void omitBigBoxes (ArrayList<Rect> rects){
         int deleted = 0;
-        for (int i = 0; i < rects.size() - deleted; i++){
+        int size = rects.size();
+        for (int i = 0; i < size - deleted; i++){
             Rect r = rects.get(i);
             for (Rect o: rects){
                 if (r.contains(o.tl()) && !(r.equals(o))) {
