@@ -56,7 +56,4 @@
         android:layout_alignBottom="@+id/manualScheduleUploadButton"/>
 
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-  
