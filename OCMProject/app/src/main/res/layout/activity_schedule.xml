@@ -58,7 +58,7 @@
         android:id="@+id/scheduleView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/scheduleUploadButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,14 +75,13 @@
         android:textColor="#2196F3"
         app:layout_constraintBottom_toBottomOf="@id/manualScheduleUploadButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scheduleView" />
 
     <Button
         android:id="@+id/manualScheduleUploadButton"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:backgroundTint="#FFFFFF"
         android:text="Manual Upload Schedule"
@@ -92,14 +91,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scheduleUploadButton" />
 
-    <Button
-        android:id="@+id/matchScreen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Match Screen"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="235dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
