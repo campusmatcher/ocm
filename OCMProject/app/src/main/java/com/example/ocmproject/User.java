@@ -111,114 +111,138 @@ public class User {
 //    }
 
     public void updateFirebase(){
-        userReference.setValue(this);
+        FirebaseDatabase.getInstance().getReference().child("NewUser").child(this.id).setValue(this);
     }
     public void updateSent(){
-        userReference.child("Sent").setValue(this.Sent);
+        FirebaseDatabase.getInstance().getReference().child("NewUser").child(this.id).child("Sent").setValue(this.Sent);
     }
 
     public void updateMatchList(){
-        userReference.child("MatchList").setValue(this.MatchList);
+        if (MatchList == null){MatchList = new ArrayList<>();}
+        FirebaseDatabase.getInstance().getReference().child("NewUser").child(this.id).child("MatchList").setValue(this.MatchList);
     }
 
-    public void updatePending(){ userReference.child("Pending").setValue(this.Pending); }
-    public void updateContacts(){ userReference.child("Contacts").setValue(this.Contacts); }
+    public void updatePending(){ FirebaseDatabase.getInstance().getReference().child("NewUser").child(this.id).child("Pending").setValue(this.Pending); }
+    public void updateContacts(){ FirebaseDatabase.getInstance().getReference().child("NewUser").child(this.id).child("Contacts").setValue(this.Contacts); }
 
 
     public void addItemToSent(String otherID){
-        if(!Sent.contains(otherID)){
+        if(Sent == null || !Sent.contains(otherID)){
+            if (Sent == null){Sent = new ArrayList<>();}
             Sent.add(otherID);
             this.updateSent();
-            mDatabase.child("NewUser").child(otherID).addValueEventListener(new ValueEventListener() {
+            FirebaseDatabase.getInstance().getReference().child("NewUser")
+                    .child(otherID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    User other = snapshot.getValue(User.class);
-                    List<String> pend= other.getPending();
-                    pend.add(id);
-                    other.setPending(pend);
-                    other.updatePending();
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()){
+
+                    }
+                    else {
+                        DataSnapshot snapshot = task.getResult();
+                        User other = snapshot.getValue(User.class);
+                        List<String> pend = other.getPending();
+                        pend.add(id);
+                        other.setPending(pend);
+                        other.updatePending();
+                    }
                 }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError error) {
+//
+//                }
             });
         }
     }
     public void acceptContact(String otherID){
         if(Pending.contains(otherID)){
+            if (Contacts == null) {Contacts = new ArrayList<>();}
             Contacts.add(otherID);
             Pending.remove(otherID);
-            this.updateSent();
+            this.updatePending();
             this.updateContacts();
-            mDatabase.child("NewUser").child(otherID).addValueEventListener(new ValueEventListener() {
+            FirebaseDatabase.getInstance().getReference().child("NewUser")
+                    .child(otherID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    User other = snapshot.getValue(User.class);
-                    List<String> sent= other.getSent();
-                    List<String> cont = other.getContacts();
-                    sent.remove(id);
-                    cont.add(id);
-                    other.setSent(sent);
-                    other.updateSent();
-                    other.setContacts(cont);
-                    other.updateSent();
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()){
+
+                    }
+                    else {
+                        DataSnapshot snapshot = task.getResult();
+                        User other = snapshot.getValue(User.class);
+                        List<String> sent = other.getSent();
+                        List<String> cont = other.getContacts();
+                        sent.remove(id);
+                        cont.add(id);
+                        other.setSent(sent);
+                        other.updateSent();
+                        other.setContacts(cont);
+                        other.updateContacts();
+                    }
                 }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError error) {
+//
+//                }
             });
         }
     }
 
-    public void acceptedByOther(String otherID){
-        if(Sent.contains(otherID)){
-            Contacts.add(otherID);
-            Sent.remove(otherID);
-            this.updateSent();
-            this.updateContacts();
-            mDatabase.child("NewUser").child(otherID).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    User other = snapshot.getValue(User.class);
-                    List<String> pend= other.getPending();
-                    List<String> cont = other.getContacts();
-                    pend.remove(id);
-                    cont.add(id);
-                    other.setPending(pend);
-                    other.updatePending();
-                    other.setContacts(cont);
-                    other.updateSent();
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        }
-    }
+//    public void acceptedByOther(String otherID){
+//        if(Sent.contains(otherID)){
+//            Contacts.add(otherID);
+//            Sent.remove(otherID);
+//            this.updateSent();
+//            this.updateContacts();
+//            FirebaseDatabase.getInstance().getReference().child("NewUser").child(this.id).child("NewUser").child(otherID).addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                    User other = snapshot.getValue(User.class);
+//                    List<String> pend= other.getPending();
+//                    List<String> cont = other.getContacts();
+//                    pend.remove(id);
+//                    cont.add(id);
+//                    other.setPending(pend);
+//                    other.updatePending();
+//                    other.setContacts(cont);
+//                    other.updateSent();
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError error) {
+//
+//                }
+//            });
+//        }
+//    }
     public void deleteFromPending(String otherID){
         if(Pending.contains(otherID)){
             Pending.remove(otherID);
             this.updatePending();
-            mDatabase.child("NewUser").child(otherID).addValueEventListener(new ValueEventListener() {
+            FirebaseDatabase.getInstance().getReference().child("NewUser").child(this.id)
+                    .child("NewUser").child(otherID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    User other = snapshot.getValue(User.class);
-                    List<String> sent= other.getSent();
-                    sent.remove(id);
-                    other.setPending(sent);
-                    other.updatePending();
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()){
+
+                    }
+                    else {
+                        DataSnapshot snapshot = task.getResult();
+                        User other = snapshot.getValue(User.class);
+                        List<String> sent = other.getSent();
+                        sent.remove(id);
+                        other.setPending(sent);
+                        other.updatePending();
+                    }
                 }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError error) {
+//
+//                }
             });
         }
     }
@@ -282,7 +306,12 @@ public class User {
     }
 
     public List<String> getContacts() {
-        return Contacts;
+        if (Contacts != null) {
+            return Contacts;
+        }
+        else{
+            return new ArrayList<>();
+        }
     }
 
     public void setContacts(List<String> contacts) {
@@ -290,7 +319,12 @@ public class User {
     }
 
     public List<String> getPending() {
-        return Pending;
+        if (Pending != null) {
+            return Pending;
+        }
+        else{
+            return new ArrayList<>();
+        }
     }
 
     public void setPending(List<String> pending) {
@@ -298,7 +332,12 @@ public class User {
     }
 
     public List<String> getSent() {
-        return Sent;
+        if (Sent != null) {
+            return Sent;
+        }
+        else{
+            return new ArrayList<>();
+        }
     }
 
     public void setSent(List<String> sent) {
@@ -314,7 +353,12 @@ public class User {
     }
 
     public List<String> getInterest() {
-        return Interest;
+        if (Interest != null) {
+            return Interest;
+        }
+        else{
+            return new ArrayList<>();
+        }
     }
 
     public void setInterest(List<String> interest) {
@@ -322,7 +366,12 @@ public class User {
     }
 
     public List<String> getLessons() {
-        return Lessons;
+        if (Lessons != null) {
+            return Lessons;
+        }
+        else{
+            return new ArrayList<>();
+        }
     }
 
     public void setLessons(List<String> lessons) {

@@ -1,8 +1,12 @@
 package com.example.ocmproject.match;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.example.ocmproject.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,35 +48,43 @@ public class Matcherv2 {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 matchList.clear();
                 matchesMap.clear();
-                mDatabase.child("NewUser").addValueEventListener(new ValueEventListener() {
+                mDatabase.child("NewUser").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot2) {
-                        user =  snapshot2.child(userId).getValue(User.class);
-                        for (DataSnapshot snap: snapshot2.getChildren()){
-                            User other = snap.getValue(User.class);
-                            if (user.getContacts() == null || !user.getContacts().contains(other.getId())){ // if it is not in my contacts
-                                if(!userId.equals(other.getId())) {
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        DataSnapshot snapshot2 = task.getResult();
+                        if(!task.isSuccessful()){
+                            Log.e("get not completed", "error");
+                        }
+                        else{
+                            user = snapshot2.child(userId).getValue(User.class);
+                            for (DataSnapshot snap : snapshot2.getChildren()) {
+                                User other = snap.getValue(User.class);
+                                if (user.getContacts() == null || !user.getContacts().contains(other.getId())) { // if it is not in my contacts
+                                    if (!userId.equals(other.getId())) {
 
-                                    int simPoint = calculateSimilarity(user, other);
-                                    matchesMap.put(other.getId(), simPoint);
-                                    matchList.add(other.getId());
+                                        int simPoint = calculateSimilarity(user, other);
+                                        matchesMap.put(other.getId(), simPoint);
+                                        matchList.add(other.getId());
 
+                                    }
                                 }
                             }
+
+                            ArrayList<String> temp = new ArrayList<String>();
+                            for (int i = 0; i < matchList.size(); i++) {
+                                temp.add(null);
+                            }
+                            mergeSort(matchesMap, matchList, temp, 0, matchList.size() - 1);
+                            //mDatabase.child("NewUser").child(userId).child("MatchList").setValue(matchList);
+                            user.setMatchList(matchList);
+                            user.updateMatchList();
                         }
-
-                        ArrayList<String> temp  = new ArrayList<String>();
-                        for (int i = 0; i < matchList.size(); i++){temp.add(null);}
-                        mergeSort(matchesMap, matchList, temp, 0, matchList.size() - 1);
-                        //mDatabase.child("NewUser").child(userId).child("MatchList").setValue(matchList);
-                        user.setMatchList(matchList);
-                        user.updateMatchList();
                     }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
                 });
 
             }

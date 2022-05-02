@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.example.ocmproject.R;
 import com.example.ocmproject.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -54,17 +56,23 @@ public class Matchv2Activity extends AppCompatActivity implements MatchAdapterv2
                     String friendId = snap.getValue(String.class);
                     //Iterable<Object> = mDatabase.child("Users").child(userId).child("Contacts").get
                     DatabaseReference friendRefs = FirebaseDatabase.getInstance().getReference().child("NewUser").child(friendId);
-                    friendRefs.addValueEventListener(new ValueEventListener() {
+                    friendRefs.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                         @Override
-                        public void onDataChange(@NonNull DataSnapshot snapsho) {
-                            User friendUserObj = snapsho.getValue(User.class);
-                            list.add(friendUserObj);
-                            adapter2.notifyDataSetChanged();
+                        public void onComplete(@NonNull  Task<DataSnapshot> task) {
+                            if (!task.isSuccessful()){
+                                ///
+                            }
+                            else {
+                                DataSnapshot snapsho = task.getResult();
+                                User friendUserObj = snapsho.getValue(User.class);
+                                list.add(friendUserObj);
+                                adapter2.notifyDataSetChanged();
+                            }
                         }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError error) {
+//
+//                        }
                     });
                 }
             }
@@ -83,9 +91,29 @@ public class Matchv2Activity extends AppCompatActivity implements MatchAdapterv2
         switch(view.getId()){
             case R.id.addButton:
                 Toast.makeText(this, "You clicked " + adapter2.getItem(position) + " on row number " + position + view.getId(), Toast.LENGTH_SHORT).show();
-                if(adapter2.getItem(position).getSent().contains(auth.getUid())){
-                    adapter2.getItem(position).acceptedByOther(auth.getUid());
-                }
+                mDatabase.child("NewUser").child(auth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        if(!task.isSuccessful()){
+                            ///
+                        }
+                        else{
+                            User current = task.getResult().getValue(User.class);
+                            if(current.getPending().contains(adapter2.getItem(position).getId())){
+                                current.acceptContact(adapter2.getItem(position).getId());
+                                Toast.makeText(Matchv2Activity.this, "a", Toast.LENGTH_SHORT).show();
+                                adapter2.notifyDataSetChanged();
+                            }
+                            else{
+                                current.addItemToSent(adapter2.getItem(position).getId());
+                                Toast.makeText(Matchv2Activity.this, "b", Toast.LENGTH_SHORT).show();
+
+                                adapter2.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                });
+            break;
             case R.id.userText:
                 Toast.makeText(this, "You clicked " + adapter2.getItem(position) + " on row number " + position + view.getId(), Toast.LENGTH_SHORT).show();
                 break;
@@ -93,5 +121,8 @@ public class Matchv2Activity extends AppCompatActivity implements MatchAdapterv2
                 Toast.makeText(this, "You clicked " + adapter2.getItem(position) + " on row number " + position + view.getId(), Toast.LENGTH_SHORT).show();
                 break;
         }
+
+
+
     }
 }
