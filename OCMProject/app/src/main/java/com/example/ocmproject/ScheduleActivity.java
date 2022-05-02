@@ -27,9 +27,7 @@ public class ScheduleActivity extends AppCompatActivity {
         Button manualScheduleUploadButton = findViewById(R.id.manualScheduleUploadButton);
         Button geciciButon = findViewById(R.id.profileButton);
         Button geciciButon2 = findViewById(R.id.connectionsButton);
-        Button mainButton = findViewById(R.id.mainButton);
-        Button interestsButton = findViewById(R.id.interestsButton);
-        Button matchScreen = findViewById(R.id.matchScreen);
+        
 
 
         OpenCVLoader.initDebug();
@@ -64,25 +62,6 @@ public class ScheduleActivity extends AppCompatActivity {
             }
         });
 
-        mainButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ScheduleActivity.this, MainActivity.class));
-            }
-        });
-
-        interestsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ScheduleActivity.this, InterestsActivity.class));
-            }
-        });
-        matchScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ScheduleActivity.this, MatchActivity.class));
-            }
-        });
     }
 
     // The image is shown
