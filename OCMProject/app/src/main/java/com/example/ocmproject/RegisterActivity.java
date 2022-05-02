@@ -109,7 +109,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             pd.dismiss();
                             Toast.makeText(RegisterActivity.this, "Registration is succesfull",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(RegisterActivity.this, ScheduleActivity.class);
+                            Intent intent = new Intent(RegisterActivity.this, RegisterInterestActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                             finish();
