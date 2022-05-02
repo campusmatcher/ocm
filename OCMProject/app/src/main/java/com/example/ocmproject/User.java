@@ -12,6 +12,7 @@ public class User {
     private ArrayList<String> contacts;
     private ArrayList<Section> sections;
     private HashMap<String, Object> connections;
+    private String id;
 
     public User() {
     }
@@ -31,6 +32,16 @@ public class User {
         this.email = email;
         this.username = username;
     }
+    public User(String name, String surname, String email, String username, HashMap<String, Object> connections, ArrayList<Section> sections, String id) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.username = username;
+        this.connections = connections;
+        this.sections = sections;
+        this.id = id;
+    }
+
 
     public String getName() {
         return name;
@@ -58,6 +69,9 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+    public String getId() {
+        return id;
     }
 
     public void setUsername(String username) {

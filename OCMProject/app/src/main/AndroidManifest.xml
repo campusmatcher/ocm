@@ -17,6 +17,12 @@
             android:name=".MatchActivity"
             android:exported="false" />
         <activity
+            android:name=".UserRecycleAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".MatchActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegisterInterestActivity"
             android:exported="false" />
         <activity
