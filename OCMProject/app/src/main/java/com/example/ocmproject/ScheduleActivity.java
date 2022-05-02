@@ -10,20 +10,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 
-import org.opencv.core.Core;
 import org.opencv.android.OpenCVLoader;
-import org.opencv.android.Utils;
-import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
-
-
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 public class ScheduleActivity extends AppCompatActivity {
 
@@ -35,9 +25,9 @@ public class ScheduleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_schedule_upload_screen);
         Button scheduleUploadButton = findViewById(R.id.scheduleUploadButton);
         Button manualScheduleUploadButton = findViewById(R.id.manualScheduleUploadButton);
-
-        Button geciciButon = findViewById(R.id.geciciButon);
-        Button geciciButon2 = findViewById(R.id.geciciButon2);
+        Button geciciButon = findViewById(R.id.profileButton);
+        Button geciciButon2 = findViewById(R.id.connectionsButton);
+        
 
 
         OpenCVLoader.initDebug();
@@ -71,7 +61,6 @@ public class ScheduleActivity extends AppCompatActivity {
                 startActivity(new Intent(ScheduleActivity.this, CollectionsActivity.class));
             }
         });
-
 
     }
 
@@ -132,50 +121,6 @@ public class ScheduleActivity extends AppCompatActivity {
         }
 
     }
-
-
-// NEW IMPLEMENTATION IS DOWN BELOW
-
-/* package com.example.ocmproject;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-
-import org.opencv.android.OpenCVLoader;
-
-public class ScheduleActivity extends AppCompatActivity {
-
-    // Yavuz was here
-    // Also alp was
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule);
-        Button nextButton = findViewById(R.id.nextButton);
-
-
-        OpenCVLoader.initDebug();
-//        for(String course: courses){
-//            System.out.println(course);
-
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ScheduleActivity.this, EverythingActivity.class));
-                finish();
-            }
-        });
-
 
 
 

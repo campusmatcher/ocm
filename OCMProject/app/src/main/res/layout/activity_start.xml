@@ -4,18 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="bottom"
-    tools:context=".StartActivity">
+    tools:context=".StartActivity"
+    android:gravity="bottom">
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:scaleX="0.5"
+        android:scaleY="0.5"
+        app:srcCompat="@drawable/ocm_logo" />
+
 
 
     <!-- Login Button -->
-
-
     <Button
         android:id="@+id/login"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/iconImageLeft"
+        android:layout_below="@+id/imageView"
         android:layout_centerInParent="true"
         android:layout_marginBottom="25dp"
         android:text="login" />
@@ -25,32 +34,12 @@
         android:id="@+id/register"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/login"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="80dp"
-        android:backgroundTint="@color/lightblue"
-        android:text="register" />
+        android:layout_below="@+id/login"
+        android:layout_marginBottom="125dp"
+        android:text="register"
+        android:backgroundTint="@color/lightblue"/>
 
-    <ImageView
-        android:id="@+id/iconImageLeft"
-        android:layout_width="190dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_weight="0.5"
-        app:srcCompat="@drawable/ocm_logo_left" />
-
-    <ImageView
-        android:id="@+id/iconImageRight"
-        android:layout_width="190dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="0dp"
-        android:layout_toRightOf="@id/iconImageLeft"
-        android:layout_weight="0.5"
-        app:srcCompat="@drawable/ocm_logo_right" />
 
 
 </RelativeLayout>

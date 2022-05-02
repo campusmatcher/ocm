@@ -2,20 +2,15 @@ package com.example.ocmproject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.ocmproject.Fragments.HomeFragment;
-import com.example.ocmproject.Fragments.SearchFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,9 +28,6 @@ public class MainActivity extends AppCompatActivity {
     // Arda was here
     //again
 
-    private BottomNavigationView bottomNavigationView;
-    private Fragment selectorFragment;
-
     private Button logout;
     private EditText edit;
     private Button add;
@@ -51,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         logout = findViewById(R.id.logout);
         edit = findViewById(R.id.edit);
         add = findViewById(R.id.add);
-
 
         // Logout button's function
         logout.setOnClickListener(new View.OnClickListener() {
