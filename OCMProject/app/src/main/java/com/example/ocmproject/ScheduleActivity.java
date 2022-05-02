@@ -13,6 +13,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.ocmproject.match.Matchv2Activity;
+import com.example.ocmproject.recycleFiles.RecycleActivity;
+
 import org.opencv.android.OpenCVLoader;
 
 public class ScheduleActivity extends AppCompatActivity {
@@ -80,7 +83,7 @@ public class ScheduleActivity extends AppCompatActivity {
         matchScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ScheduleActivity.this, MatchActivity.class));
+                startActivity(new Intent(ScheduleActivity.this, Matchv2Activity.class));
             }
         });
     }

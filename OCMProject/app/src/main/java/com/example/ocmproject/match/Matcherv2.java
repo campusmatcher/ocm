@@ -1,7 +1,8 @@
-package com.example.ocmproject;
+package com.example.ocmproject.match;
 
 import androidx.annotation.NonNull;
 
+import com.example.ocmproject.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -13,49 +14,67 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Matcher {
+public class Matcherv2 {
     private User user;
     private FirebaseAuth auth;
     private DatabaseReference mDatabase;
     private String userId;
     private HashMap<String, Integer> matchesMap;
     private List<String> matchList;
+    private final int INTEREST_POINT;
+    private final int SECTION_POINT;
+    private final int FREE_HOUR_POINT;
 
-    public Matcher(){
+    public Matcherv2(){
         auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         userId = auth.getUid();
         matchesMap = new HashMap<String, Integer>();
         matchList = new ArrayList<String>();
+        INTEREST_POINT = 10;
+        SECTION_POINT = 10;
+        FREE_HOUR_POINT = 10;
     }
 
 
     public void findAndUpdateMatchList(){
-        mDatabase.child("NewUser").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("NewUser").child(auth.getUid()).child("Contacts")
+                .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 matchList.clear();
                 matchesMap.clear();
-                user =  snapshot.child(userId).getValue(User.class);
-                for (DataSnapshot snap: snapshot.getChildren()){
-                    User other = snap.getValue(User.class);
-                    if (user.getContacts() == null || !user.getContacts().contains(other.getId())){ // if it is not in my contacts
-                        if(!userId.equals(other.getId())) {
+                mDatabase.child("NewUser").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot2) {
+                        user =  snapshot2.child(userId).getValue(User.class);
+                        for (DataSnapshot snap: snapshot2.getChildren()){
+                            User other = snap.getValue(User.class);
+                            if (user.getContacts() == null || !user.getContacts().contains(other.getId())){ // if it is not in my contacts
+                                if(!userId.equals(other.getId())) {
 
+                                    int simPoint = calculateSimilarity(user, other);
+                                    matchesMap.put(other.getId(), simPoint);
+                                    matchList.add(other.getId());
 
-                            int point = 0;
-                            point += findFreeHourNumbers(user.getSchedule(), other.getSchedule()) * 10;
-                            point += findCommonInterests(user.getSchedule(), other.getInterest()) * 10;
-                            point += findCommonSections(user.getSchedule(), other.getInterest()) * 10;
-                            matchesMap.put(other.getId(), point);
-                            matchList.add(other.getId());
+                                }
+                            }
                         }
+
+                        ArrayList<String> temp  = new ArrayList<String>();
+                        for (int i = 0; i < matchList.size(); i++){temp.add(null);}
+                        mergeSort(matchesMap, matchList, temp, 0, matchList.size() - 1);
+                        //mDatabase.child("NewUser").child(userId).child("MatchList").setValue(matchList);
+                        user.setMatchList(matchList);
+                        user.updateMatchList();
                     }
-                }
-                ArrayList<String> temp  = new ArrayList<String>();
-                for (int i = 0; i < matchList.size(); i++){temp.add(null);}
-                mergeSort(matchesMap, matchList, temp, 0, matchList.size() - 1);
-                mDatabase.child("NewUser").child(userId).child("MatchList").setValue(matchList);
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
             }
 
             @Override
@@ -100,10 +119,18 @@ public class Matcher {
         return common;
     }
 
+    public int calculateSimilarity(User user, User other){
+        int point = 0;
+        point += findFreeHourNumbers(user.getSchedule(), other.getSchedule()) * FREE_HOUR_POINT;
+        point += findCommonInterests(user.getSchedule(), other.getInterest()) * INTEREST_POINT;
+        point += findCommonSections(user.getSchedule(), other.getInterest()) * SECTION_POINT;
+        return point;
+    }
+
 
 
     public void mergeSort(HashMap<String, Integer> map, List<String> list,
-                            List<String> temp, int start, int end){ //MergeSort
+                          List<String> temp, int start, int end){ //MergeSort
 
         if (start < end) {
             int mid = (start + end) / 2;

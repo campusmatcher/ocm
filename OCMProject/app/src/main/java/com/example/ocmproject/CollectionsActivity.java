@@ -41,7 +41,7 @@ public class CollectionsActivity extends AppCompatActivity {
 
 
 
-        mDatabase.child("Users").child(userId).child("Contacts").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("NewUser").child(userId).child("Contacts").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();

@@ -69,7 +69,7 @@ public class UserListAdapter extends ArrayAdapter<User> {
         Button addButton = (Button) convertView.findViewById(R.id.addButton);
 
 
-        if (other.getSent() != null && other.getSent().values().contains(auth.getUid())){
+        if (other.getSent() != null && other.getSent().contains(auth.getUid())){
             addButton.setText("ACCEPT REQUEST");
             addButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -86,7 +86,7 @@ public class UserListAdapter extends ArrayAdapter<User> {
             });
         }
         // if the user already sent connection request, make the button disable
-        else if (other.getPending()!= null && other.getPending().values().contains(auth.getUid())){
+        else if (other.getPending()!= null && other.getPending().contains(auth.getUid())){
             addButton.setEnabled(false);
         }
         else {

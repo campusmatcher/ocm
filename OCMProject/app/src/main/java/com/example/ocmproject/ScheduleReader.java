@@ -352,14 +352,14 @@ public class ScheduleReader {
     private void uploadUserSchedule(ArrayList<String> sections, DatabaseReference referenceToTable){
         userId = auth.getCurrentUser().getUid();
         // add lessons child to the user
-        referenceToTable.child("Users").child(userId).child("Lessons").setValue(list);
+        referenceToTable.child("NewUser").child(userId).child("Lessons").setValue(list);
         //Adding eventListener to that reference and add sections to user
         //Create schedule for user
         referenceToTable.child("Courses").child("Courses").addListenerForSingleValueEvent(new ValueEventListener() { //pay attention to the path of the courses
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (int i = 0; i < 40 ; i ++){
-                    referenceToTable.child("Users").child(userId).child("Schedule").child(""+i).setValue("0"); // fill the schedule with zeros
+                    referenceToTable.child("NewUser").child(userId).child("Schedule").child(""+i).setValue("0"); // fill the schedule with zeros
                 }
                 for (String courseName : list) {
                     //ArrayList<String> sections = new ArrayList<>(); // to add course hourses sepereately
@@ -367,7 +367,7 @@ public class ScheduleReader {
                     for (DataSnapshot ing : dataSnapshot.child(courseName).getChildren()) {
                         //sections.add(ing.getValue(String.class)); // to add course hourses sepereately
                         if (((String)ing.getValue(String.class)).equals("1")) { // make an hours vlaue one if one of the sections has a lesson here
-                            referenceToTable.child("Users").child(userId).child("Schedule").child("" + k).setValue("1");
+                            referenceToTable.child("NewUser").child(userId).child("Schedule").child("" + k).setValue("1");
                         }
                         k++;
                     }
