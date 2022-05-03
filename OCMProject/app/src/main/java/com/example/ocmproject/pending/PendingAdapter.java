@@ -1,4 +1,4 @@
-package com.example.ocmproject.match;
+package com.example.ocmproject.pending;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ocmproject.R;
 import com.example.ocmproject.User;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -22,25 +21,23 @@ import java.util.List;
 
 /**
  * Custom Recycle Adapter Class for RecyclerView
- * !! It is recommended to create a model class (like User class) for easy implementation
+ * !! It is recommended t create a model class (like User class) for easy implementation
  */
-public class MatchAdapterv2 extends RecyclerView.Adapter<MatchAdapterv2.ViewHolder> {
+public class PendingAdapter extends RecyclerView.Adapter<PendingAdapter.ViewHolder> {
     private List<User> data;
     private LayoutInflater inflater;
     private ItemClickListener mClickListener;
     private Context context;
-    private String currentID;
 
     /**
      *
      * @param context the activity where RecyclerView is located
      * @param data List of model class
      */
-    public MatchAdapterv2(Context context, List<User> data){ //change all User s with your model class's name
+    public PendingAdapter(Context context, List<User> data){ //change all User s with your model class's name
         this.inflater = LayoutInflater.from(context);
         this.data = data;
         this.context = context;
-        this.currentID = FirebaseAuth.getInstance().getUid();
     }
 
     /**
@@ -51,7 +48,7 @@ public class MatchAdapterv2 extends RecyclerView.Adapter<MatchAdapterv2.ViewHold
      */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        View view = inflater.inflate(R.layout.user_list_item, parent, false);// set your custom layout here
+        View view = inflater.inflate(R.layout.pending_item, parent, false);// set your custom layout here
         return new ViewHolder(view);
     }
 
@@ -64,15 +61,8 @@ public class MatchAdapterv2 extends RecyclerView.Adapter<MatchAdapterv2.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position){
         User other = data.get(position);
         holder.myTextView.setText(other.getName() + " " + other.getSurname());
-        if (other.getPending().contains(currentID)){
-            holder.addButton.setEnabled(false);
-        }
-        else if (other.getSent().contains(currentID)){
-            holder.addButton.setText("ACCEPT REQUEST");
-        }
 
     }
-
     @Override
     public int getItemCount(){
         return data.size();
@@ -84,14 +74,19 @@ public class MatchAdapterv2 extends RecyclerView.Adapter<MatchAdapterv2.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // Views in the custom layout
         TextView myTextView;
-        Button addButton;
+        Button acceptButton;
+        Button rejectButton;
+
 
         ViewHolder(View itemView) {
             super(itemView);
-            myTextView = itemView.findViewById(R.id.userText);
+            myTextView = itemView.findViewById(R.id.pendingText);
             itemView.setOnClickListener(this);
-            addButton = itemView.findViewById(R.id.addButton);
-            addButton.setOnClickListener(this);
+            acceptButton = itemView.findViewById(R.id.acceptButton);
+            acceptButton.setOnClickListener(this);
+            rejectButton = itemView.findViewById(R.id.rejectPending);
+            rejectButton.setOnClickListener(this);
+
 
         }
 
@@ -102,10 +97,18 @@ public class MatchAdapterv2 extends RecyclerView.Adapter<MatchAdapterv2.ViewHold
         public void onClick(View view) {
             if (mClickListener != null) {
                 mClickListener.onItemClick(view, getAdapterPosition());
+                deactivateButtons();
             }
 
         }
+        // deactivate both buttons after click
+        public void deactivateButtons(){
+            acceptButton.setEnabled(false);
+            rejectButton.setEnabled(false);
+        }
+
     }
+
 
     public User getItem(int i){
         return data.get(i);

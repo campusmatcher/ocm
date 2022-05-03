@@ -222,8 +222,8 @@ public class User {
         if(Pending.contains(otherID)){
             Pending.remove(otherID);
             this.updatePending();
-            FirebaseDatabase.getInstance().getReference().child("NewUser").child(this.id)
-                    .child("NewUser").child(otherID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            FirebaseDatabase.getInstance().getReference().child("NewUser")
+                    .child(otherID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                     if (!task.isSuccessful()){
@@ -233,9 +233,10 @@ public class User {
                         DataSnapshot snapshot = task.getResult();
                         User other = snapshot.getValue(User.class);
                         List<String> sent = other.getSent();
+                        //if (sent == null){sent = new ArrayList<>();}
                         sent.remove(id);
-                        other.setPending(sent);
-                        other.updatePending();
+                        other.setSent(sent);
+                        other.updateSent();
                     }
                 }
 
