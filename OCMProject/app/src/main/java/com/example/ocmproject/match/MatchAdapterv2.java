@@ -93,6 +93,7 @@ public class MatchAdapterv2 extends RecyclerView.Adapter<MatchAdapterv2.ViewHold
             addButton = itemView.findViewById(R.id.addButton);
             addButton.setOnClickListener(this);
 
+
         }
 
         @Override

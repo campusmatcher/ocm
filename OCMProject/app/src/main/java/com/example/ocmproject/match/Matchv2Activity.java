@@ -102,14 +102,15 @@ public class Matchv2Activity extends AppCompatActivity implements MatchAdapterv2
                             if(current.getPending().contains(adapter2.getItem(position).getId())){
                                 current.acceptContact(adapter2.getItem(position).getId());
                                 Toast.makeText(Matchv2Activity.this, "a", Toast.LENGTH_SHORT).show();
-                                adapter2.notifyDataSetChanged();
+                                view.setEnabled(false);
                             }
                             else{
                                 current.addItemToSent(adapter2.getItem(position).getId());
                                 Toast.makeText(Matchv2Activity.this, "b", Toast.LENGTH_SHORT).show();
-
-                                adapter2.notifyDataSetChanged();
+                                view.setEnabled(false);
                             }
+                            adapter2.notifyDataSetChanged();
+
                         }
                     }
                 });
