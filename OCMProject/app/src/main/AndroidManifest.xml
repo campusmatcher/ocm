@@ -10,15 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OCMProject">
         <activity
-            android:name=".pending.PendingActivity"
-            android:exported="true" />
-        <activity
-            android:name=".match.Matchv2Activity"
-            android:exported="true" />
-        <activity
-            android:name=".recycleFiles.RecycleActivity"
-            android:exported="true" />
-        <activity
             android:name=".UserRecycleAdapter"
             android:exported="false" />
         <activity

@@ -49,10 +49,10 @@ public class UserListAdapter extends ArrayAdapter<User> {
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
 
-        User other = getItem(position);
+        User user = getItem(position);
 
 
-        // Check if an existing view is being reused, otherwise inflate the view
+            // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.user_list_item, parent, false); //LayoutInflater.from(getContext())
         }
@@ -63,47 +63,19 @@ public class UserListAdapter extends ArrayAdapter<User> {
 
         //TextView tvHome = (TextView) convertView.findViewById(R.id.tvHome);
         // Populate the data into the template view using the data object
-        tvName.setText(other.getName() + " " + other.getSurname());
+        tvName.setText(user.getName() + " " + user.getSurname());
         //tvHome.setText(user.getSurname());
 
         Button addButton = (Button) convertView.findViewById(R.id.addButton);
+        addButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                mDatabase.child("Users").child(auth.getUid()).child("Contacts").child(user.getId()).setValue(user.getId());
+                mDatabase.child("Users").child(auth.getUid()).child("Matches").child("id1").setValue(null);
+                UserListAdapter.this.notifyDataSetChanged();
+            }
 
-
-        if (other.getSent() != null && other.getSent().contains(auth.getUid())){
-            addButton.setText("ACCEPT REQUEST");
-            addButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mDatabase.child("NewUser").child(auth.getUid()).child("Contacts").child(other.getId()).setValue(other.getId());
-                    mDatabase.child("NewUser").child(auth.getUid()).child("Pending").child(other.getId()).removeValue();
-                    mDatabase.child("NewUser").child(other.getId()).child("Sent").child(auth.getUid()).removeValue();
-                    mDatabase.child("NewUser").child(other.getId()).child("Contacts").child(auth.getUid()).setValue(auth.getUid());
-                    list.remove(other);
-                    UserListAdapter.this.notifyDataSetChanged();
-
-                }
-
-            });
-        }
-        // if the user already sent connection request, make the button disable
-        else if (other.getPending()!= null && other.getPending().contains(auth.getUid())){
-            addButton.setEnabled(false);
-        }
-        else {
-            addButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mDatabase.child("NewUser").child(auth.getUid()).child("Sent").child(other.getId()).setValue(other.getId());
-                    //mDatabase.child("NewUser").child(auth.getUid()).child("MatchList").child(other.getId()).removeValue();
-                    mDatabase.child("NewUser").child(other.getId()).child("Pending").child(auth.getUid()).setValue(auth.getUid());
-                    list.remove(other);
-                    UserListAdapter.this.notifyDataSetChanged();
-
-
-                }
-
-            });
-        }
+        });
         // Return the completed view to render on screen
         return convertView;
     }
