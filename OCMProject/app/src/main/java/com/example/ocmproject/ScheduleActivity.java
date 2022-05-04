@@ -13,6 +13,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.ocmproject.match.Matchv2Activity;
+import com.example.ocmproject.pending.PendingActivity;
+import com.example.ocmproject.recycleFiles.RecycleActivity;
+
 import org.opencv.android.OpenCVLoader;
 
 public class ScheduleActivity extends AppCompatActivity {
@@ -27,7 +31,10 @@ public class ScheduleActivity extends AppCompatActivity {
         Button manualScheduleUploadButton = findViewById(R.id.manualScheduleUploadButton);
         Button geciciButon = findViewById(R.id.profileButton);
         Button geciciButon2 = findViewById(R.id.connectionsButton);
-        
+        Button mainButton = findViewById(R.id.mainButton);
+        Button interestsButton = findViewById(R.id.interestsButton);
+        Button matchScreen = findViewById(R.id.matchScreen);
+        Button pendingScreen = findViewById(R.id.pendingButton);
 
 
         OpenCVLoader.initDebug();
@@ -62,6 +69,31 @@ public class ScheduleActivity extends AppCompatActivity {
             }
         });
 
+        mainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ScheduleActivity.this, MainActivity.class));
+            }
+        });
+
+        interestsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ScheduleActivity.this, InterestsActivity.class));
+            }
+        });
+        matchScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ScheduleActivity.this, Matchv2Activity.class));
+            }
+        });
+        pendingScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ScheduleActivity.this, PendingActivity.class));
+            }
+        });
     }
 
     // The image is shown
@@ -115,22 +147,9 @@ public class ScheduleActivity extends AppCompatActivity {
 
             //Log.e("lenght", "" + sections.size());
             //scheduler.newThread();
-            }
-
-
         }
+
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
+}

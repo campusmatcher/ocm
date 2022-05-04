@@ -35,6 +35,8 @@ public class MatchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match);
+        Matcher matcher = new Matcher();
+        matcher.findAndUpdateMatchList();
 
         auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -45,7 +47,7 @@ public class MatchActivity extends AppCompatActivity {
 
         matchList.setAdapter(adapter);
 
-        mDatabase.child("Users").child(userId).child("Matches").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("NewUser").child(userId).child("MatchList").addValueEventListener(new ValueEventListener() {
         //mDatabase.child("Users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -53,16 +55,14 @@ public class MatchActivity extends AppCompatActivity {
                 for (DataSnapshot snap : snapshot.getChildren()) {
                     String friendId = snap.getValue(String.class);
                     //Iterable<Object> = mDatabase.child("Users").child(userId).child("Contacts").get
-                    DatabaseReference friendRefs = FirebaseDatabase.getInstance().getReference().child("Users").child(friendId);
+                    DatabaseReference friendRefs = FirebaseDatabase.getInstance().getReference().child("NewUser").child(friendId);
                     friendRefs.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapsho) {
                             User friendUserObj = snapsho.getValue(User.class);
-                            String friendNameSurname = friendUserObj.getName() + " " + friendUserObj.getSurname();
                             list.add(friendUserObj);
                             adapter.notifyDataSetChanged();
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
 

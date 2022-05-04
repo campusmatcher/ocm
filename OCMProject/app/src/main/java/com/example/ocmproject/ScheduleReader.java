@@ -47,16 +47,15 @@ import java.util.Random;
 
 
 public class ScheduleReader {
-    Mat src;
-    Mat gray;
-    Mat blurred;
-    Mat threshed;
-    Mat hierarchy;
-    List<MatOfPoint> contours;
-    ArrayList<Rect> boxes;
-    ArrayList<String> list;
+    private Mat src;
+    private Mat gray;
+    private Mat blurred;
+    private Mat threshed;
+    private Mat hierarchy;
+    private List<MatOfPoint> contours;
+    private ArrayList<Rect> boxes;
+    private ArrayList<String> list;
     private FirebaseAuth auth;
-    private DatabaseReference mRootRef;
     private DatabaseReference mDatabase;
     private String userId;
 
@@ -82,7 +81,6 @@ public class ScheduleReader {
         this.list = new ArrayList<>();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         auth = FirebaseAuth.getInstance();
-        mRootRef = FirebaseDatabase.getInstance().getReference();
         userId = auth.getCurrentUser().getUid();
 
 //        Mat oooo = new Mat();
@@ -354,22 +352,22 @@ public class ScheduleReader {
     private void uploadUserSchedule(ArrayList<String> sections, DatabaseReference referenceToTable){
         userId = auth.getCurrentUser().getUid();
         // add lessons child to the user
-        referenceToTable.child("Users").child(userId).child("Lessons").setValue(list);
+        referenceToTable.child("NewUser").child(userId).child("Lessons").setValue(list);
         //Adding eventListener to that reference and add sections to user
         //Create schedule for user
-        referenceToTable.child("Courses").addListenerForSingleValueEvent(new ValueEventListener() {
+        referenceToTable.child("Courses").child("Courses").addListenerForSingleValueEvent(new ValueEventListener() { //pay attention to the path of the courses
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (int i = 0; i < 40 ; i ++){
-                    referenceToTable.child("Users").child(userId).child("Schedule").child(""+i).setValue("0"); // fill the schedule with zeros
+                    referenceToTable.child("NewUser").child(userId).child("Schedule").child(""+i).setValue("0"); // fill the schedule with zeros
                 }
                 for (String courseName : list) {
                     //ArrayList<String> sections = new ArrayList<>(); // to add course hourses sepereately
                     int k = 0;
                     for (DataSnapshot ing : dataSnapshot.child(courseName).getChildren()) {
                         //sections.add(ing.getValue(String.class)); // to add course hourses sepereately
-                        if (ing.getValue(String.class).equals("1")) { // make an hours vlaue one if one of the sections has a lesson here
-                            referenceToTable.child("Users").child(userId).child("Schedule").child("" + k).setValue("1");
+                        if (((String)ing.getValue(String.class)).equals("1")) { // make an hours vlaue one if one of the sections has a lesson here
+                            referenceToTable.child("NewUser").child(userId).child("Schedule").child("" + k).setValue("1");
                         }
                         k++;
                     }
