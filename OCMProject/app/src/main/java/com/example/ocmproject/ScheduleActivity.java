@@ -147,22 +147,9 @@ public class ScheduleActivity extends AppCompatActivity {
 
             //Log.e("lenght", "" + sections.size());
             //scheduler.newThread();
-            }
-
-
         }
+
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
+}
