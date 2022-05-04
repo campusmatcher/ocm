@@ -94,7 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
                 //users.put("id1","FY98LBLADbeVgVQjdEEBLYY28q12");
                 ArrayList<Section> sections = new ArrayList<>();
                 User user = new User(name, surname,email,username,users,sections,auth.getCurrentUser().getUid());
-                mRootRef.child("NewUser").child(auth.getCurrentUser().getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                mRootRef.child("Users").child(auth.getCurrentUser().getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                 // Old Implementation of Registraion of user
 //                HashMap<String, Object> hMap = new HashMap<>();
 //                hMap.put("username", username);
