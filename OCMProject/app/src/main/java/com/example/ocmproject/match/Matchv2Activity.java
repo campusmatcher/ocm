@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -36,19 +37,24 @@ public class Matchv2Activity extends AppCompatActivity implements MatchAdapterv2
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matchv2);
 
+        //Database
         auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        //Create matcher object and update matchlist
         matcher2 = new Matcherv2();
         matcher2.findAndUpdateMatchList();
+
+        //Create an user list and bind adapter
         list = new ArrayList<>();
-        //list.add(new User("a","a","a","a"));
         adapter2 = new MatchAdapterv2(this, list);
         recycleView = findViewById(R.id.matchRecycler);
         recycleView.setLayoutManager(new LinearLayoutManager(this));
         adapter2.setClickListener(this);
         recycleView.setAdapter(adapter2);
+
+        //Populating recyclerview with data form firebase
         mDatabase.child("NewUser").child(auth.getUid()).child("MatchList").addValueEventListener(new ValueEventListener() {
-            //mDatabase.child("Users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
@@ -60,7 +66,8 @@ public class Matchv2Activity extends AppCompatActivity implements MatchAdapterv2
                         @Override
                         public void onComplete(@NonNull  Task<DataSnapshot> task) {
                             if (!task.isSuccessful()){
-                                ///
+                                Log.e("Error in retrieving user object for matching", task.toString());
+
                             }
                             else {
                                 DataSnapshot snapsho = task.getResult();
@@ -69,10 +76,6 @@ public class Matchv2Activity extends AppCompatActivity implements MatchAdapterv2
                                 adapter2.notifyDataSetChanged();
                             }
                         }
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError error) {
-//
-//                        }
                     });
                 }
             }
@@ -81,11 +84,14 @@ public class Matchv2Activity extends AppCompatActivity implements MatchAdapterv2
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Error in retrieving matching info", error.getMessage());
 
             }
         });
 
     }
+
+    //method defining click action
     @Override
     public void onItemClick(View view, int position) {
         switch(view.getId()){

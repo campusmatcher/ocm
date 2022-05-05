@@ -97,6 +97,7 @@ public class PendingAdapter extends RecyclerView.Adapter<PendingAdapter.ViewHold
         public void onClick(View view) {
             if (mClickListener != null) {
                 mClickListener.onItemClick(view, getAdapterPosition());
+                //common behaviors  like deactivating buttons can be defined under this method
                 deactivateButtons();
             }
 
