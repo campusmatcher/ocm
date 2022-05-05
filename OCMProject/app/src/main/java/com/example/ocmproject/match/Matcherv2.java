@@ -134,8 +134,8 @@ public class Matcherv2 {
     public int calculateSimilarity(User user, User other){
         int point = 0;
         point += findFreeHourNumbers(user.getSchedule(), other.getSchedule()) * FREE_HOUR_POINT;
-        point += findCommonInterests(user.getSchedule(), other.getInterest()) * INTEREST_POINT;
-        point += findCommonSections(user.getSchedule(), other.getInterest()) * SECTION_POINT;
+        point += findCommonInterests(user.getInterest(), other.getInterest()) * INTEREST_POINT;
+        point += findCommonSections(user.getLessons(), other.getLessons()) * SECTION_POINT;
         return point;
     }
 

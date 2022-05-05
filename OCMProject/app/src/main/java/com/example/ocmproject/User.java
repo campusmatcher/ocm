@@ -107,7 +107,7 @@ public class User {
 //
 //            }
 //        });
-//        return current[0]; // doesn't work
+//        return current[0]; // doesn't work bcs of asynchronous behavior of firebase
 //    }
 
     public void updateFirebase(){

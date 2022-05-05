@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -33,25 +34,26 @@ public class PendingActivity extends AppCompatActivity implements PendingAdapter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pending);
-
+        //Database
         auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        //Create an user list and bind adapter
         list = new ArrayList<>();
-        //list.add(new User("a","a","a","a"));
         adapter = new PendingAdapter(this, list);
         recycleView = findViewById(R.id.pendingList);
         recycleView.setLayoutManager(new LinearLayoutManager(this));
         adapter.setClickListener(this);
         recycleView.setAdapter(adapter);
+
+        // Populate recyclerview with data
         mDatabase.child("NewUser").child(auth.getUid()).child("Pending").addValueEventListener(new ValueEventListener() {
-            //mDatabase.child("Users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
                 for (DataSnapshot snap : snapshot.getChildren()) {
-                    String friendId = snap.getValue(String.class);
-                    //Iterable<Object> = mDatabase.child("Users").child(userId).child("Contacts").get
-                    DatabaseReference friendRefs = FirebaseDatabase.getInstance().getReference().child("NewUser").child(friendId);
+                    String pendingId = snap.getValue(String.class);
+                    DatabaseReference friendRefs = FirebaseDatabase.getInstance().getReference().child("NewUser").child(pendingId);
                     friendRefs.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                         @Override
                         public void onComplete(@NonNull  Task<DataSnapshot> task) {
@@ -65,10 +67,6 @@ public class PendingActivity extends AppCompatActivity implements PendingAdapter
                                 adapter.notifyDataSetChanged();
                             }
                         }
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError error) {
-//
-//                        }
                     });
                 }
             }
@@ -77,12 +75,12 @@ public class PendingActivity extends AppCompatActivity implements PendingAdapter
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.e("Error in retrieving pending info", error.getMessage());
             }
         });
 
     }
-
+    //method defining click action
     @Override
     public void onItemClick(View view, int position) {
         switch(view.getId()){
@@ -110,7 +108,7 @@ public class PendingActivity extends AppCompatActivity implements PendingAdapter
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         if(!task.isSuccessful()){
-                            ///
+                            Log.e("Error in retrieving user object for matching", task.toString());
                         }
                         else{
                             User current = task.getResult().getValue(User.class);
