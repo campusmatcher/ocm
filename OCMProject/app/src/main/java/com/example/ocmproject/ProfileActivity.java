@@ -36,7 +36,7 @@ public class ProfileActivity extends AppCompatActivity {
         mRootRef = FirebaseDatabase.getInstance().getReference();
         profileName = findViewById(R.id.profileName);
         profileSurname = findViewById(R.id.profileSurname);
-        profileEmail = findViewById(R.id.profileEmail);
+        //profileEmail = findViewById(R.id.profileEmail);
 
         userId = auth.getCurrentUser().getUid();
         mDatabase.child("NewUser").child(userId).child("name").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -65,7 +65,7 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
-        mDatabase.child("NewUser").child(userId).child("email").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        /*mDatabase.child("NewUser").child(userId).child("email").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
@@ -77,7 +77,7 @@ public class ProfileActivity extends AppCompatActivity {
                     profileEmail.setText(email);
                 }
             }
-        });
+        });*/
 
 
     }
