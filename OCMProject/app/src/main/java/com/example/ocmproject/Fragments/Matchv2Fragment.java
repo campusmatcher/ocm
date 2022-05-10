@@ -63,7 +63,7 @@ public class Matchv2Fragment extends Fragment implements MatchAdapterv2.ItemClic
         list = new ArrayList<>();
         adapter2 = new MatchAdapterv2(getActivity(), list);
         recycleView = view.findViewById(R.id.matchRecycler);
-        recycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recycleView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter2.setClickListener(this);
         recycleView.setAdapter(adapter2);
 
@@ -88,8 +88,9 @@ public class Matchv2Fragment extends Fragment implements MatchAdapterv2.ItemClic
                                 User friendUserObj = snapsho.getValue(User.class);
                                 list.add(friendUserObj);
                                 adapter2.notifyDataSetChanged();
+
                             }
-                            Log.e("size:", adapter2.getItemCount() + "");
+
                         }
                     });
                 }

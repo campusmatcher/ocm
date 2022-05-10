@@ -58,6 +58,8 @@ public class ProfileFragment extends Fragment {
 
         logout = view.findViewById(R.id.logoutButton);
 
+
+
         // Logout button's function
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +107,8 @@ public class ProfileFragment extends Fragment {
                         .commit();
             }
         });
+
+
 
 
 
