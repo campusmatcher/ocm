@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -173,6 +174,7 @@ public class OtherProfileFragment extends Fragment {
                                         else{value = "free";}
                                         TextView tv = new TextView(getActivity());
                                         tv.setText(String.valueOf(value));
+                                        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP,10);
                                         row.addView(tv);
                                     }
                                     myTable.addView(row);
