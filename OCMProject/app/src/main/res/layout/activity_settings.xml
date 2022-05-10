@@ -4,12 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pending.NotificationsFragment">
+    tools:context=".SettingsActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/pendingList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
