@@ -32,11 +32,6 @@ public class ScheduleActivity extends AppCompatActivity {
 
         Button scheduleUploadButton = findViewById(R.id.scheduleUploadButton);
         Button manualScheduleUploadButton = findViewById(R.id.manualScheduleUploadButton);
-        Button geciciButon = findViewById(R.id.profileButton);
-        Button geciciButon2 = findViewById(R.id.connectionsButton);
-        Button mainButton = findViewById(R.id.mainButton);
-        Button interestsButton = findViewById(R.id.interestsButton);
-        Button matchScreen = findViewById(R.id.matchScreen);
         Button pendingScreen = findViewById(R.id.pendingButton);
         ImageButton nextButton = findViewById(R.id.scheduleToMainButton);
 
@@ -60,18 +55,7 @@ public class ScheduleActivity extends AppCompatActivity {
             }
         });
 
-        geciciButon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ScheduleActivity.this, ProfileActivity.class));
-            }
-        });
-        geciciButon2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ScheduleActivity.this, CollectionsActivity.class));
-            }
-        });
+
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,18 +64,7 @@ public class ScheduleActivity extends AppCompatActivity {
             }
         });
 
-        interestsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ScheduleActivity.this, InterestsActivity.class));
-            }
-        });
-        matchScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ScheduleActivity.this, Matchv2Activity.class));
-            }
-        });
+
         pendingScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

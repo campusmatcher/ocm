@@ -14,7 +14,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.ocmproject.Fragments.ConnectionsFragment;
+import com.example.ocmproject.Fragments.InterestsFragment;
 import com.example.ocmproject.Fragments.MatchFragment;
+import com.example.ocmproject.Fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
     MatchFragment matchFragment = new MatchFragment();
     ConnectionsFragment connectionsFragment = new ConnectionsFragment();
+    ProfileFragment profileFragment = new ProfileFragment();
+    InterestsFragment interestsFragment = new InterestsFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, profileFragment).commit();
             }
         });
 
