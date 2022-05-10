@@ -20,6 +20,7 @@ import com.example.ocmproject.Fragments.InterestsFragment;
 import com.example.ocmproject.Fragments.MatchFragment;
 import com.example.ocmproject.Fragments.Matchv2Fragment;
 import com.example.ocmproject.Fragments.NotificationsFragment;
+import com.example.ocmproject.Fragments.OtherProfileFragment;
 import com.example.ocmproject.Fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     HomeFragment homeFragment = new HomeFragment();
     ActivityFragment activityFragment = new ActivityFragment();
     InterestsFragment interestsFragment = new InterestsFragment();
+    OtherProfileFragment otherProfileFragment = new OtherProfileFragment();
 
 
 

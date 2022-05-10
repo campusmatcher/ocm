@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -104,22 +105,17 @@ public class ConnectionsFragment extends Fragment implements ConnectionsAdapter.
         Toast.makeText(getActivity(), "You clicked " + adapter.getItem(position) + " on row number " + position + view.getId(), Toast.LENGTH_SHORT).show();
         FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        OtherProfileFragment fragment2 = new OtherProfileFragment();
-
+        //OtherProfileFragment fragment2 = new OtherProfileFragment();
+        //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,otherFragment).commit();
         Bundle bundle = new Bundle();
         User otherUser = adapter.getItem(position);
         bundle.putSerializable("your_obj", otherUser);
-        fragment2.setArguments(bundle);
-        ft.replace(android.R.id.content, fragment2);
+        otherFragment.setArguments(bundle);
+        ft.replace(R.id.container, otherFragment);
         ft.addToBackStack(null);
         ft.commit();
 
 
-        FragmentTransaction ftt = getParentFragmentManager().beginTransaction();
-
-        ftt.replace(R.id.container, fragment2, null);
-        ftt.addToBackStack(OtherProfileFragment.class.getName()) ;// you can use a string here, using the class name is just convenient
-        ftt.commit();
 
     }
 }
