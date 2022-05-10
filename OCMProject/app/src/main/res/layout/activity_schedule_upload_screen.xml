@@ -55,15 +55,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scheduleUploadButton" />
 
-    <Button
-        android:id="@+id/pendingButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pending"
-        app:layout_constraintBottom_toTopOf="@+id/scheduleUploadButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <ImageButton
         android:id="@+id/scheduleToMainButton"
         android:layout_width="75dp"

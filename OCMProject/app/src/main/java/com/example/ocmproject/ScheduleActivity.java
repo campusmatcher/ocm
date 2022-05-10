@@ -14,10 +14,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import com.example.ocmproject.match.Matchv2Activity;
-import com.example.ocmproject.pending.PendingActivity;
-import com.example.ocmproject.recycleFiles.RecycleActivity;
-
 import org.opencv.android.OpenCVLoader;
 
 public class ScheduleActivity extends AppCompatActivity {
@@ -32,7 +28,6 @@ public class ScheduleActivity extends AppCompatActivity {
 
         Button scheduleUploadButton = findViewById(R.id.scheduleUploadButton);
         Button manualScheduleUploadButton = findViewById(R.id.manualScheduleUploadButton);
-        Button pendingScreen = findViewById(R.id.pendingButton);
         ImageButton nextButton = findViewById(R.id.scheduleToMainButton);
 
 
@@ -65,12 +60,6 @@ public class ScheduleActivity extends AppCompatActivity {
         });
 
 
-        pendingScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ScheduleActivity.this, PendingActivity.class));
-            }
-        });
     }
 
     // The image is shown
