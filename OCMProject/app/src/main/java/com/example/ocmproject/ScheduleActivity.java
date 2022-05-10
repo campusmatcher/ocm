@@ -32,7 +32,6 @@ public class ScheduleActivity extends AppCompatActivity {
 
         Button scheduleUploadButton = findViewById(R.id.scheduleUploadButton);
         Button manualScheduleUploadButton = findViewById(R.id.manualScheduleUploadButton);
-        Button pendingScreen = findViewById(R.id.pendingButton);
         ImageButton nextButton = findViewById(R.id.scheduleToMainButton);
 
 
@@ -65,12 +64,6 @@ public class ScheduleActivity extends AppCompatActivity {
         });
 
 
-        pendingScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ScheduleActivity.this, PendingActivity.class));
-            }
-        });
     }
 
     // The image is shown
