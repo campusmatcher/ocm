@@ -5,12 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.ConnectionsFragment">
 
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="409dp"
-        android:layout_height="350dp"
-        android:padding="10dp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="90dp" />
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/connectionsList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </FrameLayout>
