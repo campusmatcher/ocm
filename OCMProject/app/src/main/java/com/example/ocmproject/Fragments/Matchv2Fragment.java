@@ -124,12 +124,13 @@ public class Matchv2Fragment extends Fragment implements MatchAdapterv2.ItemClic
                             if(current.getPending().contains(adapter2.getItem(position).getId())){
                                 current.acceptContact(adapter2.getItem(position).getId());
                                 Toast.makeText(getActivity(), "a", Toast.LENGTH_SHORT).show();//??
-                                view.setEnabled(false);
+                                view.findViewById(R.id.addButton).setEnabled(false);
                             }
                             else{
                                 current.addItemToSent(adapter2.getItem(position).getId());
                                 Toast.makeText(getActivity(), "b", Toast.LENGTH_SHORT).show();//??
-                                view.setEnabled(false);
+                                view.findViewById(R.id.addButton).setEnabled(false);
+
                             }
                             adapter2.notifyDataSetChanged();
 
