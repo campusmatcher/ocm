@@ -175,11 +175,11 @@ public class ScheduleReader {
      */
     public void omitSizeBoxes(ArrayList<Rect> rects){
         int deleted = 0;
-        int sizeLimit = 1000000;
+        //int sizeLimit = src.size().width();
         int size = rects.size();
         for (int i = 0; i < size - deleted; i++){
             Rect r = rects.get(i);
-            if ((r.width > 10000 || r.height > 5000) || (r.width < 150 || r.height < 50)){
+            if ((r.width > src.size().width / 3 || r.height > src.size().height/3) || (r.width < src.size().width / 10 || r.height < src.size().width / 10)){
                 rects.remove(i);
                 i--;
                 deleted ++;
