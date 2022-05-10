@@ -17,6 +17,7 @@ import com.example.ocmproject.Fragments.ConnectionsFragment;
 import com.example.ocmproject.Fragments.InterestsFragment;
 import com.example.ocmproject.Fragments.MatchFragment;
 import com.example.ocmproject.Fragments.Matchv2Fragment;
+import com.example.ocmproject.Fragments.NotificationsFragment;
 import com.example.ocmproject.Fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     Matchv2Fragment matchFragment = new Matchv2Fragment();
     ConnectionsFragment connectionsFragment = new ConnectionsFragment();
     ProfileFragment profileFragment = new ProfileFragment();
+    NotificationsFragment notificationsFragment = new NotificationsFragment();
     InterestsFragment interestsFragment = new InterestsFragment();
 
     @Override
@@ -75,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.connections:
                         getSupportFragmentManager().beginTransaction().replace(R.id.container, connectionsFragment).commit();
+                        return true;
+                    case R.id.notifs:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, notificationsFragment).commit();
                         return true;
                 }
 

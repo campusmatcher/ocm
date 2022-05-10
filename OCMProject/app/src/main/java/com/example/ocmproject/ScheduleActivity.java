@@ -14,10 +14,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import com.example.ocmproject.match.Matchv2Activity;
-import com.example.ocmproject.pending.PendingActivity;
-import com.example.ocmproject.recycleFiles.RecycleActivity;
-
 import org.opencv.android.OpenCVLoader;
 
 public class ScheduleActivity extends AppCompatActivity {

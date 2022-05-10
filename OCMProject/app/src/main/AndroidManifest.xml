@@ -13,7 +13,7 @@
             android:name=".DemoActivity"
             android:exported="false" />
         <activity
-            android:name=".pending.PendingActivity"
+            android:name=".pending.NotificationsFragment"
             android:exported="true" />
         <activity
             android:name=".match.Matchv2Activity"

@@ -89,6 +89,7 @@ public class Matchv2Fragment extends Fragment implements MatchAdapterv2.ItemClic
                                 list.add(friendUserObj);
                                 adapter2.notifyDataSetChanged();
                             }
+                            Log.e("size:", adapter2.getItemCount() + "");
                         }
                     });
                 }
