@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.ocmproject.match.Matchv2Activity;
@@ -23,18 +24,16 @@ public class ScheduleActivity extends AppCompatActivity {
 
     // Yavuz was here
     // Also alp was
+    // So was Arda
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_upload_screen);
+
         Button scheduleUploadButton = findViewById(R.id.scheduleUploadButton);
         Button manualScheduleUploadButton = findViewById(R.id.manualScheduleUploadButton);
-        Button geciciButon = findViewById(R.id.profileButton);
-        Button geciciButon2 = findViewById(R.id.connectionsButton);
-        Button mainButton = findViewById(R.id.mainButton);
-        Button interestsButton = findViewById(R.id.interestsButton);
-        Button matchScreen = findViewById(R.id.matchScreen);
         Button pendingScreen = findViewById(R.id.pendingButton);
+        ImageButton nextButton = findViewById(R.id.scheduleToMainButton);
 
 
         OpenCVLoader.initDebug();
@@ -56,38 +55,16 @@ public class ScheduleActivity extends AppCompatActivity {
             }
         });
 
-        geciciButon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ScheduleActivity.this, ProfileActivity.class));
-            }
-        });
-        geciciButon2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ScheduleActivity.this, CollectionsActivity.class));
-            }
-        });
 
-        mainButton.setOnClickListener(new View.OnClickListener() {
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(ScheduleActivity.this, MainActivity.class));
             }
         });
 
-        interestsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ScheduleActivity.this, InterestsActivity.class));
-            }
-        });
-        matchScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ScheduleActivity.this, Matchv2Activity.class));
-            }
-        });
+
         pendingScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
