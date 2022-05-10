@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.ocmproject.Fragments.ActivityFragment;
 import com.example.ocmproject.Fragments.ConnectionsFragment;
 import com.example.ocmproject.Fragments.HomeFragment;
 import com.example.ocmproject.Fragments.InterestsFragment;
@@ -47,7 +48,10 @@ public class MainActivity extends AppCompatActivity {
     ProfileFragment profileFragment = new ProfileFragment();
     NotificationsFragment notificationsFragment = new NotificationsFragment();
     HomeFragment homeFragment = new HomeFragment();
+    ActivityFragment activityFragment = new ActivityFragment();
     InterestsFragment interestsFragment = new InterestsFragment();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.home:
                         getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
+                        return true;
+                    case R.id.activity:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, activityFragment).commit();
                         return true;
                 }
 
