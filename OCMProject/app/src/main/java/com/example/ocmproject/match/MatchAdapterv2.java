@@ -112,7 +112,7 @@ public class MatchAdapterv2 extends RecyclerView.Adapter<MatchAdapterv2.ViewHold
     }
 
     public void setClickListener(ItemClickListener itemClickListener){
-        mClickListener = itemClickListener;
+        mClickListener = itemClickListener;;
     }
 
     /**
