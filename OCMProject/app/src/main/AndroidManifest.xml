@@ -10,6 +10,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OCMProject">
         <activity
+            android:name=".DemoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pending.NotificationsFragment"
+            android:exported="true" />
+        <activity
+            android:name=".match.Matchv2Activity"
+            android:exported="true" />
+        <activity
+            android:name=".recycleFiles.RecycleActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".MatchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterInterestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".InterestsActivity"
+            android:exported="false" />
+        <activity
             android:name=".CollectionsActivity"
             android:exported="false" />
         <activity

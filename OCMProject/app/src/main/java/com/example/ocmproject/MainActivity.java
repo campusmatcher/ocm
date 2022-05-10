@@ -1,17 +1,37 @@
 package com.example.ocmproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.ocmproject.Fragments.ActivityFragment;
+import com.example.ocmproject.Fragments.ConnectionsFragment;
+import com.example.ocmproject.Fragments.HomeFragment;
+import com.example.ocmproject.Fragments.InterestsFragment;
+import com.example.ocmproject.Fragments.MatchFragment;
+import com.example.ocmproject.Fragments.Matchv2Fragment;
+import com.example.ocmproject.Fragments.NotificationsFragment;
+import com.example.ocmproject.Fragments.OtherProfileFragment;
+import com.example.ocmproject.Fragments.ProfileFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,52 +41,66 @@ public class MainActivity extends AppCompatActivity {
     // Arda was here
     //again
 
-    private Button logout;
-    private EditText edit;
-    private Button add;
+    private ImageView profileButton;
+    BottomNavigationView bottomNavigationView;
+
+    Matchv2Fragment matchFragment = new Matchv2Fragment();
+    ConnectionsFragment connectionsFragment = new ConnectionsFragment();
+    ProfileFragment profileFragment = new ProfileFragment();
+    NotificationsFragment notificationsFragment = new NotificationsFragment();
+    HomeFragment homeFragment = new HomeFragment();
+    ActivityFragment activityFragment = new ActivityFragment();
+    InterestsFragment interestsFragment = new InterestsFragment();
+    OtherProfileFragment otherProfileFragment = new OtherProfileFragment();
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        logout = findViewById(R.id.logout);
-        edit = findViewById(R.id.edit);
-        add = findViewById(R.id.add);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
 
-        // Logout button's function
-        logout.setOnClickListener(new View.OnClickListener() {
+        profileButton = findViewById(R.id.profile_button);
+
+        profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(MainActivity.this, "Logged Out!", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(MainActivity.this, StartActivity.class));
-                finish();
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, profileFragment).commit();
             }
         });
 
-//         Adding one value
-//         FirebaseDatabase.getInstance().getReference().child("ocmdatabase").child("Android").setValue("abcd");
+        bottomNavigationView = findViewById(R.id.bottom_nav_bar);
 
-//        HashMap<String , Object> map = new HashMap<>();
-//        map.put("Name", "Alp");
-//        map.put("Email", "sencer@ocm.com");
-//
-//        FirebaseDatabase.getInstance().getReference().child("Isimler").child("CokluDeger").updateChildren(map);
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, matchFragment).commit();
 
-        // Add button's functions
-        add.setOnClickListener(new View.OnClickListener() {
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                String txt_name = edit.getText().toString();
-                if(txt_name.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "No Name Entered!", Toast.LENGTH_SHORT).show();
-                } else {
-                    FirebaseDatabase.getInstance().getReference().child("OCM VERILERI").push().child("Name").setValue(txt_name);
-                    startActivity(new Intent(MainActivity.this, ScheduleActivity.class));
-                    finish();
-
+            public boolean onNavigationItemSelected(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.match:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, matchFragment).commit();
+                        return true;
+                    case R.id.connections:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, connectionsFragment).commit();
+                        return true;
+                    case R.id.notifs:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, notificationsFragment).commit();
+                        return true;
+                    case R.id.home:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
+                        return true;
+                    case R.id.activity:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, activityFragment).commit();
+                        return true;
                 }
+
+                return false;
             }
         });
+
+
     }
 }

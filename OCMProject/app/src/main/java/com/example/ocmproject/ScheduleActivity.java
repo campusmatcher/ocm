@@ -10,33 +10,26 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 
-import org.opencv.core.Core;
 import org.opencv.android.OpenCVLoader;
-import org.opencv.android.Utils;
-import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
-
-
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 public class ScheduleActivity extends AppCompatActivity {
 
     // Yavuz was here
     // Also alp was
+    // So was Arda
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_upload_screen);
+
         Button scheduleUploadButton = findViewById(R.id.scheduleUploadButton);
         Button manualScheduleUploadButton = findViewById(R.id.manualScheduleUploadButton);
-        Button geciciButon = findViewById(R.id.geciciButon);
-        Button geciciButon2 = findViewById(R.id.geciciButon2);
+        ImageButton nextButton = findViewById(R.id.scheduleToMainButton);
+
 
         OpenCVLoader.initDebug();
 //        for(String course: courses){
@@ -57,18 +50,15 @@ public class ScheduleActivity extends AppCompatActivity {
             }
         });
 
-        geciciButon.setOnClickListener(new View.OnClickListener() {
+
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ScheduleActivity.this, ProfileActivity.class));
+                startActivity(new Intent(ScheduleActivity.this, MainActivity.class));
             }
         });
-        geciciButon2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ScheduleActivity.this, CollectionsActivity.class));
-            }
-        });
+
 
     }
 
@@ -123,22 +113,9 @@ public class ScheduleActivity extends AppCompatActivity {
 
             //Log.e("lenght", "" + sections.size());
             //scheduler.newThread();
-            }
-
-
         }
+
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
+}
