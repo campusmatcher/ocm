@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/home"
+        android:title="Home"
+        android:icon="@drawable/ic_baseline_home_24"/>
+    <item android:id="@+id/match"
+        android:title="Match"
+        android:icon="@drawable/ic_baseline_search_24"/>
+    <item android:id="@+id/activity"
+        android:title="Activity"
+        android:icon="@drawable/ic_baseline_add_circle_outline_24"/>
+    <item android:id="@+id/connections"
+        android:title="Connections"
+        android:icon="@drawable/ic_baseline_people_outline_24"/>
+    <item android:id="@+id/notifs"
+        android:title="Notifs"
+        android:icon="@drawable/ic_baseline_notifications_none_24"/>
+
+
+
+</menu>
