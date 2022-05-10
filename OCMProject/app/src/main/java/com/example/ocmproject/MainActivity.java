@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.ocmproject.Fragments.ConnectionsFragment;
 import com.example.ocmproject.Fragments.InterestsFragment;
 import com.example.ocmproject.Fragments.MatchFragment;
+import com.example.ocmproject.Fragments.Matchv2Fragment;
 import com.example.ocmproject.Fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView profileButton;
     BottomNavigationView bottomNavigationView;
 
-    MatchFragment matchFragment = new MatchFragment();
+    Matchv2Fragment matchFragment = new Matchv2Fragment();
     ConnectionsFragment connectionsFragment = new ConnectionsFragment();
     ProfileFragment profileFragment = new ProfileFragment();
     InterestsFragment interestsFragment = new InterestsFragment();

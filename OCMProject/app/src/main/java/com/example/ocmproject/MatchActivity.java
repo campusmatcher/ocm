@@ -43,9 +43,9 @@ public class MatchActivity extends AppCompatActivity {
         userId = auth.getCurrentUser().getUid();
         list = new ArrayList<>();
         adapter = new UserListAdapter(this, list);
-        ListView matchList = findViewById(R.id.matchList);
+        //ListView matchList = findViewById(R.id.matchList);
 
-        matchList.setAdapter(adapter);
+        //matchList.setAdapter(adapter);
 
         mDatabase.child("NewUser").child(userId).child("MatchList").addValueEventListener(new ValueEventListener() {
         //mDatabase.child("Users").addValueEventListener(new ValueEventListener() {
