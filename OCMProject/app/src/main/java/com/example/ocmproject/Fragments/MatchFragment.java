@@ -57,9 +57,9 @@ public class MatchFragment extends Fragment {
         userId = auth.getCurrentUser().getUid();
         list = new ArrayList<>();
         adapter = new UserListAdapter(getActivity(), list);
-        ListView matchList = view.findViewById(R.id.matchList);
+        //ListView matchList = view.findViewById(R.id.matchList);
 
-        matchList.setAdapter(adapter);
+        //matchList.setAdapter(adapter);
 
         mDatabase.child("NewUser").child(userId).child("MatchList").addValueEventListener(new ValueEventListener() {
             //mDatabase.child("Users").addValueEventListener(new ValueEventListener() {
