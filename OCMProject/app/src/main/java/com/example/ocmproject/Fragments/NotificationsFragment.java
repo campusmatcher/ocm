@@ -11,14 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.ocmproject.R;
 import com.example.ocmproject.User;
-import com.example.ocmproject.match.MatchAdapterv2;
-import com.example.ocmproject.pending.PendingActivity;
 import com.example.ocmproject.pending.PendingAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
