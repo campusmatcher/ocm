@@ -13,26 +13,26 @@
             android:id="@+id/profile_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_account_circle_24"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_baseline_account_circle_24" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginStart="16dp"
             android:layout_toEndOf="@id/profile_button"
             android:text="On Campus Matcher"
             android:textColor="@color/black"
-            android:textSize="20sp"
-            android:layout_centerVertical="true"/>
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/sandwich_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_baseline_menu_24"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_baseline_menu_24" />
     </RelativeLayout>
 
 </RelativeLayout>
