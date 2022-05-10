@@ -1,5 +1,6 @@
 package com.example.ocmproject.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,8 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.ocmproject.MainActivity;
 import com.example.ocmproject.R;
+import com.example.ocmproject.StartActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,6 +39,7 @@ public class ProfileFragment extends Fragment {
     private TextView profileSurname;
     private TextView profileEmail;
     Button myInterestButton;
+    Button logout;
 
 
     @Override
@@ -51,7 +56,20 @@ public class ProfileFragment extends Fragment {
         //profileEmail = findViewById(R.id.profileEmail);
         myInterestButton = view.findViewById(R.id.interest_button);
 
-        userId = auth.getCurrentUser().getUid();
+        logout = view.findViewById(R.id.logoutButton);
+
+        // Logout button's function
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                Toast.makeText(getContext(), "Logged Out!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), StartActivity.class);
+                startActivity(intent);
+            }
+        });
+
+    userId = auth.getCurrentUser().getUid();
         mDatabase.child("NewUser").child(userId).child("name").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
