@@ -35,9 +35,9 @@ public class Matcherv2 {
         userId = auth.getUid();
         matchesMap = new HashMap<String, Integer>();
         matchList = new ArrayList<String>();
-        INTEREST_POINT = 10;
+        INTEREST_POINT = 15;
         SECTION_POINT = 10;
-        FREE_HOUR_POINT = 10;
+        FREE_HOUR_POINT = 3;
     }
 
 
