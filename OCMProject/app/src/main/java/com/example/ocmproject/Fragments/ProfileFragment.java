@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +28,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 
 public class ProfileFragment extends Fragment {
     private FirebaseAuth auth;
@@ -40,6 +44,7 @@ public class ProfileFragment extends Fragment {
     private TextView profileEmail;
     Button myInterestButton;
     Button logout;
+    TableLayout myTable;
 
 
     @Override
@@ -55,8 +60,11 @@ public class ProfileFragment extends Fragment {
         profileSurname = view.findViewById(R.id.profileSurname);
         //profileEmail = findViewById(R.id.profileEmail);
         myInterestButton = view.findViewById(R.id.interest_button);
+        myTable = view.findViewById(R.id.schTable);
+
 
         logout = view.findViewById(R.id.logoutButton);
+
 
 
 
@@ -108,6 +116,44 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        mDatabase.child("NewUser").child(userId).child("Lessons").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                ArrayList<String> lessons = (ArrayList<String>) task.getResult().getValue();
+                String[] schedule = new String[40];
+                for (String lesson : lessons) {
+                    mDatabase.child("Courses").child("Courses").child(lesson).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            ArrayList<String> hours = (ArrayList<String>)task.getResult().getValue();
+                            for (int i = 0; i < hours.size(); i++) {
+                                if (hours.get(i).equals("1")){
+                                    schedule[i] = lesson;
+                                }
+
+                            }
+                            if (lessons.indexOf(lesson) == lessons.size() - 1){
+                                cleanTable(myTable);
+                                for (int i=0; i < 8; i++) {
+                                    TableRow row = new TableRow(getActivity());
+                                    for (int j=0; j < 5; j++) {
+                                        String value;
+                                        if(schedule[j * 8 + i] != null) {
+                                            value = schedule[j * 8 + i];
+                                        }
+                                        else{value = "free";}
+                                        TextView tv = new TextView(getActivity());
+                                        tv.setText(String.valueOf(value));
+                                        row.addView(tv);
+                                    }
+                                    myTable.addView(row);
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        });
 
 
 
@@ -128,5 +174,14 @@ public class ProfileFragment extends Fragment {
 
 
         return view;
+    }
+    private void cleanTable(TableLayout table) {
+
+        int childCount = table.getChildCount();
+
+        // Remove all rows except the first one
+        if (childCount > 1) {
+            table.removeViews(1, childCount - 1);
+        }
     }
 }
