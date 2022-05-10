@@ -307,9 +307,9 @@ public class ScheduleReader {
                                         // ...
                                         for (Text.TextBlock block : visionText.getTextBlocks()) {
                                             String blockText = block.getText();
+                                            blockText = blockText.toUpperCase();
                                             blockText = blockText.replaceAll("\\s", "");
                                             if (blockText.matches("\\s{0,2}\\w{2,4}\\s{0,2}\\d{3}\\s{0,2}-\\s{0,2}\\d{2,3}\\s{0,2}") && !list.contains(blockText)) {
-                                                blockText = blockText.toUpperCase(Locale.ROOT);
                                                 list.add(blockText);
                                             }
                                             //Thread.sleep(1000000);
