@@ -45,7 +45,7 @@ public class RegisterInterestActivity extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mDatabase.child("NewUser").child(auth.getCurrentUser().getUid()).child("Interests").setValue(interestArray);
+                mDatabase.child("NewUser").child(auth.getCurrentUser().getUid()).child("Interests").setValue(interestList);
                 startActivity(new Intent(RegisterInterestActivity.this, ScheduleActivity.class));
                 finish();
             }
