@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.ocmproject.MainActivity;
 import com.example.ocmproject.R;
 import com.example.ocmproject.StartActivity;
+import com.example.ocmproject.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,6 +54,8 @@ public class OtherProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = (View) inflater.inflate(R.layout.fragment_profile, container, false);
 
+        Bundle bundle = this.getArguments();
+        User other= (User) bundle.getSerializable("your_obj");
         mDatabase = FirebaseDatabase.getInstance().getReference();
         auth = FirebaseAuth.getInstance();
         mRootRef = FirebaseDatabase.getInstance().getReference();
@@ -79,7 +82,7 @@ public class OtherProfileFragment extends Fragment {
             }
         });
 
-        userId = auth.getCurrentUser().getUid();
+        userId = other.getId();
         mDatabase.child("NewUser").child(userId).child("name").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
