@@ -10,7 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 import com.example.ocmproject.MainActivity;
 import com.example.ocmproject.R;
 import com.example.ocmproject.StartActivity;
+import com.example.ocmproject.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +30,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -42,6 +47,11 @@ public class ProfileFragment extends Fragment {
     private TextView profileName;
     private TextView profileSurname;
     private TextView profileEmail;
+    private TextView titleMyInterests;
+    private TextView titleMySchedule;
+    private ArrayList<String> list;
+    private ListView listView;
+    private ArrayAdapter adapter;
     Button myInterestButton;
     Button logout;
     TableLayout myTable;
@@ -58,15 +68,38 @@ public class ProfileFragment extends Fragment {
         mRootRef = FirebaseDatabase.getInstance().getReference();
         profileName = view.findViewById(R.id.profileName);
         profileSurname = view.findViewById(R.id.profileSurname);
-        //profileEmail = findViewById(R.id.profileEmail);
-        myInterestButton = view.findViewById(R.id.interest_button);
+        profileEmail = view.findViewById(R.id.profileEmail);
         myTable = view.findViewById(R.id.schTable);
 
+        listView = view.findViewById(R.id.listView);
+        list = new ArrayList<>();
+
+        adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_layout, list);
+        listView.setAdapter(adapter);
 
         logout = view.findViewById(R.id.logoutButton);
 
+        TextView titleMyInterests = new TextView(getContext());
+        titleMyInterests.setText("My Interests");
+        listView.addHeaderView(titleMyInterests);
 
 
+        // INTERESTS PRINTER
+        mDatabase.child("NewUser").child(auth.getCurrentUser().getUid()).child("Interests").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                list.clear();
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    String interest = snap.getValue(String.class);
+                    list.add(interest);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         // Logout button's function
         logout.setOnClickListener(new View.OnClickListener() {
@@ -104,17 +137,21 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-
-        myInterestButton.setOnClickListener(new View.OnClickListener() {
+        mDatabase.child("NewUser").child(userId).child("email").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View view) {
-                InterestsFragment interestsFragment= new InterestsFragment();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, interestsFragment, "findThisFragment")
-                        .addToBackStack(null)
-                        .commit();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                email = snapshot.getValue(String.class);
+                String emailText = "Email: " + email;
+                profileEmail.setText(emailText);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
+
+
 
         mDatabase.child("NewUser").child(userId).child("Lessons").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
