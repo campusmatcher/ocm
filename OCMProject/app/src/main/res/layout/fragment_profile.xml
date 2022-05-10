@@ -40,50 +40,62 @@
 
 
     </androidx.cardview.widget.CardView>
+    
 
     <Button
         android:id="@+id/interest_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="48dp"
         android:text="My Interests"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="60dp"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/interest_button" />
+
     <TableLayout
 
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:stretchColumns="0,1,2"
-        android:gravity="center">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:stretchColumns="0,1,2,3,4"
+        app:layout_constraintBottom_toBottomOf="parent">
 
+        <!--        <TableRow-->
+        <!--            android:background="#FFFFFF"-->
+        <!--            android:layout_width="fill_parent"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:layout_margin="1dp"-->
+        <!--            android:layout_weight="1"-->
+        <!--            >-->
+        <!--            <TableRow-->
+        <!--                android:background="#000000"-->
+        <!--                android:layout_width="fill_parent"-->
+        <!--                android:layout_height="0dp"-->
+        <!--                android:layout_margin="1dp"-->
+        <!--                android:layout_weight="1"-->
+        <!--                >-->
+
+
+        <!--            </TableRow>-->
+        <!--        </TableRow>-->
         <TableRow
-            android:background="#FFFFFF"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            >
-            <TableRow
-                android:background="#000000"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_margin="1dp"
-                android:layout_weight="1"
-                >
-
-
-
-            </TableRow>
-        </TableRow>
-        <TableRow
             android:background="#000000"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
 
             >
 
@@ -96,7 +108,7 @@
                 android:gravity="center"
                 android:text="Monday"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="10sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -108,11 +120,11 @@
                 android:gravity="center"
                 android:text="Tuesday"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="10sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_width="63dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_column="2"
                 android:layout_margin="1dp"
@@ -120,7 +132,7 @@
                 android:gravity="center"
                 android:text="Wednesday"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="10sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -132,7 +144,7 @@
                 android:gravity="center"
                 android:text="Thursday"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="10sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -144,49 +156,41 @@
                 android:gravity="center"
                 android:text="Friday"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="10sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
         </TableRow>
 
         <TableRow
-            android:background="#000000"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            >
+            android:background="#000000">
 
             <TextView
-                android:id="@+id/table00"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text=" Text"
-                android:layout_margin="1dp"
                 android:layout_column="0"
+                android:layout_margin="1dp"
                 android:background="#FFFFFF"
                 android:gravity="center"
-                android:textSize="10sp"
-
-                />
+                android:text=" Text"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/table01"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text=" Text"
-                android:layout_margin="1dp"
                 android:layout_column="1"
+                android:layout_margin="1dp"
                 android:background="#FFFFFF"
                 android:gravity="center"
-                android:textSize="10sp"
-
-                />
+                android:text=" Text"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/table02"
-                android:layout_width="53dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_column="2"
                 android:layout_margin="1dp"
@@ -194,342 +198,35 @@
                 android:gravity="center"
                 android:text=" Text"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="10sp"
-                />
+                android:textSize="14sp" />
             <TextView
-                android:id="@+id/table03"
-                android:layout_width="53dp"
-                android:layout_height="match_parent"
-                android:layout_column="3"
-                android:layout_margin="1dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:text=" Text"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="10sp"
-                />
-            <TextView
-                android:id="@+id/table04"
-                android:layout_width="53dp"
-                android:layout_height="match_parent"
-                android:layout_column="4"
-                android:layout_margin="1dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:text=" Text"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="10sp"
-                />
-        </TableRow>
-
-
-
-        <TableRow
-            android:background="#000000"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
-            >
-
-            <TextView
-                android:id="@+id/table10"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text=" Text"
-                android:layout_margin="1dp"
-                android:layout_column="0"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:textSize="10sp"
-
-                />
-
-            <TextView
-                android:id="@+id/table11"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text=" Text"
-                android:layout_margin="1dp"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:textSize="10sp"
-
-                />
-
-            <TextView
-                android:id="@+id/table12"
-                android:layout_width="53dp"
-                android:layout_height="match_parent"
-                android:layout_column="2"
-                android:layout_margin="1dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:text=" Text"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="10sp"
-                />
-            <TextView
-                android:id="@+id/table13"
-                android:layout_width="53dp"
-                android:layout_height="match_parent"
                 android:layout_column="3"
                 android:layout_margin="1dp"
                 android:background="#FFFFFF"
                 android:gravity="center"
                 android:text=" Text"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="10sp"
-                />
+                android:textSize="14sp" />
             <TextView
-                android:id="@+id/table14"
-                android:layout_width="53dp"
-                android:layout_height="match_parent"
-                android:layout_column="4"
-                android:layout_margin="1dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:text=" Text"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="10sp"
-                />
-        </TableRow>
-
-        <TableRow
-            android:background="#000000"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
-            >
-
-            <TextView
-                android:id="@+id/table20"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text=" Text"
-                android:layout_margin="1dp"
-                android:layout_column="0"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:textSize="10sp"
-
-                />
-
-            <TextView
-                android:id="@+id/table21"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text=" Text"
-                android:layout_margin="1dp"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:textSize="10sp"
-
-                />
-
-            <TextView
-                android:id="@+id/table22"
-                android:layout_width="53dp"
-                android:layout_height="match_parent"
-                android:layout_column="2"
-                android:layout_margin="1dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:text=" Text"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="10sp"
-                />
-            <TextView
-                android:id="@+id/table23"
-                android:layout_width="53dp"
-                android:layout_height="match_parent"
-                android:layout_column="3"
-                android:layout_margin="1dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:text=" Text"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="10sp"
-                />
-            <TextView
-                android:id="@+id/table24"
-                android:layout_width="53dp"
-                android:layout_height="match_parent"
                 android:layout_column="4"
                 android:layout_margin="1dp"
                 android:background="#FFFFFF"
                 android:gravity="center"
                 android:text=" Text"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="10sp"
-                />
+                android:textSize="14sp" />
         </TableRow>
-        <TableRow
-            android:background="#000000"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
-            >
 
-            <TextView
-                android:id="@+id/table30"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text=" Text"
-                android:layout_margin="1dp"
-                android:layout_column="0"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:textSize="10sp"
 
-                />
 
-            <TextView
-                android:id="@+id/table31"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text=" Text"
-                android:layout_margin="1dp"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:textSize="10sp"
 
-                />
-
-            <TextView
-                android:id="@+id/table32"
-                android:layout_width="53dp"
-                android:layout_height="match_parent"
-                android:layout_column="2"
-                android:layout_margin="1dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:text=" Text"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="10sp"
-                />
-            <TextView
-                android:id="@+id/table33"
-                android:layout_width="53dp"
-                android:layout_height="match_parent"
-                android:layout_column="3"
-                android:layout_margin="1dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:text=" Text"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="10sp"
-                />
-            <TextView
-                android:id="@+id/table34"
-                android:layout_width="53dp"
-                android:layout_height="match_parent"
-                android:layout_column="4"
-                android:layout_margin="1dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:text=" Text"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="10sp"
-                />
-        </TableRow>
-        <TableRow
-            android:background="#000000"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
-            >
-
-            <TextView
-                android:id="@+id/table40"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text=" Text"
-                android:layout_margin="1dp"
-                android:layout_column="0"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:textSize="10sp"
-
-                />
-
-            <TextView
-                android:id="@+id/table41"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text=" Text"
-                android:layout_margin="1dp"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:textSize="10sp"
-
-                />
-
-            <TextView
-                android:id="@+id/table42"
-                android:layout_width="53dp"
-                android:layout_height="match_parent"
-                android:layout_column="2"
-                android:layout_margin="1dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:text=" Text"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="10sp"
-                />
-            <TextView
-                android:id="@+id/table43"
-                android:layout_width="53dp"
-                android:layout_height="match_parent"
-                android:layout_column="3"
-                android:layout_margin="1dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:text=" Text"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="10sp"
-                />
-            <TextView
-                android:id="@+id/table44"
-                android:layout_width="53dp"
-                android:layout_height="match_parent"
-                android:layout_column="4"
-                android:layout_margin="1dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:text=" Text"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="10sp"
-                />
-        </TableRow>
 
     </TableLayout>
 
-    <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteX="159dp"
-        tools:layout_editor_absoluteY="324dp"
-        app:layout_constraintTop_toBottomOf="@+id/interest_button"/>
+    
 
 </androidx.constraintlayout.widget.ConstraintLayout>
