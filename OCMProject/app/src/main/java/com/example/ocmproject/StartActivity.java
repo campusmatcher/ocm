@@ -36,7 +36,7 @@ public class StartActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(StartActivity.this, RegisterActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                finish();
+                //finish();
             }
         });
 
