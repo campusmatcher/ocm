@@ -66,6 +66,7 @@ public class MatchFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
+                adapter.notifyDataSetChanged();
                 for (DataSnapshot snap : snapshot.getChildren()) {
                     String friendId = snap.getValue(String.class);
                     //Iterable<Object> = mDatabase.child("Users").child(userId).child("Contacts").get
