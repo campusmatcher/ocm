@@ -90,6 +90,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
+                adapter.notifyDataSetChanged();
                 for (DataSnapshot snap : snapshot.getChildren()) {
                     String interest = snap.getValue(String.class);
                     list.add(interest);

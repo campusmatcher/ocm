@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.example.ocmproject.R;
 import com.example.ocmproject.User;
 import com.example.ocmproject.recycleFiles.ConnectionsAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -70,21 +72,22 @@ public class ConnectionsFragment extends Fragment implements ConnectionsAdapter.
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
+                adapter.notifyDataSetChanged();
                 for (DataSnapshot snap : snapshot.getChildren()) {
                     String friendId = snap.getValue(String.class);
                     DatabaseReference friendRefs = FirebaseDatabase.getInstance().getReference().child("NewUser").child(friendId);
-                    friendRefs.addValueEventListener(new ValueEventListener() {
+                    friendRefs.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                         @Override
-                        public void onDataChange(@NonNull DataSnapshot snapsho) {
-                            User friendUserObj = snapsho.getValue(User.class);
-                            String friendNameSurname = friendUserObj.getName() + " " + friendUserObj.getSurname();
-                            list.add(friendUserObj);
-                            adapter.notifyDataSetChanged();
-                        }
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            if (!task.isSuccessful()){
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
+                            }
+                            else{
+                                User friendUserObj = task.getResult().getValue(User.class);
+                                String friendNameSurname = friendUserObj.getName() + " " + friendUserObj.getSurname();
+                                list.add(friendUserObj);
+                                adapter.notifyDataSetChanged();
+                            }
                         }
                     });
                 }
@@ -118,4 +121,14 @@ public class ConnectionsFragment extends Fragment implements ConnectionsAdapter.
 
 
     }
+//    public void clear() {
+//        int size = list.size();
+//        if (size > 0) {
+//            for (int i = 0; i < size; i++) {
+//                list.remove(0);
+//            }
+//
+//            notifyItemRangeRemoved(0, size);
+//        }
+//    }
 }
