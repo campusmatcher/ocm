@@ -314,19 +314,7 @@ public class ScheduleReader {
                                             if (blockText.matches("\\s{0,2}\\w{2,4}\\s{0,2}\\d{3}\\s{0,2}-\\s{0,2}\\d{2,3}\\s{0,2}") && !list.contains(blockText)) {
                                                 list.add(blockText);
                                             }
-                                            //Thread.sleep(1000000);
-//                                            Point[] blockCornerPoints = block.getCornerPoints(); // prevent name ambiguity
-//                                            android.graphics.Rect blockFrame = block.getBoundingBox();
-//                                            for (Text.Line line : block.getLines()) {
-//                                                String lineText = line.getText();
-//                                                Point[] lineCornerPoints = line.getCornerPoints();
-//                                                android.graphics.Rect lineFrame = line.getBoundingBox();
-//                                                for (Text.Element element : line.getElements()) {
-//                                                    String elementText = element.getText();
-//                                                    Point[] elementCornerPoints = element.getCornerPoints();
-//                                                    android.graphics.Rect elementFrame = element.getBoundingBox();
-//                                                }
-//                                            }
+
                                         }
                                         Log.e("Size", "" + list.size());
 
