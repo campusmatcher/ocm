@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView settingButton;
     BottomNavigationView bottomNavigationView;
 
-    Matchv2Fragment matchFragment = new Matchv2Fragment();
+    Matchv2Fragment matchv2Fragment = new Matchv2Fragment();
     ConnectionsFragment connectionsFragment = new ConnectionsFragment();
     ProfileFragment profileFragment = new ProfileFragment();
     NotificationsFragment notificationsFragment = new NotificationsFragment();
@@ -71,14 +71,14 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottom_nav_bar);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, matchFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, profileFragment).commit();
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.match:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, matchFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, matchv2Fragment).commit();
                         return true;
                     case R.id.connections:
                         getSupportFragmentManager().beginTransaction().replace(R.id.container, connectionsFragment).commit();
