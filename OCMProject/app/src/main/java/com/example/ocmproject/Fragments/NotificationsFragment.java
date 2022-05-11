@@ -58,6 +58,7 @@ public class NotificationsFragment extends Fragment implements PendingAdapter.It
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
+                adapter.notifyDataSetChanged();
                 for (DataSnapshot snap : snapshot.getChildren()) {
                     String pendingId = snap.getValue(String.class);
                     DatabaseReference friendRefs = FirebaseDatabase.getInstance().getReference().child("NewUser").child(pendingId);

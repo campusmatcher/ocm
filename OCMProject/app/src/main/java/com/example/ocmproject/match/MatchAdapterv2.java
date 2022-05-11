@@ -102,6 +102,7 @@ public class MatchAdapterv2 extends RecyclerView.Adapter<MatchAdapterv2.ViewHold
         public void onClick(View view) {
             if (mClickListener != null) {
                 mClickListener.onItemClick(view, getAdapterPosition());
+                //addButton.setEnabled(false);
             }
 
         }

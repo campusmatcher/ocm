@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
 
 
         // INTERESTS PRINTER
-        mDatabase.child("NewUser").child(auth.getCurrentUser().getUid()).child("Acitivities").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("NewUser").child(auth.getCurrentUser().getUid()).child("Activities").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();

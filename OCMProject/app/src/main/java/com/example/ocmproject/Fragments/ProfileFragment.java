@@ -90,6 +90,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
+                adapter.notifyDataSetChanged();
                 for (DataSnapshot snap : snapshot.getChildren()) {
                     String interest = snap.getValue(String.class);
                     list.add(interest);
@@ -170,26 +171,32 @@ public class ProfileFragment extends Fragment {
                                 }
 
                             }
-                            if (lessons.indexOf(lesson) == lessons.size() - 1){
-                                cleanTable(myTable);
-                                for (int i=0; i < 8; i++) {
-                                    TableRow row = new TableRow(getActivity());
-                                    for (int j=0; j < 5; j++) {
-                                        String value;
-                                        if(schedule[j * 8 + i] != null) {
-                                            value = schedule[j * 8 + i];
-                                        }
-                                        else{value = "free";}
-                                        TextView tv = new TextView(getActivity());
-                                        tv.setText(String.valueOf(value));
-                                        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP,10);
+                            try {
+                                if (lessons.indexOf(lesson) == lessons.size() - 1) {
+                                    cleanTable(myTable);
+                                    for (int i = 0; i < 8; i++) {
+                                        TableRow row = new TableRow(getActivity());
+                                        for (int j = 0; j < 5; j++) {
+                                            String value;
+                                            if (schedule[j * 8 + i] != null) {
+                                                value = schedule[j * 8 + i];
+                                            } else {
+                                                value = "free";
+                                            }
+                                            TextView tv = new TextView(getActivity());
+                                            tv.setText(String.valueOf(value));
+                                            tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
 
-                                        row.addView(tv);
+                                            row.addView(tv);
+                                        }
+                                        myTable.addView(row);
                                     }
-                                    myTable.addView(row);
                                 }
                             }
-                        }
+                            catch(NullPointerException e){
+                                Log.e("Schedule Error", "No Schedule");
+                            }
+                            }
                     });
                 }
             }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -69,9 +70,11 @@ public class Matchv2Fragment extends Fragment implements MatchAdapterv2.ItemClic
 
         //Populating recyclerview with data form firebase
         mDatabase.child("NewUser").child(auth.getUid()).child("MatchList").addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
+                adapter2.notifyDataSetChanged();
                 for (DataSnapshot snap : snapshot.getChildren()) {
                     String friendId = snap.getValue(String.class);
                     //Iterable<Object> = mDatabase.child("Users").child(userId).child("Contacts").get
@@ -84,12 +87,14 @@ public class Matchv2Fragment extends Fragment implements MatchAdapterv2.ItemClic
 
                             }
                             else {
+
                                 DataSnapshot snapsho = task.getResult();
                                 User friendUserObj = snapsho.getValue(User.class);
                                 list.add(friendUserObj);
                                 adapter2.notifyDataSetChanged();
 
                             }
+
 
                         }
                     });
@@ -124,15 +129,16 @@ public class Matchv2Fragment extends Fragment implements MatchAdapterv2.ItemClic
                             if(current.getPending().contains(adapter2.getItem(position).getId())){
                                 current.acceptContact(adapter2.getItem(position).getId());
                                 Toast.makeText(getActivity(), "a", Toast.LENGTH_SHORT).show();//??
-                                view.findViewById(R.id.addButton).setEnabled(false);
+                                view.setEnabled(false);
+
                             }
                             else{
                                 current.addItemToSent(adapter2.getItem(position).getId());
                                 Toast.makeText(getActivity(), "b", Toast.LENGTH_SHORT).show();//??
-                                view.findViewById(R.id.addButton).setEnabled(false);
+                                view.setEnabled(false);
+
 
                             }
-                            adapter2.notifyDataSetChanged();
 
                         }
                     }
