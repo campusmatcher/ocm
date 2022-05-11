@@ -180,7 +180,9 @@ public class ScheduleReader {
         int size = rects.size();
         for (int i = 0; i < size - deleted; i++){
             Rect r = rects.get(i);
-            if ((r.width > src.size().width / 3 || r.height > src.size().height/3) || (r.width < src.size().width / 10 || r.height < src.size().width / 10)){
+            int w = (int) src.size().width;
+            int h = (int) src.size().height;
+            if ((r.width > w / 4 || r.height > h / 4) || (r.width < w / 30 || r.height < h / 30)){
                 rects.remove(i);
                 i--;
                 deleted ++;
@@ -207,7 +209,7 @@ public class ScheduleReader {
      * @param rects
      */
     public void bSort(ArrayList<Rect> rects){
-        int error = 30; // to tolarate little cooridnate differences between boxes in the same column
+        int error = 30; // to tolerate little coordinate differences between boxes in the same column
         for (int i = 0; i < rects.size(); i ++){
             for (int j = i; j < rects.size(); j++) {
                 Rect r = rects.get(i);
@@ -286,7 +288,7 @@ public class ScheduleReader {
             list.clear();
 
             for (Rect r : boxes) {
-                if (r.x - x > 50){ // solve hard coded value
+                if (r.x - x > 50){ // solve hard coded pixel value
                     x = r.x;
                     //System.out.println("------------------------------");
                 }
@@ -312,19 +314,7 @@ public class ScheduleReader {
                                             if (blockText.matches("\\s{0,2}\\w{2,4}\\s{0,2}\\d{3}\\s{0,2}-\\s{0,2}\\d{2,3}\\s{0,2}") && !list.contains(blockText)) {
                                                 list.add(blockText);
                                             }
-                                            //Thread.sleep(1000000);
-//                                            Point[] blockCornerPoints = block.getCornerPoints(); // prevent name ambiguity
-//                                            android.graphics.Rect blockFrame = block.getBoundingBox();
-//                                            for (Text.Line line : block.getLines()) {
-//                                                String lineText = line.getText();
-//                                                Point[] lineCornerPoints = line.getCornerPoints();
-//                                                android.graphics.Rect lineFrame = line.getBoundingBox();
-//                                                for (Text.Element element : line.getElements()) {
-//                                                    String elementText = element.getText();
-//                                                    Point[] elementCornerPoints = element.getCornerPoints();
-//                                                    android.graphics.Rect elementFrame = element.getBoundingBox();
-//                                                }
-//                                            }
+
                                         }
                                         Log.e("Size", "" + list.size());
 
