@@ -30,7 +30,7 @@ public class User implements Serializable {
     private String email;
     private String username;
     //private ArrayList<String> contacts;
-    private ArrayList<Section> sections;
+    //private ArrayList<Section> sections;
     //private HashMap<String, Object> connections;
     private String id;
     private List<String> Schedule;
@@ -46,19 +46,7 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String name, String surname, String email, String username, HashMap<String, Object> connections, ArrayList<Section> sections) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.username = username;
-        //this.connections = connections;
-        this.sections = sections;
-        //this.Schedule = new List<>();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        auth = FirebaseAuth.getInstance();
-        userReference = mDatabase.child("NewUser").child(this.id);
 
-    }
 
     public User(String name, String surname, String email, String username) {
         this.name = name;
@@ -75,13 +63,13 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(String name, String surname, String email, String username, HashMap<String, Object> connections, ArrayList<Section> sections, String id) {
+    public User(String name, String surname, String email, String username, String id) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.username = username;
         //this.connections = connections;
-        this.sections = sections;
+        //this.sections = sections;
         this.id = id;
         mDatabase = FirebaseDatabase.getInstance().getReference();
         auth = FirebaseAuth.getInstance();
@@ -299,13 +287,9 @@ public class User implements Serializable {
 
 
 
-    public ArrayList<Section> getSections() {
-        return sections;
-    }
 
-    public void setSections(ArrayList<Section> sections) {
-        this.sections = sections;
-    }
+
+
 
     public List<String> getContacts() {
         if (Contacts != null) {

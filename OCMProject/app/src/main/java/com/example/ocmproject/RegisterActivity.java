@@ -90,10 +90,10 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onSuccess(AuthResult authResult) {
                 // New implementation of registrating user
-                HashMap<String, Object> users = new HashMap<>();
+                //HashMap<String, Object> users = new HashMap<>();
                 //users.put("id1","FY98LBLADbeVgVQjdEEBLYY28q12");
-                ArrayList<Section> sections = new ArrayList<>();
-                User user = new User(name, surname,email,username,users,sections,auth.getCurrentUser().getUid());
+                //ArrayList<Section> sections = new ArrayList<>();
+                User user = new User(name, surname,email,username,auth.getCurrentUser().getUid());
                 mRootRef.child("NewUser").child(auth.getCurrentUser().getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                 // Old Implementation of Registraion of user
 //                HashMap<String, Object> hMap = new HashMap<>();
