@@ -22,7 +22,7 @@
 | 10 May 2022| Completed matching fragment, added schedule table for profile screenm fixed recyclerView problems with Yavuz and Arda, prepared presentation, added otherprofiles feature, connection screen updated and fixes bugs | 10 |
 | 11 May 2022| Final bug fixes for presentation and prepared for presentation | 3 |
 | Remaining | Reports, presentations, meetings on project desing etc | 16 |
-| Total | - |
+| Total | 119 |
 
 
 
