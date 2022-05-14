@@ -1,0 +1,54 @@
+Abdurrahman Bilal Kar
+Group 3-K On Campus Matcher
+22003569 CS102-3
+
+February W1 -1 Hours
+Team is assembled. I created the Whatsapp group.
+
+February W2 -2 hours
+I offered Green Surfer Project to be our cs102 project. It was a social media platform idea to promote sustainable brands. 
+Other members offered to look at gaming, so I researched on game engines. I found libgdx and jmonkeyEngine and tried to learn to use libgdx with eclipse.
+I downloaded gitkraken and studied git.
+
+February W3 -2 Hours
+I made a small description and a minimal report on Green Surfer app. BilVerse project was also a candidate along with TeamRise app. However in the lab we decided on BilMatch app, later referred as On Campus Matcher app. I opposed the idea yet democracy won.
+
+February W4 -4 Hours
+I worked on the first report of the app. I played a roll in distributing the task along with completing my part. I mainly played I part in the design of the algorithm.
+
+March W1 -8 Hours
+I prepared my part in presentation by utilizing my part in the report. I also converted other parts of the report to slides and as I had the needed access to the software, I edited the visuals of the slide.
+Besides, in case our presentation would not be ready until due, I presented the PowerPoint on my own; however, there were no need to upload it.
+We decided that everyone will make a countdown timer apk as an exercise.
+
+March W2 -10 Hours
+I played a major role in the perpetration of Requirements Report. I designed the algorithm, I created and explained 3 additional features of the app. I searched for the competitors and wrote down the part in the report in a detailed way.
+I completed the countdown timer apk. 
+
+March W3 -5 Hours
+I designed some parts of the prototype of On Campus Matcher app using proto.io for GUI presentation.
+I was responsible for the design of the algorithm and scraping data from SRS.
+
+March W4 -4 Hours
+I made a research on java web crawler api’s and I had chosen JSOUP. I watched some tutorials to have an idea and read some documents.
+
+April W1 -10 Hours
+I set up and learned to use JSOUP api, which is needed for scraping the web. I studied some examples from IMDB.com and telegraph stcok prices etc. 
+I started to make my twitter clone using android studio by following a tutorial on udemy.
+
+April W2 -10 Hours
+Started the implementation of the web scraper with Jsoup api.
+Halfway done to get the schedules. Learned HTML and CSS.
+
+April W3 -8 Hours
+Fully operational SRS schedule scraper is made. From any year, any course, any semester, every schedule can be extracted. Set up my git branch with the help of my teammates.
+
+April W4 -10 Hours
+Turned SRS schedule data to JSON and import to FireBase successfully. However, due to a merge conflict issue, cannot push to Github. Tried opening new branch but failed. 
+
+May W1 -2 Hour
+Watched lectures on firebase
+
+May W2 -1 Hour
+Prepared my part int the presentation and presented it.
+
